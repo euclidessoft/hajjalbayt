@@ -1,0 +1,21 @@
+<div class="mt-5 mb-5">&nbsp;</div>
+<div class="col-lg-5 fond-7 mt-5 mb-5 shadow-black radius-10 text-center">
+    <h3 class="mt-3 text-bold">
+        {{ 'Avertissement'|trans }}
+    </h3>
+    <hr class="row border-green">
+    <h4 class="mt-4 mb-5 text-danger pl-4 pr-4">
+        <p class="text-center">
+            {{ 'Cette fonctionnalité n\'est disponible que dans la version complète.'|trans }}
+        </p>
+        <p class="text-center">
+            {{ 'Veuillez acheter une licence pour avoir accès à toutes les fonctionnalités.'|trans }}
+        </p>
+        <p class="mt-4 text-center text-bold">
+            <a href="{{ path('licence')}}" class="text-green">
+                <i class="fa fa-shopping-cart ml-1"></i>
+                {{ 'Acheter maintenant'|trans }}
+            </a>
+        </p>
+    </h4>
+</div>

@@ -1,0 +1,22 @@
+{% extends "accueil.html.twig" %}
+{% block title %} {{ 'Erreur 404'|trans }} - Hajjalbayt {% endblock %}
+{% block session %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="col-md-6 offset-md-3 mt-5 mb-5 fond-7">
+    <h3 class="mt-4 mb-5 text-bold">
+        <i class="fa fa-bug mr-2"></i>
+        {{ 'Erreur'|trans }}
+    </h3>
+    {{ 'Erreur'|trans }} 404 : {{ 'Page inexistante'|trans }}
+    <div class="col-lg-4">
+        <img src="{{ asset('images/bug.jpg')}}" alt="User Avatar" class="rounded-circle" />
+    </div>
+    <div class="col-lg-8">
+        <h4>
+            {{ 'La page que vous tentez d\'atteindre n\'existe pas, veuillez contacter le concepteur de l\'application en lui fournissant le plus de détails possible pour qu\'il puisse corriger cette erreur.'|trans }}
+        </h4>
+    </div>
+</div>
+
+{% endblock %}

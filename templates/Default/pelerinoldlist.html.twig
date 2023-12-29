@@ -1,0 +1,146 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Pèlerins supprimés'|trans }} - Hajjalbayt {% endblock %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+{{ include('Default/boutons.html.twig') }}
+<div class="container-fluid mt-4 mb-5 fond-7">
+    <h3 class="mt-4 mb-5 text-bold">
+        <i class="fa fa-user-times mr-2"></i>
+        {{ 'Pèlerins supprimés'|trans }}
+    </h3>
+    <table class="table table-success-light table-bordered table-hover table-striped" id="list">
+        <thead>
+            <tr>
+                <th class="text-center">{{ 'Numéro'|trans }}</th>
+                <th class="text-center">{{ 'Photo'|trans }}</th>
+                <th>{{ 'Prénom'|trans }}</th>
+                <th>{{ 'Nom'|trans }}</th>
+                <th class="text-center">{{ 'Date de naissance'|trans }}</th>
+                <th>{{ 'Lieu de naissance'|trans }}</th>
+                <th class="passeport">{{ 'Nº Passeport'|trans }}</th>
+                <th class="text-center">{{ 'Téléphone'|trans }}</th>
+                <th class="text-center">{{ 'Date de suppression'|trans }}</th>
+                {% if is_granted('ROLE_CHEF') %}
+                <th class="text-center">{{ 'Restauration'|trans }}</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% if pelerins is not empty %}
+            {% for pelerin in pelerins %}
+            {% if pelerin.sexe == 'Masculin' %}
+            <tr class="bg-info-light text-uppercase">
+                {% else %}
+            <tr class="bg-danger-light text-uppercase">
+                {% endif %}
+                <td data-label="{{ 'Numéro dossier'|trans }}" class="text-center">
+                    <a href="{{ path('Mecque_OldPelerin', { pelerin : pelerin.id}) }}">
+                        {{ pelerin.numdossier }}
+                    </a>
+                </td>
+                <td data-label="{{ 'Photo'|trans }}">
+                    {% if pelerin.image is not empty %}
+                    <a href="{{ path('Mecque_OldPelerin', { pelerin : pelerin.id}) }}">
+                        <img src="{{ asset('images/'~ pelerin.image.url)}}" alt="{{ pelerin.image.alt}}" class="rounded-circle">
+                    </a>
+                    {% else %}
+                    <a href="{{ path('Mecque_OldPelerin', { pelerin : pelerin.id}) }}">
+                        {% if pelerin.sexe == 'Feminin' %}
+                        <img src="{{ asset('images/avatar-femme.jpg')}}" alt="Photo pèlerin" class="rounded-circle">
+                        {% else %}
+                        <img src="{{ asset('images/avatar.jpg')}}" alt="Photo pèlerin" class="rounded-circle">
+                        {% endif %}
+                    </a>
+                    {% endif %}
+                </td>
+                <td data-label="{{ 'Prénom'|trans }}">
+                    <a href="{{ path('Mecque_OldPelerin', { pelerin : pelerin.id}) }}">
+                        {{ pelerin.prenom}}
+                    </a>
+                </td>
+                <td data-label="{{ 'Nom'|trans }}">
+                    <a href="{{ path('Mecque_OldPelerin', { pelerin : pelerin.id}) }}">
+                        {{ pelerin.nom}}
+                    </a>
+                </td>
+                <td data-label="{{ 'Date de naissance'|trans }}" class="text-center">
+                    <a href="{{ path('Mecque_OldPelerin', { pelerin : pelerin.id}) }}">
+                        {% if pelerin.datenaiss is empty %}
+
+                        {% else %}
+                        {{ pelerin.datenaiss|date('d/m/Y')}}
+                        {% endif %}
+                    </a>
+                </td>
+                <td data-label="{{ 'Lieu de naissance'|trans }}">
+                    <a href="{{ path('Mecque_OldPelerin', { pelerin : pelerin.id}) }}">
+                        {{ pelerin.lieunaiss}}
+                    </a>
+                </td>
+                <td data-label="{{ 'Nº Passeport'|trans }}" class="passeport">
+                    <a href="{{ path('Mecque_OldPelerin', { pelerin : pelerin.id}) }}">
+                        {{ pelerin.numpassport}}
+                    </a>
+                </td>
+                <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                    <a href="{{ path('Mecque_OldPelerin', { pelerin : pelerin.id}) }}">
+                        {{ pelerin.phone}}
+                    </a>
+                </td>
+                <td data-label="{{ 'Date de suppression'|trans }}" class="text-center">
+                    <a href="{{ path('Mecque_OldPelerin', { pelerin : pelerin.id})}}">
+                        {{ pelerin.date|date('d/m/Y') }}
+                        <br>
+                        {{ pelerin.date|date('H:i:s') }}
+                    </a>
+                </td>
+                {% if is_granted('ROLE_CHEF') %}
+                <td data-label="{{ 'Restauration'|trans }}">
+                    <button type="button" class="btn btn-shadow btn-green btn-td btn-normal" onclick="restaure({{pelerin.id}})" id="{{pelerin.id}}">
+                        <i class="fa fa-trash-restore-alt"></i>
+                        {{'Restaurer'|trans }}
+                    </button>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                {% if is_granted('ROLE_CHEF') %}
+                <td data-label="colspan" colspan="10">
+                    {{ 'Aucun pèlerin'|trans }}
+                </td>
+                {% else %}
+                <td data-label="colspan" colspan="9">
+                    {{ 'Aucun pèlerin'|trans }}
+                </td>
+                {% endif %}
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+    {% block script %}
+        <script>
+            //restaurer un pèlerin supprimé
+            function restaure(id) {
+                if (confirm("{{'Voulez-vous vraiment restaurer ce pèlerin ?'|trans}}")) {
+                    $('#' + id).html("<div class='ajax-loader'></div>");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('Mecque_PelerinRestaurer') }}",
+                        data: "pel=" + id,
+                        success: function(data) {
+                            document.location.href = data['ok'];
+                        },
+                        error: function() {
+                            alert("{{'La requête n a pas abouti'|trans }}");
+                        }
+                    });
+                }
+            }
+        </script>
+    {% endblock %}
+
+{% endblock %}

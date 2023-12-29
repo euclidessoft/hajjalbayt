@@ -1,0 +1,80 @@
+{% extends "accueil.html.twig" %}
+{% block title %} {{ 'Création chambre'|trans }} - Hajjalbayt {% endblock %}
+{% block hebergement %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+{% if app.user.agence.licence == 1 %}
+<div class="row">
+    <div class="col-12">
+        <div class="col-lg-6 offset-lg-3 mt-5 fond-7">
+            <h4 class="mt-4 mb-5 text-bold">
+                <i class="fa fa-kaaba fa-lg"></i>
+                <i class="fa fa-plus-square fa-sm ml-n1"></i>
+                {{ 'Création chambre'|trans }}
+            </h4>
+            <div class="col-lg-8 offset-lg-2">
+
+                {{form_start(form, {'attr':{'id': 'form'}}) }}
+                {% if form_errors(form.nombre)%}
+                <div class="alert alert-danger alert-dismissible radius-10 shadow-black">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{ 'Renseignez correctement le nombre de chambre à créer'|trans }}
+                </div>
+                {% endif %}
+                <div class="form-group mt-4">
+                    {{ form_row(form.hotel, {'label':false}) }}
+                </div>
+                <div class="form-group mt-4">
+                    {{ form_row(form.type, {'label':false}) }}
+                </div>
+                <div class="form-group mt-4 mb-5">
+                    {{ form_row(form.place, {'label':false}) }}
+                </div>
+
+                <div class="modal fade mt-5" id="nombre" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-md mt-5" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title text-center" id="packtitle">
+                                    {{ 'Combien de chambre voulez-vous créer ?'|trans }}
+                                </h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group mt-4 mb-4">
+                                    {{ form_row(form.nombre, {'label':false, attr:{'autofocus':'autofocus'}})}}
+                                </div>
+                                <div id="submitchambre">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 offset-lg-3 mt-4 mb-5 pt-3 pb-2 fond-7">
+            <div class="centrer">
+                <div class="row">
+                    <a data-toggle="modal" href="#nombre" class="btn btn-shadow btn-normal btn-green mb-2 mr-3">
+                        <i class="fa fa-save"></i>
+                        {{ 'Enregistrer'|trans }}
+                    </a>
+                    <a href="{{ path('Mecque_HebergementMecque') }}" class="btn btn-shadow btn-normal btn-warning mb-2">
+                        <i class="fa fa-undo"></i>
+                        {{ 'Annuler'|trans }}
+                    </a>
+                    {{ form_rest(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+{{ include('licence/licence-page.html.twig') }}
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends "MecqueBundle::layout.html.twig" %}
+{% block body %}
+	<div class="row">
+		<div class="col-lg-12">
+                        <h1 class="page-header">{{ session }}| Listes des Pelerins benefiant d'une Reduction</h1>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+				<div class="row">
+				<div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Liste des pelerins:
+							<a href="{{ path('Mecque_ArchivePelerinListMale', { saison : session }) }}"><button class="btn btn-primary"> <i class="fa fa-male"></i> Liste des Hommes</button></a>
+							<a href="{{ path('Mecque_ArchivePelerinListFemale', { saison : session }) }}"><button class="btn btn-success"> <i class="fa fa-female"></i> Liste des Femmes</button></a>
+							<a href="{{ path('Mecque_ArchivePelerinListFemaleless45', { saison : session }) }}"><button class="btn btn-warning"> <i class="fa fa-female"></i> Liste des Femmes - 45 ans</button></a>
+                        							<a href="{{ path('Mecque_ArchivePelerinOldList', { saison : session }) }}"><button class="btn btn-default pull-right"> <i class="fa fa-group"></i> Liste des Abandons</button></a>
+							<a href="{{ path('Mecque_ArchivePelerinCourtierList', { saison : session }) }}"><button class="btn btn-info"> <i class="fa fa-group"></i> Emmene par un courtier</button></a>
+
+						</div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+								<tr>
+                                        <th>Photo</th>
+                                        <th>Prenom</th>
+                                        <th>Nom</th>
+                                        <th>Telephone Pelerin</th>
+                                        <th>Pack</th>
+                                        <th>Reduction</th>
+                                        <th>Situation</th>
+                                    </tr>
+                                </thead>
+                                <tbody> 
+								{% if pelerins is not empty %}
+									{% for pelerin in pelerins %}
+										{% if pelerin.sexe == 'Masculin' %}
+										<tr class="info">
+										{% else %}
+										<tr class="danger">
+										{% endif %}
+										<td>
+										{% if pelerin.image is not empty %}
+												<a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">
+												<img src="{{ asset('images/'~ pelerin.parrain.image.url)}}" alt="{{ pelerin.parrain.image.alt}}" class="rounded-circle" width="75"/></a>
+											{% else %}
+												<a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">
+												<img src="{{ asset('images/avatar.jpg')}}" alt="Photo pèlerin" class="rounded-circle" width="75"/></a>
+											{% endif %}
+										</td>	
+										<td><a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">{{ pelerin.prenom}}</a></td>
+										<td><a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">{{ pelerin.nom}}</a></td>
+										<td><a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">{{ pelerin.phone}}</a></td>
+										<td><a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">{{ pelerin.pack.designation}}</a></td>
+										<td><a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">{{ Millier(pelerin.reduction.montant) }} F CFA</a></td>
+										{% if pelerin.compte == pelerin.pack.montant - pelerin.reduction.montant %}
+											<td style="background: #d6e9c6;"><a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}"> OK</a> </td>
+										{% else %}
+											{% set montant = pelerin.compte - pelerin.pack.montant + pelerin.reduction.montant %}
+											<td style="background: #ebccd1;"><a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}"> {{ Millier(montant) }} F CFA</a></td>
+										{% endif %}
+										</tr>
+									{% endfor %}
+								{% else %}
+									<tr><td colspan='7'>aucun Pelerin</td></tr>
+								{% endif %}
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+				</div>
+{% endblock %}				

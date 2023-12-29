@@ -1,0 +1,119 @@
+{% extends "layout.html.twig" %}
+{% block admin %} class="active"{% endblock %}
+{% block body%}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header"> {{'Listes Utilisateurs'|trans}} </h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<div class="row">
+    <div class="col-lg-10 col-sm-offset-1">
+
+        <div class="card border-info">
+            <div class="card-header">
+                <i class="fa fa-info-circle"></i> {{'Listes Utilisateurs'|trans}}
+            </div>
+
+            <div class="card-body">
+                <div class="card border-primary">
+                    <div class="card-header">
+                        <i class="fa fa-info-circle"></i> {{'Operation'|trans}}
+                    </div>
+                    <div class="card-body">
+                        <a href="{{ path('fos_user_profile_edit') }}">
+                            <button type='submit' class='btn btn-success btn-small'>
+                                <span class='glyphicon glyphicon-edit'></span> {{'Modifier profil'|trans}} </button></a>
+
+                        <a href="{{ path('fos_user_change_password') }}"><button type='submit' class='btn btn-warning btn-small'>
+                                <span class='glyphicon glyphicon-edit'></span> {{'Changer de mot de Passe'|trans}} </button></a>
+                        {% if is_granted('ROLE_CHEF') %}
+                        <a href="{{ path('fos_user_registration_register') }}"><button type='submit' class='btn btn-danger btn-small pull-right'>
+                                <i class='fa fa-user'></i> {{'Creer Nouvel Utilisateur'|trans}} </button></a>{% endif %}
+                    </div>
+                </div>
+
+
+                <div class="card border-success">
+                    <div class="card-header">
+                        <i class="fa fa-credit-card"></i> {{'Identit&eacute;'|trans}}</a>
+
+                    </div>
+                    <div class="card-body">
+                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>{{'Nom utilsateur'|trans}}</th>
+                                    <th>{{'Email'|trans}}</th>
+                                    <th>{{'Prenom'|trans}}</th>
+                                    <th>{{'Nom'|trans}}</th>
+                                    <th>{{'profile'|trans}}</th>
+                                    <th>{{'Action'|trans}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if users is not null %}
+                                {% for user in users %}
+                                <tr>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.prenom }}</td>
+                                    <td>{{ user.nom }}</td>
+                                    <td>
+                                        {% if user.caisse == 1%}
+                                        {{'Caissi&egrave;r(e)'|trans}}
+                                        {% else %}
+                                        {% set userrole = '' %}
+                                        {% set act = '0' %}
+                                        {% for role in user.roles %}
+                                        {% if role != 'ROLE_USER'%}
+                                        {% set userrole = role %}
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% if userrole == 'ROLE_PROPRIETAIRE'%}
+                                        {{ 'Super Administrateur'|trans}}
+                                        {% set act = '1' %}
+                                        {% elseif userrole == 'ROLE_CHEF' %}
+                                        {{ 'Administrateur'|trans}}
+                                        {% else %}
+                                        {{ 'Employer'|trans}}
+                                        {% endif%}
+
+                                        {% endif %}
+
+                                    </td>
+                                    <td>
+                                        {% if act != '1' or is_granted('ROLE_PROPRIETAIRE')%}
+                                        {% if user.enabled == 1%}
+                                        <a href="{{ path('UserDisable', { id : user.id}) }}">
+                                            <button type='submit' class='btn btn-warning btn-small'>
+                                                <i class='fa fa-user'></i> {{'Deactive'|trans}} </button></a>
+                                        {% else %}
+                                        <a href="{{ path('UserEnable', { id : user.id}) }}">
+                                            <button type='submit' class='btn btn-success btn-small'>
+                                                <i class='fa fa-user'></i> {{'Active'|trans}}
+                                            </button>
+                                        </a>
+                                        {% endif %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- .card-body -->
+        </div>
+        <!-- cadrage formoulaire  -->
+
+
+        <!-- fin cadrage formulaire -->
+        <!-- /.card-body -->
+    </div>
+</div>
+{% endblock %}

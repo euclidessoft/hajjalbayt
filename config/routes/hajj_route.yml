@@ -1,0 +1,725 @@
+Mecque_homepage:
+    path:     /{_locale}/
+    controller: App\Controller\DefaultController::index
+Mecque_Pelerin:
+    path:     /{_locale}/Pelerin/{pelerin}
+    controller: App\Controller\DefaultController::pelerin
+    requirements:
+        pelerin: \d+
+Mecque_OldPelerin:
+    path:     /{_locale}/OldPelerin/{pelerin}
+    controller: App\Controller\DefaultController::oldPelerin
+    requirements:
+        pelerin: \d+
+Mecque_PelerinAdd:
+    path:     /{_locale}/PelerinAdd
+    controller: App\Controller\DefaultController::pelerinAdd
+Mecque_PelerinEdit:
+    path:     /{_locale}/PelerinEdit/{id}
+    controller: App\Controller\DefaultController::pelerinEdit
+    requirements:
+        id: \d+
+Mecque_PelerinDelete:
+    path:     /{_locale}/PelerinDelete
+    controller: App\Controller\DefaultController::pelerinDelete
+Mecque_PelerinList:
+    path:     /{_locale}/PelerinList
+    controller: App\Controller\DefaultController::pelerinList
+Mecque_OldPeople:
+    path:     /{_locale}/OldPeople
+    controller: App\Controller\DefaultController::oldPeople
+Mecque_OldPeopletemp:
+    path:     /{_locale}/PrintOldPeople
+    controller: App\Controller\DefaultController::oldPeopletemp
+Mecque_ChefPelerinList:
+    path:     /{_locale}/ChefPelerinList
+    controller: App\Controller\DefaultController::chefpelerinList
+Mecque_PelerinOk:
+    path:     /{_locale}/PelerinOk
+    controller: App\Controller\DefaultController::pelerinOk
+Mecque_PelerinNotOk:
+    path:     /{_locale}/PelerinNotOk
+    controller: App\Controller\DefaultController::pelerinNotOk
+Mecque_PelerinDossier:
+    path:     /{_locale}/PelerinDossierIncomplet
+    controller: App\Controller\DefaultController::pelerinDossier
+Mecque_PelerinOldList:
+    path:     /{_locale}/PelerinOldList
+    controller: App\Controller\DefaultController::pelerinOldList
+Mecque_PelerinListMale:
+    path:     /{_locale}/PelerinListMale
+    controller: App\Controller\DefaultController::pelerinListMale
+Mecque_PelerinListFemale:
+    path:     /{_locale}/PelerinListFemale
+    controller: App\Controller\DefaultController::pelerinListFemale
+Mecque_PelerinListFemaleless45:
+    path:     /{_locale}/PelerinListFemaleless45
+    controller: App\Controller\DefaultController::pelerinListFemaleless45
+Mecque_PelerinListMaletemp:
+    path:     /{_locale}/PelerinListMaletemp
+    controller: App\Controller\DefaultController::pelerinListMaletemp
+Mecque_PrintPelerinListMaletemp:
+    path:     /{_locale}/PrintPelerinListMaletemp
+    controller: App\Controller\DefaultController::printPelerinListMaletemp
+Mecque_PelerinListFemaletemp:
+    path:     /{_locale}/PelerinListFemaletemp
+    controller: App\Controller\DefaultController::pelerinListFemaletemp
+Mecque_PrintPelerinListFemaletemp:
+    path:     /{_locale}/PrintPelerinListFemaletemp
+    controller: App\Controller\DefaultController::printPelerinListFemaletemp
+Mecque_PelerinListFemalelesstemp:
+    path:     /{_locale}/PelerinListFemalelesstemp
+    controller: App\Controller\DefaultController::pelerinListFemalelesstemp
+Mecque_PrintPelerinListFemalelesstemp:
+    path:     /{_locale}/PrintPelerinListFemalelesstemp
+    controller: App\Controller\DefaultController::printPelerinListFemalelesstemp
+Mecque_Versement:
+    path:     /{_locale}/Versement/{id}
+    controller: App\Controller\DefaultController::versement
+    requirements:
+        id: \d+
+Mecque_Billing:
+    path:     /{_locale}/Billing
+    controller: App\Controller\DefaultController::billing
+Mecque_Encaisser:
+    path:     /{_locale}/Encaisser
+    controller: App\Controller\DefaultController::encaisser
+Mecque_VersementEdit:
+    path:     /{_locale}/VersementEdit/{id}
+    controller: App\Controller\DefaultController::versementEdit
+    requirements:
+        id: \d+
+Mecque_VersementCancel:
+    path:     /{_locale}/VersementCancel
+    controller: App\Controller\DefaultController::versementCancel
+Mecque_VersementDelete:
+    path:     /{_locale}/VersementDelete
+    controller: App\Controller\DefaultController::versementDelete
+Mecque_Confirm:
+    path:     /{_locale}/Confirm/{plr}/{vsm}
+    controller: App\Controller\DefaultController::confirm
+Mecque_Confirmtemp:
+    path:     /{_locale}/Confirmtemp/{plr}/{vsm}
+    controller: App\Controller\DefaultController::confirmtemp
+Mecque_Facture:
+    path:     /{_locale}/Facture/{plr}/{vsm}
+    controller: App\Controller\DefaultController::Facture
+Mecque_PackAdd:
+    path:     /{_locale}/PackAdd
+    controller: App\Controller\DefaultController::packAdd
+Mecque_PackList:
+    path:     /{_locale}/PackList
+    controller: App\Controller\DefaultController::packList
+Mecque_PackEdit:
+    path:     /{_locale}/PackEdit/{id}
+    controller: App\Controller\DefaultController::packEdit
+    requirements:
+        id: \d+
+Mecque_PackDelete:
+    path:     /{_locale}/PackDelete
+    controller: App\Controller\DefaultController::packDelete
+Mecque_SessionStart:
+    path:     /{_locale}/SessionStart
+    controller: App\Controller\DefaultController::sessionStart
+Mecque_SessionList:
+    path:     /{_locale}/SessionList
+    controller: App\Controller\DefaultController::sessionList
+Mecque_SessionEdit:
+    path:     /{_locale}/SessionEdit/{id}
+    controller: App\Controller\DefaultController::sessionEdit
+    requirements:
+        id: \d+
+Mecque_SessionClose:
+    path:     /{_locale}/SessionClose
+    controller: App\Controller\DefaultController::sessionClose
+Mecque_Ok:
+    path:     /{_locale}/Ok
+    controller: App\Controller\DefaultController::ok
+Mecque_PrintOk:
+    path:     /{_locale}/PrintOk
+    controller: App\Controller\DefaultController::printOk
+Mecque_NotOk:
+    path:     /{_locale}/NotOk
+    controller: App\Controller\DefaultController::notOk
+Mecque_PrintNotOk:
+    path:     /{_locale}/PrintNotOk
+    controller: App\Controller\DefaultController::printNotOk
+Mecque_All:
+    path:     /{_locale}/All
+    controller: App\Controller\DefaultController::all
+Mecque_AllView:
+    path:     /{_locale}/AllView
+    controller: App\Controller\DefaultController::allView
+Mecque_PrintAll:
+    path:     /{_locale}/PrintAll
+    controller: App\Controller\DefaultController::printAll
+Mecque_Reduct:
+    path:     /{_locale}/Reduct
+    controller: App\Controller\DefaultController::reduct
+Mecque_PrintReduct:
+    path:     /{_locale}/PrintReduct
+    controller: App\Controller\DefaultController::printReduct
+Mecque_Spend:
+    path:     /{_locale}/Spend
+    controller: App\Controller\FinanceController::spend
+Mecque_SpendList:
+    path:     /{_locale}/SpendList
+    controller: App\Controller\FinanceController::spendList
+Mecque_SpendEdit:
+    path:     /{_locale}/SpendEdit/{id}
+    controller: App\Controller\FinanceController::spendEdit
+    requirements:
+        id: \d+
+Mecque_Gain:
+    path:     /{_locale}/ComingMoney
+    controller: App\Controller\FinanceController::gain
+Mecque_GainList:
+    path:     /{_locale}/ComingMoneyList
+    controller: App\Controller\FinanceController::gainList
+Mecque_Account:
+    path:     /{_locale}/Account
+    controller: App\Controller\FinanceController::solde
+Mecque_Brouyard:
+    path:     /{_locale}/Brouyard
+    controller: App\Controller\FinanceController::brouyard
+Mecque_Reduction:
+    path:     /{_locale}/Reduction/{pelerin}
+    controller: App\Controller\DefaultController::reduction
+Mecque_ReductionEdit:
+    path:     /{_locale}/ReductionEdit/{pelerin}
+    controller: App\Controller\DefaultController::reductionEdit
+Mecque_ReductionDelete:
+    path:     /{_locale}/ReductionDelete
+    controller: App\Controller\DefaultController::reductionDelete
+Mecque_ReductionList:
+    path:     /{_locale}/ReductionList
+    controller: App\Controller\DefaultController::reductionList
+Mecque_PackChangement:
+    path:     /{_locale}/PackChangement/{pelerin}
+    controller: App\Controller\DefaultController::packChangement
+    requirements:
+        id: \d+
+Mecque_CourtierAdd:
+    path:     /{_locale}/CourtierAdd
+    controller: App\Controller\DefaultController::courtierAdd
+Mecque_CourtierList:
+    path:     /{_locale}/CourtierList
+    controller: App\Controller\DefaultController::courtierList
+Mecque_PelerinCourtierList:
+    path:     /{_locale}/PelerinCourtierList
+    controller: App\Controller\DefaultController::pelerinCourtierList
+Mecque_Courtiers:
+    path:     /{_locale}/Courtiers
+    controller: App\Controller\DefaultController::courtiers
+Mecque_CourtierEdit:
+    path:     /{_locale}/CourtierEdit/{id}
+    controller: App\Controller\DefaultController::courtierEdit
+    requirements:
+        id: \d+
+Mecque_SelCourtier:
+    path:     /{_locale}/SelCourtier
+    controller: App\Controller\DefaultController::selCourtier
+Mecque_PayementCourtier:
+    path:     /{_locale}/PayementCourtier/{id}
+    controller: App\Controller\DefaultController::payementCourtier
+    requirements:
+        id: \d+
+Mecque_EtatCourtier:
+    path:     /{_locale}/EtatCourtier/{id}
+    controller: App\Controller\DefaultController::etatCourtier
+    requirements:
+        id: \d+
+Mecque_CourtierDelete:
+    path:     /{_locale}/CourtierDelete
+    controller: App\Controller\DefaultController::courtierDelete
+Mecque_Tutor:
+    path:     /{_locale}/Tutor/{id}
+    controller: App\Controller\DefaultController::tutor
+    requirements:
+        id: \d+
+Mecque_Mahram:
+    path:     /{_locale}/Mahram
+    controller: App\Controller\DefaultController::mahram
+Mecque_MahramCancel:
+    path:     /{_locale}/MahramCancel
+    controller: App\Controller\DefaultController::mahramCancel
+Mecque_PreClose:
+    path:     /{_locale}/Preclose
+    controller: App\Controller\DefaultController::preClose
+Mecque_Restart:
+    path:     /{_locale}/Restart
+    controller: App\Controller\DefaultController::restart
+
+Mecque_ArchivePelerinList:
+    path:     /{_locale}/ArchivePelerinList/{saison}
+    controller: App\Controller\ArchiveController::pelerinList
+Mecque_ArchivePelerinOldList:
+    path:     /{_locale}/ArchivePelerinOldList/{saison}
+    controller: App\Controller\ArchiveController::pelerinOldList
+Mecque_ArchiveSession:
+    path:     /{_locale}/ArchiveSession/{saison}
+    controller: App\Controller\ArchiveController::session
+Mecque_ArchivePackList:
+    path:     /{_locale}/ArchivePackList/{saison}
+    controller: App\Controller\ArchiveController::pack
+Mecque_ArchiveSpendList:
+    path:     /{_locale}/ArchiveSpendList/{saison}
+    controller: App\Controller\ArchiveController::spend
+Mecque_ArchiveGainList:
+    path:     /{_locale}/ArchiveGainList/{saison}
+    controller: App\Controller\ArchiveController::gain
+Mecque_ArchivePelerinListMale:
+    path:     /{_locale}/ArchivePelerinListMale/{saison}
+    controller: App\Controller\ArchiveController::pelerinListMale
+Mecque_ArchivePelerinListFemale:
+    path:     /{_locale}/ArchivePelerinListFemale/{saison}
+    controller: App\Controller\ArchiveController::pelerinListFemale
+Mecque_ArchivePelerinListFemaleless45:
+    path:     /{_locale}/ArchivePelerinListFemaleless45/{saison}
+    controller: App\Controller\ArchiveController::pelerinListFemaleless45
+Mecque_ArchiveAccount:
+    path:     /{_locale}/ArchiveAccount/{saison}
+    controller: App\Controller\ArchiveController::solde
+Mecque_ArchivePelerin:
+    path:     /{_locale}/ArchivePelerin/{pelerin}/{saison}
+    controller: App\Controller\ArchiveController::pelerin
+Mecque_ArchiveOldPelerin:
+    path:     /{_locale}/ArchiveOldPelerin/{pelerin}/{saison}
+    controller: App\Controller\ArchiveController::oldPelerin
+    requirements:
+        id: \d+
+Mecque_ArchiveReductionList:
+    path:     /{_locale}/ArchiveReductionList/{saison}
+    controller: App\Controller\ArchiveController::reductionList
+Mecque_ArchivePelerinCourtierList:
+    path:     /{_locale}/ArchivePelerinCourtierList/{saison}
+    controller: App\Controller\ArchiveController::pelerinCourtierList
+test:
+    path:     /{_locale}/test
+    controller: App\Controller\DefaultController::test
+Mecque_OrganisateurList:
+    path:     /{_locale}/OrganisateurList
+    controller: App\Controller\OrganisationController::organisateurList
+Mecque_ArchiveOrganisateurList:
+    path:     /{_locale}/ArchiveOrganisateurList/{saison}
+    controller: App\Controller\ArchiveController::organisateurList
+Mecque_OrganisateurAdd:
+    path:     /{_locale}/OrganisateurAdd
+    controller: App\Controller\OrganisationController::organisateurAdd
+Mecque_Organisateur:
+    path:     /{_locale}/Organisateur/{organisateur}
+    controller: App\Controller\OrganisationController::organisateur
+    requirements:
+        organisateur: \d+
+Mecque_ArchiveOrganisateur:
+    path:     /{_locale}/ArchiveOrganisateur/{organisateur}/{saison}
+    controller: App\Controller\ArchiveController::organisateur
+    requirements:
+        organisateur: \d+
+Mecque_OrganisateurEdit:
+    path:     /{_locale}/OrganisateurEdit/{id}
+    controller: App\Controller\OrganisationController::organisateurEdit
+    requirements:
+        id: \d+
+Mecque_OrganisateurDelete:
+    path:     /{_locale}/OrganisateurDelete
+    controller: App\Controller\OrganisationController::organisateurDelete
+    requirements:
+        id: \d+
+Mecque_DesigneOrganisateur:
+    path:     /{_locale}/DesigneOrganisateur
+    controller: App\Controller\OrganisationController::designeOrganisateur
+Mecque_DesigneOrganisateurResident:
+    path:     /{_locale}/DesigneOrganisateurResident
+    controller: App\Controller\OrganisationController::designeOrganisateurResident
+Mecque_AnnulerOrganisateur:
+    path:     /{_locale}/AnnulerOrganisateur
+    controller: App\Controller\OrganisationController::annuleOrganisateur
+Mecque_AnnulerOrganisateurResident:
+    path:     /{_locale}/AnnulerOrganisateurResident
+    controller: App\Controller\OrganisationController::annuleOrganisateurResident
+Mecque_MedecinList:
+    path:     /{_locale}/MedecinList
+    controller: App\Controller\OrganisationController::medecinList
+Mecque_DesigneMedecin:
+    path:     /{_locale}/DesigneMedecin
+    controller: App\Controller\OrganisationController::designeMedecin
+Mecque_ArchiveMedecinList:
+    path:     /{_locale}/ArchiveMedecinList/{saison}
+    controller: App\Controller\ArchiveController::medecinList
+Mecque_MedecinAdd:
+    path:     /{_locale}/MedecinAdd
+    controller: App\Controller\OrganisationController::medecinAdd
+Mecque_Medecin:
+    path:     /{_locale}/Medecin/{medecin}
+    controller: App\Controller\OrganisationController::medecin
+    requirements:
+        medecin: \d+
+Mecque_ArchiveMedecin:
+    path:     /{_locale}/ArchiveMedecin/{medecin}/{saison}
+    controller: App\Controller\ArchiveController::medecin
+    requirements:
+        medecin: \d+
+Mecque_MedecinEdit:
+    path:     /{_locale}/MedecinEdit/{id}
+    controller: App\Controller\OrganisationController::medecinEdit
+    requirements:
+        id: \d+
+Mecque_ImamList:
+    path:     /{_locale}/ImamList
+    controller: App\Controller\OrganisationController::imamList
+Mecque_DesigneImam:
+    path:     /{_locale}/DesigneImam
+    controller: App\Controller\OrganisationController::designeImam
+Mecque_AffecterPelerins:
+    path:     /{_locale}/AffecterPelerins/{imam}
+    controller: App\Controller\OrganisationController::affecterPelerins
+Mecque_AffectPelerins:
+    path:     /{_locale}/AffectPelerins/{imam}
+    controller: App\Controller\OrganisationController::affectPelerins
+Mecque_AffectationPelerins:
+    path:     /{_locale}/AffectationPelerins
+    controller: App\Controller\OrganisationController::affectationPelerins
+Mecque_AffectationPelerinsDeux:
+    path:     /{_locale}/AffectationPelerinsDeux
+    controller: App\Controller\OrganisationController::affectationPelerinsDeux
+Mecque_AnnulerPelerins:
+    path:     /{_locale}/AnnulerPelerins/{imam}
+    controller: App\Controller\OrganisationController::annulerPelerins
+Mecque_AnnulerAffectation:
+    path:     /{_locale}/AnnulerAffectation
+    controller: App\Controller\OrganisationController::annulerAffectation
+Mecque_AnnulAffectation:
+    path:     /{_locale}/AnnulAffectation
+    controller: App\Controller\OrganisationController::annulAffectation
+Mecque_AnnulPelerins:
+    path:     /{_locale}/AnnulPelerins/{imam}
+    controller: App\Controller\OrganisationController::annulPelerins
+Mecque_AnnulationPelerins:
+    path:     /{_locale}/AnnulationPelerins
+    controller: App\Controller\OrganisationController::annulationPelerins
+Mecque_AnnulationPelerinsDeux:
+    path:     /{_locale}/AnnulationPelerinsDeux
+    controller: App\Controller\OrganisationController::annulationPelerinsDeux
+Mecque_DesigneImamResident:
+    path:     /{_locale}/DesigneImamResident
+    controller: App\Controller\OrganisationController::designeImamResident
+Mecque_AnnulerImamResident:
+    path:     /{_locale}/AnnulerImamResident
+    controller: App\Controller\OrganisationController::annuleImamResident
+Mecque_ArchiveImamList:
+    path:     /{_locale}/ArchiveImamList/{saison}
+    controller: App\Controller\ArchiveController::imamList
+Mecque_ImamAdd:
+    path:     /{_locale}/ImamAdd
+    controller: App\Controller\OrganisationController::imamAdd
+Mecque_Imam:
+    path:     /{_locale}/Imam/{imam}
+    controller: App\Controller\OrganisationController::imam
+    requirements:
+        imam: \d+
+Mecque_ArchiveImam:
+    path:     /{_locale}/ArchiveImam/{imam}/{saison}
+    controller: App\Controller\ArchiveController::imam, imam:1
+    requirements:
+        imam: \d+
+Mecque_ImamEdit:
+    path:     /{_locale}/ImamEdit/{id}
+    controller: App\Controller\OrganisationController::imamEdit
+    requirements:
+        id: \d+
+Mecque_ImamDelete:
+    path:     /{_locale}/ImamDelete
+    controller: App\Controller\OrganisationController::imamDelete
+    requirements:
+        id: \d+
+Mecque_Group:
+    path:     /{_locale}/Group
+    controller: App\Controller\GroupController::index
+Mecque_Group_AgencyAdd:
+    path:     /{_locale}/Group_AgencyAdd
+    controller: App\Controller\GroupController::agencyAdd
+Mecque_AgenceInfo:
+    path:     /{_locale}/AgencyInfo
+    controller: App\Controller\GroupController::info
+Mecque_Group_AgencyEdit:
+    path:     /{_locale}/Group_AgencyEdit/{agency}
+    controller: App\Controller\GroupController::agencyEdit
+Mecque_InfoAgenceEdit:
+    path:     /{_locale}/AgenceEdit
+    controller: App\Controller\GroupController::infoagenceEdit
+Mecque_Group_Agency:
+    path:     /{_locale}/Group_Agency/{agency}
+    controller: App\Controller\GroupController::agency
+    requirements:
+        agency: \d+
+Mecque_SessionConfig:
+    path:     /{_locale}/SessionConfig
+    controller: App\Controller\DefaultController::sessionConfig
+Mecque_SessionQuota:
+    path:     /{_locale}/SessionQuota/{group}
+    controller: App\Controller\DefaultController::sessionQuota
+Mecque_SessionGroupConfig:
+    path:     /{_locale}/SessionGroupConfig
+    controller: App\Controller\DefaultController::sessionGroupConfig
+Mecque_SessionGroupCreate:
+    path:     /{_locale}/SessionGroupCreate
+    controller: App\Controller\GroupController::sessionGroupCreate
+Mecque_SessionGroup_AgencyAdd:
+    path:     /{_locale}/SessionGroup_AgencyAdd
+    controller: App\Controller\GroupController::sessionAgencyAdd
+Mecque_PelerinWating:
+    path:     /{_locale}/PelerinWating
+    controller: App\Controller\DefaultController::pelerinWating
+Mecque_AddPelerinWating:
+    path:     /{_locale}/AddPelerinWating
+    controller: App\Controller\DefaultController::addPelerinWating
+Mecque_PelerinConfirmer:
+    path:     /{_locale}/PelerinConfirmer
+    controller: App\Controller\DefaultController::pelerinConfirmer
+Mecque_PelerinConfirm:
+    path:     /{_locale}/PelerinConfirm/{id}
+    controller: App\Controller\DefaultController::pelerinConfirm
+    requirements:
+        id: \d+
+Mecque_PelerinRestaurer:
+    path:     /{_locale}/PelerinRestaurer
+    controller: App\Controller\DefaultController::pelerinRestaurer
+Mecque_PelerinWaitingDelete:
+    path:     /{_locale}/PelerinWaitingDelete
+    controller: App\Controller\DefaultController::pelerinWatingDelete
+Mecque_Suivant:
+    path:     /{_locale}/Suivant
+    controller: App\Controller\GroupController::suivant
+Mecque_Quota:
+    path:     /{_locale}/Quota
+    controller: App\Controller\GroupController::quota
+Mecque_PelerinRemark:
+    path:     /{_locale}/PelerinRemarques
+    controller: App\Controller\DefaultController::pelerinRemark
+Mecque_PelerinOtherAgencies:
+    path:     /{_locale}/PelerinOtherAgencies
+    controller: App\Controller\DefaultController::pelerinOther
+Mecque_GroupAgenceVersement:
+    path:     /{_locale}/VersementAgence/{agence}
+    controller: App\Controller\GroupController::versement
+    requirements:
+        agence: \d+
+Mecque_GroupAgencePelerin:
+    path:     /{_locale}/GroupementAgencePelerin/{agence}
+    controller: App\Controller\GroupController::agencePelerin
+    requirements:
+        agence: \d+
+Mecque_Exonorer:
+    path:     /{_locale}/Exonorer
+    controller: App\Controller\DefaultController::exonorer
+Mecque_CompagnieList:
+    path:     /{_locale}/CompagnieList
+    controller: App\Controller\TransportController::compagnieList
+Mecque_CompagnieAdd:
+    path:     /{_locale}/CompagnieAdd
+    controller: App\Controller\TransportController::compagnieAdd
+Mecque_VolRetour:
+    path:     /{_locale}/VolRetour
+    controller: App\Controller\TransportController::volRetour
+Mecque_VolAller:
+    path:     /{_locale}/VolAller
+    controller: App\Controller\TransportController::volAller
+Mecque_VolAllerEdit:
+    path:     /{_locale}/VolAllerEdit/{id}
+    controller: App\Controller\TransportController::volAllerEdit
+Mecque_VolRetourEdit:
+    path:     /{_locale}/VolRetourEdit/{id}
+    controller: App\Controller\TransportController::volRetourEdit
+Mecque_VolDelete:
+    path:     /{_locale}/VolDelete
+    controller: App\Controller\TransportController::volDelete
+Mecque_VolEmbarquer:
+    path:     /{_locale}/AllerEmbarquement/{id}
+    controller: App\Controller\TransportController::volEmbarquer
+Mecque_VolDebarquer:
+    path:     /{_locale}/AllerDebarquement/{id}
+    controller: App\Controller\TransportController::volDebarquer
+Mecque_RetourEmbarquer:
+    path:     /{_locale}/RetourEmbarquement/{id}
+    controller: App\Controller\TransportController::retourEmbarquer
+Mecque_RetourDebarquer:
+    path:     /{_locale}/RetourDebarquement/{id}
+    controller: App\Controller\TransportController::retourDebarquer
+Mecque_Embarquer:
+    path:     /{_locale}/Embarquer
+    controller: App\Controller\TransportController::embarquer
+Mecque_Debarquer:
+    path:     /{_locale}/Debarquer
+    controller: App\Controller\TransportController::debarquer
+Mecque_EmbarquerRetour:
+    path:     /{_locale}/EmbarquerRetour
+    controller: App\Controller\TransportController::embarquerRetour
+Mecque_DebarquerRetour:
+    path:     /{_locale}/DebarquerRetour
+    controller: App\Controller\TransportController::debarquerRetour
+Mecque_TransportTerrestre:
+    path:     /{_locale}/TransportTerrestre
+    controller: App\Controller\TransportController::terrestre
+Mecque_TransportCompanies:
+    path:     /{_locale}/TransportCompanies
+    controller: App\Controller\TransportController::companies
+Mecque_TransportCompanyEdit:
+    path:     /{_locale}/TransportCompanyEdit/{id}
+    controller: App\Controller\TransportController::companyEdit
+    requirements:
+        id: \d+
+Mecque_TransportAerien:
+    path:     /{_locale}/TransportAerienAller
+    controller: App\Controller\TransportController::aerien
+Mecque_TransportAerienRetour:
+    path:     /{_locale}/TransportAerienRetour
+    controller: App\Controller\TransportController::aerienRetour
+Mecque_BusAdd:
+    path:     /{_locale}/BusAdd
+    controller: App\Controller\TransportController::busAdd
+Mecque_BusEmbarquement:
+    path:     /{_locale}/BusEmbarquement/{id}
+    controller: App\Controller\TransportController::busEmbarquement
+Mecque_EmbarquerBus:
+    path:     /{_locale}/EmbarquerBus
+    controller: App\Controller\TransportController::embarquerBus
+Mecque_ChangeBus:
+    path:     /{_locale}/ChangeBus/{pelerin}
+    controller: App\Controller\TransportController::changeBus
+Mecque_DefineBus:
+    path:     /{_locale}/DefineBus/{pelerin}
+    controller: App\Controller\TransportController::defineBus
+Mecque_AjaxChangeBus:
+    path:     /{_locale}/AjaxChangeBus
+    controller: App\Controller\TransportController::AjaxChangeBus
+Mecque_BusDescendre:
+    path:     /{_locale}/busDescendre/{id}
+    controller: App\Controller\TransportController::busDescendre
+Mecque_DescendreBus:
+    path:     /{_locale}/DescendreBus
+    controller: App\Controller\TransportController::descendreBus
+Mecque_UserDescendre:
+    path:     /{_locale}/UserDescendre
+    controller: App\Controller\TransportController::userDescendre
+Mecque_VolUserDescendre:
+    path:     /{_locale}/VolUserDescendre
+    controller: App\Controller\TransportController::volUserDescendre
+Mecque_VolRetourUserDescendre:
+    path:     /{_locale}/VolRetourUserDescendre
+    controller: App\Controller\TransportController::volRetourUserDescendre
+Mecque_Hebergement:
+    path:     /{_locale}/HebergementMedine
+    controller: App\Controller\RoomingController::hebergement
+Mecque_HebergementMecque:
+    path:     /{_locale}/HebergementMecque
+    controller: App\Controller\RoomingController::hebergementMecque
+Mecque_HotelMedine:
+    path:     /{_locale}/HotelMedine
+    controller: App\Controller\RoomingController::hotelMedine
+Mecque_HotelMecque:
+    path:     /{_locale}/HotelMecque
+    controller: App\Controller\RoomingController::hotelMecque
+Mecque_ChambreMedine:
+    path:     /{_locale}/ChambreMedine
+    controller: App\Controller\RoomingController::chambreMedine
+Mecque_CreationChambre:
+    path:     /{_locale}/CreationChambre/{id}/{nombre}
+    controller: App\Controller\RoomingController::creationChambre
+    requirements:
+        nombre: \d+
+Mecque_CreationChambreMecque:
+    path:     /{_locale}/CreationChambreMecque/{id}/{nombre}
+    controller: App\Controller\RoomingController::creationChambreMecque
+    requirements:
+        nombre: \d+
+Mecque_ChambreMecque:
+    path:     /{_locale}/ChambreMecque
+    controller: App\Controller\RoomingController::chambreMecque
+Mecque_OccuperChambre:
+    path:     /{_locale}/OccuperChambre/{id}/{type}
+    controller: App\Controller\RoomingController::occuperChambre
+Mecque_OccuperChambreMecque:
+    path:     /{_locale}/OccuperChambreMecque/{id}/{type}
+    controller: App\Controller\RoomingController::occuperChambreMecque
+Mecque_OccupationChambre:
+    path:     /{_locale}/OccupationChambre
+    controller: App\Controller\RoomingController::occupationChambre
+Mecque_OccupationChambreMecque:
+    path:     /{_locale}/OccupationChambreMecque
+    controller: App\Controller\RoomingController::occupationChambreMecque
+Mecque_UserLibere:
+    path:     /{_locale}/UserLibere
+    controller: App\Controller\RoomingController::userLibere
+Mecque_UserLibereMecque:
+    path:     /{_locale}/UserLibereMecque
+    controller: App\Controller\RoomingController::userLibereMecque
+Mecque_ChambreEdit:
+    path:     /{_locale}/ChambreEdit/{id}
+    controller: App\Controller\RoomingController::chambreEdit
+    requirements:
+        id: \d+
+Mecque_ChambreMecqueEdit:
+    path:     /{_locale}/ChambreMecqueEdit/{id}
+    controller: App\Controller\RoomingController::chambreMecqueEdit
+    requirements:
+        id: \d+
+Mecque_ChambreDelete:
+    path:     /{_locale}/ChambreDelete
+    controller: App\Controller\RoomingController::chambreDelete
+    requirements:
+        id: \d+
+Mecque_ChambreMecqueDelete:
+    path:     /{_locale}/ChambreMecqueDelete
+    controller: App\Controller\RoomingController::chambreMecqueDelete
+    requirements:
+        id: \d+
+Mecque_ListChambreMedine:
+    path:     /{_locale}/ListChambreMedine
+    controller: App\Controller\RoomingController::all
+Mecque_ListChambreMecque:
+    path:     /{_locale}/ListChambreMecque
+    controller: App\Controller\RoomingController::allMecque
+Mecque_Surplus: # gestion 2000 riyals
+    path:     /{_locale}/Surplus
+    controller: App\Controller\DefaultController::surplus
+#rubrique medicale
+Mecque_Medical_Home:
+    path:     /{_locale}/Medecine
+    controller: App\Controller\MedicalController::index
+Mecque_Medical:
+    path:     /{_locale}/Situation_Medical/{pelerin}
+    controller: App\Controller\MedicalController::state
+Mecque_Medical_list:
+    path:     /{_locale}/Medecine/PelerinList
+    controller: App\Controller\MedicalController::list
+Mecque_Medical_Menlist:
+    path:     /{_locale}/Medecine/PelerinManList
+    controller: App\Controller\MedicalController::men
+Mecque_Medical_Womenlist:
+    path:     /{_locale}/Medecine/PelerinWomenList
+    controller: App\Controller\MedicalController::women
+Mecque_Medical_Oldlist:
+    path:     /{_locale}/Medecine/OldList
+    controller: App\Controller\MedicalController::old
+Mecque_Medical_Women45list:
+    path:     /{_locale}/Medecine/PelerinWomen45List
+    controller: App\Controller\MedicalController::women45
+Mecque_Medical_Pelerin:
+    path:     /{_locale}/Medecine/Pelerin/{pelerin}
+    controller: App\Controller\MedicalController::pelerin
+Mecque_Medical_Antecedent:
+    path:     /{_locale}/Medecine/Antecedent
+    controller: App\Controller\MedicalController::antecedent
+Mecque_Medical_Chirurgie:
+    path:     /{_locale}/Medecine/Chirurgie
+    controller: App\Controller\MedicalController::chirurgie
+Mecque_Medical_Psy:
+    path:     /{_locale}/Medecine/Psy
+    controller: App\Controller\MedicalController::psy
+Mecque_Medical_Enceinte:
+    path:     /{_locale}/Medecine/Pregnants
+    controller: App\Controller\MedicalController::enceinte
+Mecque_Medical_Charriot:
+    path:     /{_locale}/Medecine/Wheelchair
+    controller: App\Controller\MedicalController::charriot

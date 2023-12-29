@@ -1,0 +1,53 @@
+{% extends "accueil.html.twig" %}
+{% block title %} {{ 'Modification agence'|trans }} - Hajjalbayt {% endblock %}
+{% block hebergement %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="col-lg-6 offset-lg-3 mt-5 fond-7">
+            <h4 class="mt-4 mb-5 text-bold">
+                <i class="fa fa-university fa-lg"></i>
+                <i class="fa fa-edit fa-sm ml-n1"></i>
+                {{ 'Modification agence'|trans }}
+            </h4>
+            <div class="col-lg-8 offset-lg-2">
+
+                {{form_start(form, {'attr':{'id': 'form'}}) }}
+                <div class="form-group mt-4">
+                    {{ form_row(form.nom, {'attr':{'placeholder':'Nom de l\'agence'}, 'label':false}) }}
+                </div>
+                <div class="form-group mt-4">
+                    {{ form_row(form.responsable, {'attr':{'placeholder':'Nom du responsable'}, 'label':false}) }}
+                </div>
+                <div class="form-group mt-4">
+                    {{ form_row(form.adresse, {'attr':{'placeholder':'Adresse de l\'agence'}, 'label':false}) }}
+                </div>
+                <div class="form-group mt-4">
+                    {{ form_row(form.email, {'attr':{'placeholder':'Adresse email'}, 'label':false}) }}
+                </div>
+                <div class="form-group mt-4 mb-5">
+                    {{ form_row(form.phone, {'attr':{'placeholder':'Téléphone'}, 'label':false}) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 offset-lg-3 mt-4 mb-5 pt-3 pb-2 fond-7">
+            <div class="centrer">
+                <div class="row">
+                    <button type="button" class="btn btn-shadow btn-normal btn-green mb-2 mr-3" id="send" onclick="envoie()">
+                        <i class="fa fa-save"></i>
+                        {{ 'Enregistrer'|trans }}
+                    </button>
+                    <a href="{{ path('Mecque_Group') }}" class="btn btn-shadow btn-normal btn-warning mb-2">
+                        <i class="fa fa-undo"></i>
+                        {{ 'Annuler'|trans }}
+                    </a>
+                    {{ form_rest(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "layout.html.twig" %}
+{% block courtier %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-sm-12">
+        <h1 class="page-header">{{ 'Enregistrement Nouvelle Agence'|trans }}</h1>
+    </div>
+    <!-- /.col-sm-12 -->
+</div>
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+        <!-- cadrage formoulaire  -->
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                {{ 'Ajouter Agence'|trans }}
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+
+                        {{form_start(form, {'attr':{'id': 'form'}})}}
+                        <div class="form-group">
+                            <label>{{ 'Nom Agence'|trans }}:</label>
+                            {{ form_widget(form.nom)}}
+                            {{ form_errors(form.nom)}}
+                        </div>
+                        <div class="form-group">
+                            <label>{{ 'Adresse'|trans }} :</label>
+                            {{ form_widget(form.adresse)}}
+                            {{ form_errors(form.adresse)}}
+                        </div>
+                        <div class="form-group">
+                            <label>{{ 'Téléphone bureau'|trans }} :</label>
+                            {{ form_widget(form.phone)}}
+                            {{ form_errors(form.phone)}}
+                        </div>
+                        <div class="form-group">
+                            <label>{{ 'Téléphone mobile 1'|trans }} :</label>
+                            {{ form_widget(form.phone1)}}
+                            {{ form_errors(form.phone1)}}
+                        </div>
+                        <div class="form-group">
+                            <label>{{ 'Téléphone mobile 2'|trans }} :</label>
+                            {{ form_widget(form.phone2)}}
+                            {{ form_errors(form.phone2)}}
+                        </div>
+                        <div class="form-group">
+                            <label>{{ 'Email 1'|trans }} :</label>
+                            {{ form_widget(form.email)}}
+                            {{ form_errors(form.email)}}
+                        </div>
+
+                    <div class="form-group">
+                            <label>{{ 'Email 2'|trans }} :</label>
+                            {{ form_widget(form.email1)}}
+                            {{ form_errors(form.email1)}}
+                        </div>
+
+                        <div class="form-group">
+                            <label>{{ 'Site web'|trans }} :</label>
+                            {{ form_widget(form.site)}}
+                            {{ form_errors(form.site)}}
+                        </div>
+                        <button type="button" class="btn btn-success" id="send" onclick="envoie()">
+                            <i class="fa fa-save"></i> {{ 'Enregistrer'|trans }}
+                        </button>
+                        {{ form_rest(form) }}
+                        <button type="reset" class="btn btn-danger">
+                            <i class="fa fa-undo"></i> {{ 'Effacer'|trans }}
+                        </button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+                <!-- /.col-sm-8 (nested) -->
+            </div>
+            <!-- /.row (nested) -->
+        </div>
+        <!-- fin cadrage formulaire -->
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
+</div>
+<!-- /.col-sm-8 -->
+{% endblock %}

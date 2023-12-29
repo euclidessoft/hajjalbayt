@@ -1,0 +1,141 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Mahram'|trans }} - Hajjalbayt {% endblock %}
+{% block body %}
+
+    {% if app.user.agence.licence == 1 %}
+        <div class="col-md-10 offset-md-1 mt-5 mb-5 fond-7">
+            <h3 class="mt-4 mb-5 text-bold">
+                <i class="fa fa-female"></i> <i class="fa fa-arrows-alt-h"></i> <i class="fa fa-male mr-2"></i>
+                {{ 'Assignation Mahram'|trans }}
+            </h3>
+            <div class="col-md-12 mt-5 radius-10 shadow-black">
+                <h4 class="mt-3">
+                    <i class="fa fa-female"></i>
+                    {{ 'Femme'|trans }}
+                </h4>
+                <table class="table table-success-light table-bordered table-hover table-striped mt-4">
+                    <thead>
+                    <tr>
+                        <th class="text-center">{{ 'Numéro'|trans }}</th>
+                        <th class="text-center">{{ 'Photo'|trans }}</th>
+                        <th>{{ 'Prénom'|trans }}</th>
+                        <th>{{ 'Nom'|trans }}</th>
+                        <th class="text-center">{{ 'Date de naissance'|trans }}</th>
+                        <th>{{ 'Lieu de naissance'|trans }}</th>
+                        <th class="passeport">{{ 'Nº Passeport'|trans }}</th>
+                        <th class="phone">{{ 'Téléphone'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td data-label="{{ 'Numéro dossier'|trans }}">
+                            {{ femme.numdossier }}
+                        </td>
+                        <td data-label="{{ 'Photo'|trans }}">
+                            {% if femme.image is not null %}
+                                <img src="{{ asset('images/'~ femme.image.url) }}" alt="{{ femme.image.alt }}"
+                                     class="rounded-circle">
+                            {% else %}
+                                <img src="{{ asset('images/avatar-femme.jpg') }}" alt="Photo pèlerin"
+                                     class="rounded-circle">
+                            {% endif %}
+                        </td>
+                        <td data-label="{{ 'Prénom'|trans }}">{{ femme.prenom }}</td>
+                        <td data-label="{{ 'Nom'|trans }}">{{ femme.nom }}</td>
+                        <td data-label="{{ 'Date de naissance'|trans }}"
+                            class="text-center">{{ femme.datenaiss|date('d/m/Y') }}</td>
+                        <td data-label="{{ 'Lieu de naissance'|trans }}">{{ femme.lieunaiss }}</td>
+                        <td data-label="{{ 'Nº Passeport'|trans }}" class="passeport">{{ femme.numpassport }}</td>
+                        <td data-label="{{ 'Téléphone'|trans }}" class="phone">{{ femme.phone }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-12 mt-5 mb-3 radius-10 shadow-black">
+                <h4 class="mt-3 mb-3">
+                    <i class="fa fa-male"></i>
+                    {{ 'Homme'|trans }}
+                </h4>
+                <table class="table table-success-light table-bordered table-hover table-striped mt-4" id="list">
+                    <thead>
+                    <tr>
+                        <th class="text-center">{{ 'Numéro'|trans }}</th>
+                        <th class="text-center">{{ 'Photo'|trans }}</th>
+                        <th>{{ 'Prénom'|trans }}</th>
+                        <th>{{ 'Nom'|trans }}</th>
+                        <th class="text-center">{{ 'Date de naissance'|trans }}</th>
+                        <th>{{ 'Lieu de naissance'|trans }}</th>
+                        <th class="passeport">{{ 'Nº Passeport'|trans }}</th>
+                        <th>{{ 'Téléphone'|trans }}</th>
+                        <th>{{ 'Assignation'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if pelerins is not empty %}
+                        {% for pelerin in pelerins %}
+                            <tr>
+                                <td data-label="{{ 'Numéro dossier'|trans }}">
+                                    {{ pelerin.numdossier }}
+                                </td>
+                                <td data-label="{{ 'Photo'|trans }}">
+                                    {% if pelerin.image is not null %}
+                                        <img src="{{ asset('images/'~ pelerin.image.url) }}"
+                                             alt="{{ pelerin.image.alt }}" class="rounded-circle">
+                                    {% else %}
+                                        <img src="{{ asset('images/avatar.jpg') }}" alt="Photo pèlerin"
+                                             class="rounded-circle">
+                                    {% endif %}
+                                </td>
+                                <td data-label="{{ 'Prénom'|trans }}">{{ pelerin.prenom }}</td>
+                                <td data-label="{{ 'Nom'|trans }}">{{ pelerin.nom }}</td>
+                                {% if pelerin.datenaiss is not empty %}
+                                    <td data-label="{{ 'Date de naissance'|trans }}">{{ pelerin.datenaiss|date('d/m/Y') }}</td>
+                                {% else %}
+                                    <td data-label="{{ 'Date de naissance'|trans }}"></td>
+                                {% endif %}
+                                <td data-label="{{ 'Lieu de naissance'|trans }}">{{ pelerin.lieunaiss }}</td>
+                                <td data-label="{{ 'Nº Passeport'|trans }}"
+                                    class="passeport">{{ pelerin.numpassport }}</td>
+                                <td data-label="{{ 'Téléphone'|trans }}" class="phone">{{ pelerin.phone }}</td>
+                                <td data-label="{{ 'Assignation'|trans }}">
+                                    <button type="button" class="btn btn-shadow btn-primary btn-td"
+                                            id="{{ pelerin.id }}" onclick="mahram({{ femme.id }},{{ pelerin.id }})">
+                                        <i class="fa fa-angle-double-right"></i>
+                                        {{ 'Assigner'|trans }}
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {% block script %}
+            <script>
+                //assigner un Mahram à une femme agée de moins de 45 ans
+                function mahram(femme, homme) {
+                    if (confirm("{{ 'Voulez vous confirmer l assignation de ce Mahram'|trans }}")) {
+                        $('#' + homme).html("<div class='ajax-loader'></div>");
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ path('Mecque_Mahram') }}",
+                            data: "femme=" + femme + "&homme=" + homme,
+                            success: function (data) {
+                                document.location.href = "{{ path('Mecque_PelerinListFemaleless45') }}";
+                            },
+                            error: function () {
+                                alert("{{ 'La requête n a pas abouti'|trans }}");
+                            }
+                        });
+                    }
+                }
+            </script>
+        {% endblock %}
+
+    {% else %}
+        {{ include('licence/licence-page.html.twig') }}
+    {% endif %}
+
+{% endblock %}

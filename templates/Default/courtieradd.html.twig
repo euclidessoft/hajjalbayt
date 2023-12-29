@@ -1,0 +1,61 @@
+{% extends "accueil.html.twig" %}
+{% block title %} {{ 'Nouveau courtier'|trans }} - Hajjalbayt {% endblock %}
+{% block courtier %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="col-md-6 offset-md-3 mt-5 fond-7">
+            <h4 class="mt-3">
+                <i class="fa fa-user-plus mr-2"></i>
+                {{ 'Nouveau courtier'|trans }}
+            </h4>
+            <div class="col-md-8 offset-md-2 mb-5">
+                <h6 class="mt-4 text-danger">
+                    {{ 'Les champs marqués par * sont obligatoires'|trans }}
+                </h6>
+                {{form_start(form, {'attr':{'id': 'form'}})}}
+
+                <div class="form-group mt-4">
+                    {{ form_row(form.prenom, {'attr':{'placeholder':'Prénom *'}, 'label':false})}}
+                </div>
+                <div class="form-group mt-4">
+                    {{ form_row(form.nom, {'attr':{'placeholder':'Nom *'}, 'label':false})}}
+                </div>
+                <div class="form-group mt-4">
+                    {{ form_row(form.phone, {'attr':{'placeholder':'Téléphone *'}, 'label':false})}}
+                </div>
+                <div class="form-group mt-4">
+                    {{form_errors(form.commition) }}
+                    <div class="input-group">
+                        {{form_widget(form.commition, {'attr':{'placeholder':'Montant commission *'}, 'label':false})}}
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                F CFA
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 offset-md-3 mt-4 mb-5 pt-3 pb-2 fond-7">
+            <div class="centrer">
+{#                <div class="row">#}
+                    <button type="button" class="btn btn-shadow btn-green btn-normal mb-2 mr-3" id="send" onclick="envoie()">
+                        <i class="fa fa-save"></i>
+                        {{ 'Enregistrer'|trans }}
+                    </button>
+
+                    <button type="reset" class="btn btn-shadow btn-danger btn-normal mb-2">
+                        <i class="fa fa-delete-left"></i>
+                        {{ 'Effacer'|trans }}
+                    </button>
+                    {{ form_rest(form) }}
+{#                </div>#}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

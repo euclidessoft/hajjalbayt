@@ -1,0 +1,42 @@
+{% extends "accueil.html.twig" %}
+{% block title %} {{ 'Définition du quota'|trans }} - Hajjalbayt {% endblock %}
+{% block session %} class='dropright active'{% endblock %}
+{% block body %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="col-lg-6 offset-lg-3 mt-5 fond-7">
+            <h3 class="mt-4 mb-5 text-bold">
+                <i class="fa fa-sign-in-alt"></i>
+                {{ 'Définition du quota'|trans }}
+            </h3>
+
+            <div class="col-lg-8 offset-lg-2">
+
+                {{form_start(form, {'attr':{'id': 'form'}})}}
+
+                <div class="form-group mt-4 mb-5">
+                    {{ form_row(form.cotat, {'label':false, attr:{'placeholder':'Quel est votre quota ?'}})}}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 offset-lg-3 mt-4 mb-5 pt-3 pb-3 fond-7">
+            <div class="centrer">
+                <div class="row">
+                    <button type="button" class="btn btn-shadow btn-normal btn-green mr-3" id="send" onclick="envoie()">
+                        <i class="fa fa-save"></i>
+                        {{ 'Enregistrer'|trans }}
+                    </button>
+                    <a href="{{ path('Mecque_Group') }}" class="btn btn-shadow btn-normal btn-warning">
+                        <i class="fa fa-undo"></i>
+                        {{ 'Annuler'|trans }}
+                    </a>
+                    {{ form_rest(form) }}
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

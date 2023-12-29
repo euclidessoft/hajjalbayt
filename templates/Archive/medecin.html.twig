@@ -1,0 +1,97 @@
+{% extends "MecqueBundle::layout.html.twig" %}
+{% block organisation %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+	<div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header"> {{ session }} | Medecin </h1>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+				<div class="row">
+                <div class="col-lg-10 col-sm-offset-1">
+				
+				<div class="panel panel-info">
+                        <div class="panel-heading">
+                            <i class="fa fa-info-circle"></i> Informations medecin
+                        </div>
+						
+                        <!-- .panel-heading -->
+                        <div class="panel-body">
+							
+							<div class="panel panel-success">
+                                    <div class="panel-heading">
+                                     <i class="fa fa-credit-card"></i> Identit&eacute;</a>
+                                      
+                                    </div>
+                                        <div class="panel-body">
+										<div class="row">
+										<div class="col-sm-4">
+                                             
+											<ul class="list-unstyled">
+												<li> Civilite :</li>
+												<li> Prenom :</li>
+												<li> Nom :</li>
+												<li> Date de naissance : </li>
+												<li> Lieu de Naissance : </li>
+												<li> Nº Passeport : </li>
+												<li> Groupe Sanguin : </li>
+												<li> Taxe saoudiene : </li>
+												<li> Telephone Pelerin : </li>
+												<li> Telephone Famille : </li>
+												<li> Adresse : </li>
+											</ul>
+										</div>
+										<div class="col-sm-4">
+											<ul class="list-unstyled">
+												<li><b> {% if medecin.sexe == 'Feminin' %} Madame {% else %} Monsieur {% endif %}</b></li>
+												<li><b> {{ medecin.prenom}} </b></li>
+												<li><b> {{ medecin.nom}} </b></li>
+												<li><b> {{ medecin.datenaiss|date('d/m/Y')}} </b></li>
+												<li><b> {% if medecin.lieunaiss is empty %} - {% else %}{{ medecin.lieunaiss}} {% endif %}</b></li>
+												<li><b> {% if medecin.numpassport is empty %} - {% else %}{{ medecin.numpassport }} {% endif %}</b></li>
+												<li><b> {% if medecin.bloodgroup is empty %} - {% else %}{{ medecin.bloodgroup}} {% endif %}</b></li>
+												<li><b> {% if medecin.numsaoudiantax is empty %} - {% else %}{{ medecin.numsaoudiantax}} {% endif %}</b></li>
+												<li><b> {% if medecin.phone is empty %} - {% else %}{{ medecin.phone}} {% endif %}</b></li>
+												<li><b> {% if medecin.famillyphone is empty %} - {% else %}{{ medecin.famillyphone}} {% endif %}</b></li>
+												<li><b> {% if medecin.adresse is empty %} - {% else %}{{ medecin.adresse}} {% endif %}</b></li>
+											</ul>
+										</div>
+										<div class="col-sm-4">
+											{% if medecin.image is not empty %}
+												<img src="{{ asset('images/'~ medecin.image.url)}}" alt="{{ medecin.image.alt}}" class="rounded-circle" />
+												
+											{% else %}
+												<img src="{{ asset('images/avatar.jpg')}}" alt="Photo pèlerin" class="rounded-circle" /></br>
+												
+											{% endif %}
+											</div>
+											</div>
+											</div>
+                                    </div>
+									
+									<div class="panel panel-success">
+                                    <div class="panel-heading">
+                                     <i class="fa fa-credit-card"></i> Formalit&eacute;</a>
+                                      
+                                    </div>
+                                        <div class="panel-body">
+										<div class="row">
+										<div class="col-lg-12">
+										</div>
+										</div>
+										</div>
+										</div>
+							
+                           
+                        </div>
+                        <!-- .panel-body -->
+                    </div>
+				<!-- cadrage formoulaire  --> 
+                    
+						 
+						<!-- fin cadrage formulaire --> 
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+{% endblock %}

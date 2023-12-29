@@ -1,0 +1,142 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Paiement courtier'|trans }} - Hajjalbayt {% endblock %}
+{% block courtier %} class="nav-item dropright active" {% endblock %}
+{% block finance %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+    <div class="col-md-8 offset-md-2 mt-5 mb-5 fond-7">
+        <h4 class="mt-4 text-bold">
+            <i class="fa fa-money-bill"></i><i class="fa fa-sign-in-alt ml-n1 mr-1"></i>
+            {{ 'Paiement du courtier'|trans }}
+            <span class="text-nowrap"> {{ courtier.prenom }} {{ courtier.nom }}</span>
+        </h4>
+        <div class="row">
+            <div class="col-md-12">
+                {% if app.user.agence.licence == 1 %}
+                    <button class="btn btn-shadow btn-primary btn-normal float-right mt-4" id="payertous"
+                            onclick="payerTous({{ courtier.id }})">
+                        <i class="fa fa-money-bill"></i><i class="fa fa-sign-in-alt ml-n1"></i>
+                        {{ 'Payer tous'|trans }}
+                    </button>
+                {% else %}
+                    <button data-toggle="modal" data-target="#licence"
+                            class="btn btn-shadow btn-primary btn-normal float-right mt-4">
+                        <i class="fa fa-money-bill"></i><i class="fa fa-sign-in-alt ml-n1"></i>
+                        {{ 'Payer tous'|trans }}
+                    </button>
+                    {{ include('licence/licence-popup.html.twig') }}
+                {% endif %}
+            </div>
+        </div>
+        <table class="table table-success-light table-striped table-bordered table-hover mt-3">
+            <thead>
+            <tr>
+                <th>{{ 'Prénom'|trans }}</th>
+                <th>{{ 'Nom'|trans }}</th>
+                <th class="text-center">{{ 'Téléphone'|trans }}</th>
+                <th class="text-center">{{ 'Date d\'enregistrement'|trans }}</th>
+                <th>{{ 'Package'|trans }}</th>
+                <th class="text-center">{{ 'Paiement'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if apayers is not empty %}
+                {% for apayer in apayers %}
+                    <tr>
+                        <td data-label="{{ 'Prénom'|trans }}">
+                            {{ apayer.pelerin.prenom }}
+                        </td>
+                        <td data-label="{{ 'Nom'|trans }}">
+                            {{ apayer.pelerin.nom }}
+                        </td>
+                        <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                            {{ apayer.pelerin.phone }}
+                        </td>
+                        <td data-label="{{ 'Date'|trans }}" class="text-center">
+                            {{ apayer.datesave|date('d/m/Y') }}
+                            <br>
+                            {{ apayer.datesave|date('H:i:s') }}
+                        </td>
+                        <td data-label="{{ 'Package'|trans }}" class="text-center">
+                            {{ apayer.pelerin.pack.designation }}
+                        </td>
+                        <td data-label="{{ 'Paiement'|trans }}">
+                            {% if app.user.agence.licence == 1 %}
+                                <button id="{{ apayer.pelerin.id }}" type="button"
+                                        class="btn btn-shadow btn-green btn-td"
+                                        onclick="payer({{ apayer.pelerin.id }})">
+                                    <i class="fa fa-money-bill"></i><i class="fa fa-sign-in-alt ml-n1"></i>
+                                    {{ 'Payer'|trans }}
+                                </button>
+                            {% else %}
+                                <button data-toggle="modal" data-target="#licence"
+                                        class="btn btn-shadow btn-green btn-td">
+                                    <i class="fa fa-money-bill"></i><i class="fa fa-sign-in-alt ml-n1"></i>
+                                    {{ 'Payer'|trans }}
+                                </button>
+                                {{ include('licence/licence-popup.html.twig') }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td data-label="colspan" colspan="6">
+                        {{ 'Aucune commission à payer'|trans }}
+                    </td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    {% block script %}
+        <script>
+            //paiement d'une commission courtier un courtier
+            function payer(id) {
+                if (confirm("{{ 'Voulez-vous vraiment payer une commission à ce courtier'|trans }}")) {
+                    $('#' + id).html("<div class='ajax-loader'></div>");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('Mecque_PayerCourtier') }}",
+                        data: "pel=" + id,
+                        success: function (data) {
+                            if (data['id'] != '') {
+                                $('#' + id).hide();
+                                alert("{{ 'Commission payée !'|trans }}");
+                                window.location.reload();
+                            } else alert("{{ 'Attention, commission non payée !'|trans }}");
+                        },
+                        error: function () {
+                            alert("{{ 'La requête n a pas abouti'|trans }}");
+                        }
+                    });
+                }
+            }
+
+            //paiement de toutes les commissions pour un courtier
+            function payerTous(id) {
+                if (confirm("{{ 'Voulez-vous vraiment payer toutes les commissions dues à ce courtier ?'|trans }}")) {
+                    $('#payertous').html("<div class='ajax-loader'></div>");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('Mecque_PayerCourtier') }}",
+                        data: "court=" + id,
+                        success: function (data) {
+                            if (data['id'] != '') {
+                                $('button').hide();
+                                alert("{{ 'Toutes les commissions ont été payées !'|trans }}");
+                                window.location.reload();
+                            } else alert("{{ 'Attention, commissions non payées !'|trans }}");
+                        },
+                        error: function () {
+                            alert("{{ 'La requête n a pas abouti'|trans }}");
+                        }
+                    });
+                }
+            }
+
+        </script>
+    {% endblock %}
+
+{% endblock %}

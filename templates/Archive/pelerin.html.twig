@@ -1,0 +1,135 @@
+{% extends "MecqueBundle::layout.html.twig" %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+	<div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header"> {{ session}}| Pelerin </h1>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+				<div class="row">
+                <div class="col-lg-10 col-sm-offset-1">
+				
+				<div class="panel panel-info">
+                        <div class="panel-heading">
+                            <i class="fa fa-info-circle"></i> Informations Pelerin
+                        </div>
+						
+                        <!-- .panel-heading -->
+                        <div class="panel-body">
+							
+							<div class="alert alert-danger alert-dismissable">
+                                
+                              Pack:  {{ pelerin.pack.designation }} {% if pelerin.reduction is not null %}  |  Reduction :{{ Millier(pelerin.reduction.montant) }} F CFA{% endif %}
+                            </div>
+							
+							<div class="panel panel-success">
+                                    <div class="panel-heading">
+                                     <i class="fa fa-credit-card"></i> Identit&eacute;</a>
+                                      
+                                    </div>
+                                        <div class="panel-body">
+										<div class="row">
+										<div class="col-sm-4">
+                                             
+											<ul class="list-unstyled">
+											<li> Civilite:</li>
+											<li> Prenom:</li>
+											<li> Nom:</li>
+											<li> Date de naissance: </li>
+											<li> Lieu de Naissance: </li>
+											<li> Numero Passeport: </li>
+											<li> Groupe Sanguin: </li>
+											<li> Numero de taxe Saoudien: </li>
+											<li> Numero  Pelerin: </li>
+											<li> Numero Famille pelerin: </li>
+											<li> Adresse: </li>
+											</ul>
+											</div>
+											<div class="col-sm-4">
+											<ul class="list-unstyled">
+											<li><b> {% if pelerin.sexe == 'Feminin' %} Madame {% else %} Monsieur {% endif %}</b></li>
+											<li><b> {{ pelerin.prenom}} </b></li>
+											<li><b> {{ pelerin.nom}} </b></li>
+											<li><b> {{ pelerin.datenaiss|date('d/m/Y')}} </b></li>
+											<li><b> {% if pelerin.lieunaiss is empty %} - {% else %}{{ pelerin.lieunaiss}} {% endif %}</b></li>
+											<li><b> {% if pelerin.numpassport is empty %} - {% else %}{{ pelerin.numpassport }} {% endif %}</b></li>
+											<li><b> {% if pelerin.bloodgroup is empty %} - {% else %}{{ pelerin.bloodgroup}} {% endif %}</b></li>
+											<li><b> {% if pelerin.numsaoudiantax is empty %} - {% else %}{{ pelerin.numsaoudiantax}} {% endif %}</b></li>
+											<li><b> {% if pelerin.phone is empty %} - {% else %}{{ pelerin.phone}} {% endif %}</b></li>
+											<li><b> {% if pelerin.famillyphone is empty %} - {% else %}{{ pelerin.famillyphone}} {% endif %}</b></li>
+											<li><b> {% if pelerin.adresse is empty %} - {% else %}{{ pelerin.adresse}} {% endif %}</b></li>
+											</ul>
+											</div>
+											<div class="col-sm-4">
+											{% if pelerin.image is not empty %}
+												<img src="{{ asset('images/'~ pelerin.image.url)}}" alt="Photo pèlerin" class="rounded-circle" />
+											{% else %}
+												<img src="{{ asset('images/avatar.jpg')}}" alt="Photo pèlerin" class="rounded-circle" /></br>
+												
+											{% endif %}
+											</div>
+											</div>
+											</div>
+                                    </div>
+							
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#verser"> <i class="fa fa-money"></i> Versement</a>
+                                        </h4>
+										
+                                    </div>
+                                    <div id="verser" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Historique des Versements du pelerin
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover">
+							</thead>
+							<th>Date</th>
+							<th>Montant</th>
+							</thead>
+                                <tbody> 
+									{% set montant = 0%}
+								{% if versements is not empty %}
+									{% for versement in versements %}
+										<tr>
+										<td>{{versement.date|date('d/m/Y H:i:s')}}</td>
+										<td>{{ Millier(versement.montant) }} FCFA</td>
+										</tr>{% set montant = montant + versement.montant %}
+									{% endfor %}
+								{% else %}
+									<tr><td colspan="2">Pas de Versement</td></tr>
+								{% endif %}
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                        <!-- /.panel-body -->
+						<div class="panel-footer">
+						Monant Total Vers&eacute; : {{ Millier(montant) }} FCFA
+                    </div>
+                    </div>
+					</div>
+                                    </div>
+                                </div>
+								
+								
+                            </div>
+                        </div>
+                        <!-- .panel-body -->
+                    </div>
+				<!-- cadrage formoulaire  --> 
+                    
+						 
+						<!-- fin cadrage formulaire --> 
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+{% endblock %}

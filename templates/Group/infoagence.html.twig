@@ -1,0 +1,133 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Informations agence'|trans }} - Hajjalbayt {% endblock %}
+{% block agence %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="col-lg-10 offset-lg-1 mt-5 mb-5 fond-7">
+    <h3 class="mt-4 text-bold">
+        <i class="fa fa-info-circle"></i>
+        {{ 'Informations de l\'agence'|trans }}
+    </h3>
+    <a href="{{ path('Mecque_InfoAgenceEdit') }}">
+        <button class="btn btn-shadow btn-primary mt-5 mb-4 ml-4">
+            <i class="fa fa-edit"></i>
+            {{ 'Modifier infos'|trans }}
+        </button>
+    </a>
+    <div class="row">
+        <div class="col-md-8 mt-4">
+            <div class="row">
+                <div class="col-6 text-right text-bold mb-4">
+                    {{ 'Nom de l\'agence'|trans }} :
+                </div>
+                <div class="col-6 ml-n4 text-uppercase mb-4">
+                    {{ agence.nom}}
+                </div>
+                <div class="col-6 text-right text-bold mb-4">
+                    {{ 'Nom du responsable'|trans }} :
+                </div>
+                <div class="col-6 ml-n4 text-uppercase mb-4">
+                    {{ agence.responsable }}
+                </div>
+                <div class="col-6 text-right text-bold mb-4">
+                    {{ 'Adresse de l\'agence'|trans }} :
+                </div>
+                <div class="col-6 ml-n4 text-uppercase mb-4">
+                    {% if agence.adresse is empty %}
+                    -
+                    {% else %}
+                    {{ agence.adresse }}
+                    {% endif %}
+                </div>
+                <div class="col-6 text-right text-bold mb-4">
+                    {{ 'Téléphone bureau'|trans }} :
+                </div>
+                <div class="col-6 ml-n4 mb-4">
+                    {% if agence.phone is empty %}
+                    -
+                    {% else %}
+                    {{ agence.phone }}
+                    {% endif %}
+                </div>
+                <div class="col-6 text-right text-bold mb-4">
+                    {{ 'Téléphone mobile 1'|trans }} :
+                </div>
+                <div class="col-6 ml-n4 text-uppercase mb-4">
+                    {% if agence.phone1 is empty %}
+                    -
+                    {% else %}
+                    {{ agence.phone1 }}
+                    {% endif %}
+                </div>
+                <div class="col-6 text-right text-bold mb-4">
+                    {{ 'Téléphone mobile 2'|trans }} :
+                </div>
+                <div class="col-6 ml-n4 text-uppercase mb-4">
+                    {% if agence.phone2 is empty %}
+                    -
+                    {% else %}
+                    {{ agence.phone2 }}
+                    {% endif %}
+                </div>
+                <div class="col-6 text-right text-bold mb-4">
+                    {{ 'Adresse email 1'|trans }} :
+                </div>
+                <div class="col-6 ml-n4 mb-4">
+                    {% if agence.email is empty %}
+                    -
+                    {% else %}
+                    {{ agence.email }}
+                    {% endif %}
+                </div>
+                <div class="col-6 text-right text-bold mb-4">
+                    {{ 'Adresse email 2'|trans }} :
+                </div>
+                <div class="col-6 ml-n4 mb-4">
+                    {% if agence.email1 is empty %}
+                    -
+                    {% else %}
+                    {{ agence.email1 }}
+                    {% endif %}
+                </div>
+                <div class="col-6 text-right text-bold mb-4">
+                    {{ 'Site web'|trans }} :
+                </div>
+                <div class="col-6 ml-n4 mb-4">
+                    {% if agence.site is empty %}
+                    -
+                    {% else %}
+                    {{ agence.site}}
+                    {% endif %}
+                </div>
+                <div class="col-6 text-right text-bold mb-4">
+                    {{ 'Caisse existante'|trans }} :
+                </div>
+                <div class="col-6 ml-n4 text-uppercase mb-4">
+                    {% if agence.caisse == 1 %}
+                    {{'Oui'|trans}}
+                    {% else %}
+                    {{'Non'|trans}}
+                    {% endif %}
+                </div>
+                <div class="col-6 text-right text-bold mb-5">
+                    {{ 'Retenue en cas de désistement'|trans }} :
+                </div>
+                <div class="col-6 ml-n4 text-uppercase mb-5">
+                    {% if agence.retenu %}
+                    {{'Oui'|trans}}
+                    {% else %}
+                    {{'Non'|trans}}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 text-center">
+            {% if agence.logo is not empty %}
+            <img src="{{ asset(agence.logo)}}" alt="{{ agence.nom}}" class="rounded-circle" style="width:200px;" />
+            {% endif%}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

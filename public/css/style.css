@@ -1,0 +1,433 @@
+html {
+    min-height: 100%;
+    position: relative;
+}
+
+body {
+    font-size: 17px;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+}
+
+body:after {
+    content: "";
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: -1;
+    background-image: url(../images/market/form-bg.jpg);
+    background-position: center;
+    background-size: cover;
+}
+
+.header {
+    border-bottom: 1px solid #fff;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+
+.header1 {
+    border-bottom: 1px solid #fff;
+    position: absolute;
+    top: 540px;
+    z-index: 1000;
+}
+
+.banner,
+.main {
+    margin-top: 100px;
+}
+
+.opace {
+    min-height: 400px;
+}
+
+.fond {
+    background: rgba(3, 156, 79, 0.8);
+    border: 1px solid transparent;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+    padding: 20px 0;
+}
+
+.title {
+    color: #039c4f;
+    font-size: 3rem;
+    font-style: italic;
+    font-weight: bold;
+    text-align: center;
+}
+
+.centrer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fa-facebook-square:hover {
+    background: #fff;
+    border-radius: 50%;
+    color: #1153b7;
+}
+
+.fa-twitter:hover {
+    color: deepskyblue;
+}
+
+.fa-instagram:hover {
+    color: #c22d7e;
+    /*linear-gradient(45deg, #fdb73e 25%, #ef6a3d 50%, #c22d7e 75%, #a537d6 100%)*/
+
+}
+
+.fa-youtube:hover {
+    color: red;
+}
+
+.fa-whatsapp:hover {
+    background: #039c4f;
+    background-size: 100%;
+    border-radius: 50%;
+    color: #fff;
+    height: 32px;
+    width: 30px;
+}
+
+.form-control {
+    border: 2px solid #039c4f;
+    border-radius: 20px;
+    /*    height: 50px;*/
+}
+
+.form-control:focus {
+    box-shadow: 0 0 10px rgba(3, 156, 79, 0.9);
+    border: 1px solid #039c4f;
+}
+
+.btn {
+    height: 40px;
+}
+
+.connexion {
+    color: #c5fbae;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.logo {
+    height: 100px;
+    margin: 0 -15px;
+}
+
+.privacy {
+    font-size: 12px;
+}
+
+.fleche {
+    background-color: #cdfbe0;
+    background-size: 100%;
+    color: #039c4f;
+    border-radius: 50%;
+    padding: 5px 15px;
+    position: relative;
+    z-index: 999;
+}
+
+.fa-bg {
+    background: #fff;
+    border-radius: 50%;
+    background-size: 100%;
+}
+
+.fa2x-bg {
+    background: #039c4f;
+    border-radius: 50%;
+    background-size: 100%;
+    text-align: center;
+    padding: 15px 10px;
+    height: 85px;
+    width: 85px;
+}
+
+.fa5x-bg {
+    background: #039c4f;
+    color: #fff;
+    border-radius: 50%;
+    background-size: 100%;
+    height: 185px;
+    width: 185px;
+    padding: 40px;
+}
+
+.rounded-circle {
+    display: block;
+    margin: 5px auto;
+    height: 200px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-caption {
+    position: relative;
+    top: 20px;
+    width: 70%;
+}
+
+.carousel-indicators li {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+}
+
+.carousel-indicators {
+    bottom: -10px;
+}
+
+.qr {
+    letter-spacing: 1px;
+}
+
+.qr:active,
+.qr:focus,
+.qr:hover {
+    color: #039c4f;
+    text-shadow: -0.7px -0.7px 0 #fff,
+    -0.7px 0.7px 0 #fff,
+    0.7px -0.7px 0 #fff,
+    0.7px 0.7px 0 #fff;
+}
+
+.pl-4_5 {
+    margin-left: 50px;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.politique {
+    margin-top: -30px;
+    margin-left: 35px;
+}
+
+.termes {
+    font-style: italic;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #039c4f;
+}
+
+.qr-icon {
+    background: #fff;
+    border-radius: 50%;
+}
+
+.btn-normal {
+    width: 150px;
+}
+
+.bg-silver {
+    background: #f0efef;
+}
+
+.bg-silver-light {
+    background: #f7f5f5;
+}
+
+.border-silver {
+    border-color: #dcdcdc;
+}
+
+.bg-gold {
+    background: #f4e097;
+}
+
+.border-gold {
+    border-color: #f4e097;
+}
+
+.bg-platinum {
+    background: #d2cfcf;
+}
+
+.bg-platinum-light {
+    background: #e2e2e2;
+}
+
+.border-platinum {
+    border-color: #d2cfcf;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.3) 0.01%, #039c4f, rgba(0, 0, 0, 0.3) 99.99%);
+}
+
+.bg-success-light {
+    background: #cdfbe0 !important;
+}
+
+.login {
+    background: rgba(3, 156, 79, 0.2);
+    border: 1px solid transparent;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    border-radius: 15px;
+}
+
+.login .form-control {
+    border: 1px solid #039c4f;
+    border-radius: 15px;
+}
+
+.login .form-control:focus {
+    box-shadow: 0 0 10px rgba(3, 156, 79, 0.9);
+    border: 1px solid #039c4f;
+}
+
+.left-pan {
+    background: linear-gradient(90deg, transparent 80%, #cdfbe0 100%);
+    background-size: 100%;
+    background-position: center;
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+    font-weight: bold;
+    background: #cdfbe0;
+    border-bottom: 1px solid #cdfbe0;
+    border-radius: 10px 10px 0 0;
+}
+
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-item .nav-link:hover {
+    background: #cdfbe0;
+    border-bottom: 1px solid #cdfbe0;
+    border-radius: 10px 10px 0 0;
+}
+
+.fond-title {
+    background: #cdfbe0;
+    padding: 10px 15px 15px 20px;
+    border-radius: 15px;
+}
+
+.go-top {
+    background-color: #039c4f;
+    background-size: 100%;
+    box-shadow: 0 0 5px rgb(205 251 224);
+    color: #cdfbe0;
+    width: 40px !important;
+    height: 40px;
+    border-radius: 50%;
+    position: fixed;
+    top: 85%;
+    right: 30px;
+    opacity: 0;
+    z-index: 1000;
+    text-align: center;
+    border: 2px solid #cdfbe0;
+}
+
+.go-top:hover {
+    background-color: #cdfbe0;
+    border: 2px solid #039c4f;
+    color: #039c4f;
+}
+
+.top {
+    margin-top: 100px;
+}
+
+.install-button {
+    display: block;
+    margin: 40px;
+    border: 1px solid transparent;
+    border-radius: 10px !important;
+    padding: 5px 20px;
+    width: 200px;
+}
+
+.install {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.version {
+    font-size: 12px;
+    text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+
+    body:after {
+        background-image: url(../images/market/form-bg-small.jpg);
+    }
+
+    h1 {
+        font-size: 20px !important;
+    }
+
+    h2 {
+        font-size: 18px !important;
+    }
+
+    h3 {
+        font-size: 16px !important;
+    }
+
+    .title {
+        font-size: 1.2rem;
+        text-align: right;
+    }
+
+    .header1 {
+        top: 1283px;
+    }
+
+    .fa-2x {
+        font-size: 1.5em;
+    }
+
+    .fa-whatsapp:hover {
+        height: 24px;
+        width: 25px;
+    }
+
+    .install-button {
+        margin: 40px auto;
+    }
+
+}
+
+@media print {
+
+    body {
+        margin: -50px 10px 10px 10px;
+    }
+
+    .header,
+    .footer {
+        display: none;
+    }
+
+    #volet {
+        page-break-before: always;
+    }
+
+    a {
+        text-decoration: none !important;
+    }
+}

@@ -1,0 +1,149 @@
+{% extends "layout.html.twig" %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header"> Guide </h1>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+<br>
+<div class="row">
+	<div class="col-lg-10 col-sm-offset-1">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<i class="fa fa-info-circle fa-lg"></i> Informations guide
+			</div>
+			<!-- .panel-heading -->
+			<div class="panel-body">
+				<div class="panel panel-vert">
+					<div class="panel-heading">
+						<i class="fa fa-info-circle"></i> Operation
+					</div>
+					<div class="panel-body">
+						<a href="{{ path('Mecque_ImamEdit', { id : imam.id}) }}">
+							<button class="btn btn-primary">
+								<i class="fa fa-edit"></i> Modifier guide
+							</button>
+						</a>
+						<a href="{{ path('Mecque_ImamAdd') }}">
+							<button class="btn btn-success">
+								<i class="fa fa-male"></i> Nouveau guide résident
+							</button>
+						</a>
+						<button class="btn btn-danger pull-right" id="supprim{{imam.id}}" onclick="supprimimamresident({{imam.id}})">
+							<i class="fa fa-trash"></i> Supprimer
+						</button>
+					</div>
+				</div>
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<i class="fa fa-credit-card"></i> Identit&eacute;
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-sm-8 col-xs-12 identite">
+								<div class="col-sm-12 ligne">
+									<div class="col-sm-6 col-xs-6 information-label">Civilit&eacute; :</div>
+									<div class="col-sm-6 col-xs-6 information">
+										{% if imam.sexe == 'Feminin' %}
+										Madame
+										{% else %}
+										Monsieur
+										{% endif %}
+									</div>
+								</div>
+								<div class="col-sm-12 ligne">
+									<div class="col-sm-6 col-xs-6 information-label">Pr&eacute;nom :</div>
+									<div class="col-sm-6 col-xs-6 information"> {{ imam.prenom}} </div>
+								</div>
+								<div class="col-sm-12 ligne">
+									<div class="col-sm-6 col-xs-6 information-label">Nom :</div>
+									<div class="col-sm-6 col-xs-6 information"> {{ imam.nom}} </div>
+								</div>
+								<div class="col-sm-12 ligne">
+									<div class="col-sm-6 col-xs-6 information-label">Date de naissance :</div>
+									<div class="col-sm-6 col-xs-6 information"> {{ imam.datenaiss|date('d/m/Y')}} </div>
+								</div>
+								<div class="col-sm-12 ligne">
+									<div class="col-sm-6 col-xs-6 information-label">Lieu de naissance :</div>
+									<div class="col-sm-6 col-xs-6 information">
+										{% if imam.lieunaiss is empty %}
+										-
+										{% else %}
+										{{ imam.lieunaiss}}
+										{% endif %}
+									</div>
+								</div>
+								<div class="col-sm-12 ligne">
+									<div class="col-sm-6 col-xs-6 information-label">Num&eacute;ro passeport :</div>
+									<div class="col-sm-6 col-xs-6 information">
+										{% if imam.numpassport is empty %}
+										-
+										{% else %}
+										{{ imam.numpassport }}
+										{% endif %}
+									</div>
+								</div>
+								<div class="col-sm-12 ligne">
+									<div class="col-sm-6 col-xs-6 information-label">Groupe sanguin :</div>
+									<div class="col-sm-6 col-xs-6 information">
+										{% if imam.bloodgroup is empty %}
+										-
+										{% else %}
+										{{ imam.bloodgroup}}
+										{% endif %}
+									</div>
+								</div>
+								<div class="col-sm-12 ligne">
+									<div class="col-sm-6 col-xs-6 information-label">T&eacute;l&eacute;phone :</div>
+									<div class="col-sm-6 col-xs-6 information">
+										{% if imam.phone is empty %}
+										-
+										{% else %}
+										{{ imam.phone}}
+										{% endif %}
+									</div>
+								</div>
+								<div class="col-sm-12 ligne">
+									<div class="col-sm-6 col-xs-6 information-label">Adresse :</div>
+									<div class="col-sm-6 col-xs-6 information">
+										{% if imam.adresse is empty %}
+										-
+										{% else %}
+										{{ imam.adresse}}
+										{% endif %}
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-4 col-xs-12">
+								{% if imam.image is not empty %}
+								<img src="{{ asset('images/'~ imam.image.url)}}" alt="{{ imam.image.alt}}" class="rounded-circle">
+								<button type="button" class="btn btn-primary btn-photo" id="selectimage" onclick="selectphoto()">
+									<i class="fa fa-edit"></i> <i class="fa fa-image"></i> Modifier photo
+								</button>
+								{{ form_start(form, {'attr': {'id': 'form'}}) }}
+								{{ form_widget(form.file)}}
+								{{ form_rest(form) }}
+								{{ form_end(form) }}
+								{% else %}
+								<img src="{{ asset('images/avatar.jpg')}}" alt="Photo pèlerin" class="rounded-circle" />
+								<button type="button" class="btn btn-success btn-photo" id="selectimage" onclick="selectphoto()">
+									<i class="fa fa-image"></i> Ajouter photo
+								</button>
+								{{ form_start(form, {'attr': {'id': 'form'}}) }}
+								{{ form_widget(form.file)}}
+								{{ form_rest(form) }}
+								{{ form_end(form) }}
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- .panel-body -->
+		</div>
+	</div>
+	<!-- /.panel -->
+</div>
+{% endblock %}

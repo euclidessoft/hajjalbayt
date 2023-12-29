@@ -1,0 +1,106 @@
+{% extends "layout.html.twig" %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+	<div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Modification Donn&eacute;es du Medecin</h1>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+				<div class="row">
+				<div class="col-lg-2">
+				</div>
+                <div class="col-lg-8">
+				<!-- cadrage formoulaire  --> 
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            Modifier Pelerin
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+							<div class="col-lg-2">
+							</div>
+                                <div class="col-lg-8">
+								
+                                  {{form_start(form, {'attr':{'id': 'form'}})}}
+										
+									
+										<div class="form-group">
+                                            <label>Prenom :</label>
+                                            {{ form_widget(form.prenom)}}
+                                            {{ form_errors(form.prenom)}}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Nom :</label>
+                                            {{ form_widget(form.nom)}}
+                                            {{ form_errors(form.nom)}}
+                                        </div>
+										<div class="form-group">
+                                            <label>Sexe :</label>
+                                            {{ form_widget(form.sexe)}}
+                                            {{ form_errors(form.sexe)}}
+                                        </div>
+										<div class="form-group">
+                                            <label>Date de naissance :</label>
+                                            {{ form_widget(form.datenaiss)}}
+                                            {{ form_errors(form.datenaiss)}}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Lieu de Naissance :</label>
+                                            {{ form_widget(form.lieunaiss)}}
+                                            {{ form_errors(form.lieunaiss)}}
+                                        </div>
+										<div class="form-group">
+                                            <label>Adresse :</label>
+                                            {{ form_widget(form.adresse)}}
+                                            {{ form_errors(form.adresse)}}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Numero Passeport :</label>
+                                            {{ form_widget(form.numpassport)}}
+                                            {{ form_errors(form.numpassport)}}
+                                        </div>
+										<div class="form-group">
+                                            <label>Numero de Taxe Saoudien :</label>
+                                            {{ form_widget(form.numsaoudiantax)}}
+                                            {{ form_errors(form.numsaoudiantax)}}
+                                        </div>
+										<div class="form-group">
+                                            <label>Group Sanguin :</label>
+                                            {{ form_widget(form.bloodgroup)}}
+                                            {{ form_errors(form.bloodgroup)}}
+                                        </div>
+                                        
+										<div class="form-group">
+                                            <label>Telephone :</label>
+                                            {{ form_widget(form.phone)}}
+                                            {{ form_errors(form.phone)}}
+                                        </div>
+										<div class="form-group">
+                                            <label>Telephone Famille :</label>
+                                            {{ form_widget(form.famillyphone)}}
+                                            {{ form_errors(form.famillyphone)}}
+                                        </div>
+										<button type="button" class="btn btn-success" id="send" onclick="envoie()"><i class="fa fa-save"></i>  Enregistrer</button>
+										{{ form_rest(form) }}
+                                        <a href="{{ path('Mecque_Medecin', { medecin : medecin.id } ) }}"><button type="button" class="btn btn-warning"><i class="fa fa-undo"></i>  Annuler</button></a>
+                                        </div>
+                                        
+                                    {{ form_end(form) }}
+                                </div>
+                                <!-- /.col-lg-8 (nested) -->
+								<div class="col-lg-2">
+								</div>
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+						<!-- fin cadrage formulaire --> 
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-8 -->
+				<div class="col-lg-2">
+				</div>
+            </div>
+{% endblock %}

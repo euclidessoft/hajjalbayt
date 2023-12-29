@@ -1,0 +1,450 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Pèlerin'|trans }} - Hajjalbayt {% endblock %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="col-md-10 offset-md-1 mt-4 pt-3 pb-2 fond-7">
+    <div class="centrer">
+        <div class="row">
+            {% if pelerin.medical is not null%}
+            <a href="{{ path('Mecque_Medical',{pelerin : pelerin.id})}}">
+                <button type="button" class="btn btn-shadow btn-primary mb-2">
+                    <i class="fa fa-edit"></i>
+                    {{ 'Modifier etat médical'|trans }}
+                </button>
+            </a>
+            {% else %}
+            <a href="{{ path('Mecque_Medical',{pelerin : pelerin.id})}}">
+                <button type="button" class="btn btn-shadow btn-danger mb-2">
+                    {{ 'Définir etat médical'|trans }}
+                </button>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="col-md-10 offset-md-1 mt-4 mb-5 fond-7">
+    <h3 class="mt-4 mb-5 text-bold">
+        <i class="fa fa-user-circle fa-lg"></i>
+        {{ 'Informations pèlerin'|trans }}
+    </h3>
+    <h5 class="mt-3 mb-3 ml-3">
+        <i class="fa fa-folder-open"></i>
+        {{ 'Dossier Nº'|trans }} : <b> {{ pelerin.numdossier}} </b>
+    </h5>
+    {% if pelerin.medical is not null %}
+    {% if pelerin.medical.enceinte == 1 or pelerin.medical.charriot == 1 %}
+    <div class="alert alert-danger radius-10 shadow-black mt-5">
+        <div class="centrer">
+            {% if pelerin.medical.enceinte == 1 %}
+            <img src="{{ asset('images/pregnant-alert.png')}}" alt="Femme enceinte" style="vertical-align: top;">
+            {% endif %}
+            &emsp;
+            {% if pelerin.medical.charriot == 1 %}
+            <i class="fa fa-wheelchair fa-5x"></i>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    {% endif %}
+    <div class="card border-green shadow-black mt-5 mb-3">
+        <div class="card-header bg-success-light bb-green text-bold text-green text-bold text-green">
+            <i class="fa fa-id-card"></i>
+            {{ 'Identité'|trans }}
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8 mt-4">
+                    <div class="row">
+                        <div class="col-6 text-right text-bold mb-2">
+                            {{ 'Civilité'|trans }} :
+                        </div>
+                        <div class="col-6 ml-n4 text-uppercase mb-2">
+                            {% if pelerin.sexe == 'Feminin' %}
+                            {{ 'Madame'|trans }}
+                            {% else %}
+                            {{ 'Monsieur'|trans }}
+                            {% endif %}
+                        </div>
+                        <div class="col-6 text-right text-bold mb-2">
+                            {{ 'Prénom'|trans }} :
+                        </div>
+                        <div class="col-6 ml-n4 text-uppercase mb-2">
+                            {{ pelerin.prenom }}
+                        </div>
+                        <div class="col-6 text-right text-bold mb-2">
+                            {{ 'Nom'|trans }} :
+                        </div>
+                        <div class="col-6 ml-n4 text-uppercase mb-2">
+                            {{ pelerin.nom }}
+                        </div>
+                        <div class="col-6 text-right text-bold mb-2">
+                            {{ 'Age'|trans }} :
+                        </div>
+                        <div class="col-6 ml-n4 mb-2">
+                            {% if pelerin.datenaiss is empty %}
+                            -
+                            {% else %}
+                            {{ pelerin.age }}
+                            {% endif %}
+                        </div>
+                        <div class="col-6 text-right text-bold mb-2">
+                            {{ 'Profession'|trans }} :
+                        </div>
+                        <div class="col-6 ml-n4 text-uppercase mb-2">
+                            {% if pelerin.profession is empty %}
+                            -
+                            {% else %}
+                            {{ pelerin.profession}}
+                            {% endif %}
+                        </div>
+                        <div class="col-6 text-right text-bold mb-2">
+                            {{ 'Groupe sanguin'|trans }} :
+                        </div>
+                        <div class="col-6 ml-n4 mb-2">
+                            {% if pelerin.bloodgroup is empty %}
+                            -
+                            {% else %}
+                            {{ pelerin.bloodgroup}}
+                            {% endif %}
+                        </div>
+                        <div class="col-6 text-right text-bold mb-2">
+                            {{ 'Ethnie'|trans }} :
+                        </div>
+                        <div class="col-6 ml-n4 text-uppercase mb-2">
+                            {% if pelerin.ethnie is empty %}
+                            -
+                            {% else %}
+                            {{ pelerin.ethnie}}
+                            {% endif %}
+                        </div>
+                        <div class="col-6 text-right text-bold mb-2">
+                            {{ 'Région'|trans }} :
+                        </div>
+                        <div class="col-6 ml-n4 text-uppercase mb-2">
+                            {% if pelerin.region is empty %}
+                            -
+                            {% else %}
+                            {{ pelerin.region}}
+                            {% endif %}
+                        </div>
+                        <div class="col-6 text-right text-bold mb-2">
+                            {{ 'Téléphone'|trans }} :
+                        </div>
+                        <div class="col-6 ml-n4 mb-2">
+                            {% if pelerin.phone is empty %}
+                            -
+                            {% else %}
+                            {{ pelerin.phone}}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 text-center">
+                    <div class="row">
+                        <div class="col-12">
+                            {% if pelerin.photo == 1 %}
+                            {% if pelerin.image is not empty %}
+                            <img src="{{ asset('images/'~ pelerin.image.url)}}" alt="{{ pelerin.image.alt}}" class="rounded-circle">
+                            {% else %}
+                            {% if pelerin.sexe == 'Feminin' %}
+                            <img src="{{ asset('images/avatar-femme.jpg')}}" alt="Photo pèlerin" class="rounded-circle">
+                            {% else %}
+                            <img src="{{ asset('images/avatar.jpg')}}" alt="Photo pèlerin" class="rounded-circle">
+                            {% endif %}
+                            {% endif %}
+                            {% else %}
+                            <b>{{ 'Pas de photo'|trans }}</b>
+                            {% endif %}
+                        </div>
+                        <div class="col-12 mt-3">
+                            <img src="{{ asset('images/QRcode.png')}}" alt="QRcode" width="100">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if pelerin.medical is not null %}
+    {% set medical = pelerin.medical %}
+    <div class="card border-green shadow-black mt-4">
+        <div class="card-header bg-success-light bb-green text-bold text-green text-bold text-green">
+            <i class="fa fa-capsules"></i>
+            {{ 'Traitement en cours'|trans }}
+        </div>
+        <div class="card-body">
+            <b>
+                {% if medical.trait1 is null %}
+                {% else %}
+                * {{ medical.trait1 }}
+                {% endif %}
+
+                {% if medical.trait2 is null %}
+                {% else %}
+                <br>
+                * {{ medical.trait2 }}
+                {% endif %}
+
+                {% if medical.trait3 is null %}
+                {% else %}
+                <br>
+                * {{ medical.trait3 }}
+                {% endif %}
+
+                {% if medical.trait4 is null %}
+                {% else %}
+                <br>
+                * {{ medical.trait4 }}
+                {% endif %}
+
+                {% if medical.trait5 is null %}
+                {% else %}
+                <br>
+                * {{ medical.trait5 }} {% endif %}
+            </b>
+        </div>
+    </div>
+    <div class="col-lg-12 radius-10 shadow-black mt-4">
+        <h5 class="mt-3 mb-5 text-bold">
+            <i class="fa fa-user-md"></i>
+            {{ 'Situation médicale'|trans }}
+        </h5>
+        <div class="col-lg-12 radius-10 shadow-black mt-4 mb-3">
+            <h5 class="mt-3 mb-4">
+                {{ 'Antécédents'|trans }}
+            </h5>
+            <div class="row mb-3">
+                <div class="col-lg-3">
+                    <div class="card border-green shadow-black mt-4">
+                        <div class="card-header bg-success-light bb-green text-bold text-green">
+                            {{ 'Medicaux'|trans }}
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8 col-6 text-right text-bold">
+                                    {{ 'HTA'|trans }} :
+                                </div>
+                                <div class="col-md-4 col-6 ml-n4">
+                                    {% if medical.hta == 0 %} - {% else %} OUI {% endif %}
+                                </div>
+                                <div class="col-md-8 col-6 text-right text-bold">
+                                    {{ 'Diabète'|trans }} :
+                                </div>
+                                <div class="col-md-4 col-6 ml-n4">
+                                    {% if medical.diabete == 0 %} - {% else %} OUI {% endif %}
+                                </div>
+                                <div class="col-md-8 col-6 text-right text-bold">
+                                    {{ 'Asthme'|trans }} :
+                                </div>
+                                <div class="col-md-4 col-6 ml-n4">
+                                    {% if medical.asthme == 0 %} - {% else %} OUI {% endif %}
+                                </div>
+                                <div class="col-md-8 col-6 text-right text-bold">
+                                    {{ 'Drepano'|trans }} :
+                                </div>
+                                <div class="col-md-4 col-6 ml-n4">
+                                    {% if medical.drepano == 0 %} - {% else %} OUI {% endif %}
+                                </div>
+                                <div class="col-md-8 col-6 text-right text-bold">
+                                    {{ 'Tuberculose'|trans }} :
+                                </div>
+                                <div class="col-md-4 col-6 ml-n4">
+                                    {% if medical.tuberculose == 0 %} - {% else %} OUI {% endif %}
+                                </div>
+                                <div class="col-md-8 col-6 text-right text-bold">
+                                    {{ 'Arthrose'|trans }} :
+                                </div>
+                                <div class="col-md-4 col-6 ml-n4">
+                                    {% if medical.arthrose == 0 %} - {% else %} OUI {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card border-green shadow-black mt-4">
+                        <div class="card-header bg-success-light bb-green text-bold text-green">
+                            {{ 'Chirurgicaux'|trans }}
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 col-6 text-right text-bold">
+                                    {{ 'Abdominale'|trans }} :
+                                </div>
+                                <div class="col-md-8 col-6 ml-n4">
+                                    {% if medical.chabdo is null %} - {% else %} {{ medical.chabdo }} {% endif %}
+                                </div>
+                                <div class="col-md-4 col-6 text-right text-bold">
+                                    {{ 'Pelvienne'|trans }} :
+                                </div>
+                                <div class="col-md-8 col-6 ml-n4">
+                                    {% if medical.chpulmo is null %} - {% else %} {{ medical.chpulmo }} {% endif %}
+                                </div>
+                                <div class="col-md-4 col-6 text-right text-bold">
+                                    {{ 'Orthopédique'|trans }} :
+                                </div>
+                                <div class="col-md-8 col-6 ml-n4">
+                                    {% if medical.chortho is null %} - {% else %} {{ medical.chortho }} {% endif %}
+                                </div>
+                                {% if pelerin.sexe == 'Feminin'%}
+                                <div class="col-md-4 col-6 text-right text-bold">
+                                    {{ 'Cesarienne'|trans }} :
+                                </div>
+                                <div class="col-md-8 col-6 ml-n4">
+                                    {% if medical.cesarienne is null %} - {% else %} {{ medical.cesarienne }} {% endif %}
+                                </div>
+                                {% endif %}
+                                <div class="col-md-4 col-6 text-right text-bold">
+                                    {{ 'Autres'|trans }} :
+                                </div>
+                                <div class="col-md-8 col-6 ml-n4">
+                                    {% if medical.autres is null %} - {% else %} {{ medical.autres }} {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card border-green shadow-black mt-4">
+                        <div class="card-header bg-success-light bb-green text-bold text-green">
+                            {{ 'Psychiatrique'|trans }}
+                        </div>
+                        <div class="card-body information">
+                            {{medical.psychiatrique}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 radius-10 shadow-black mt-4">
+        <h5 class="mt-3 mb-5 text-bold">
+            <i class="fa fa-user-md"></i>
+            {{ 'Examen Clinique'|trans }}
+        </h5>
+        <div class="row mb-3">
+            <div class="col-lg-2">
+                <div class="card border-green shadow-black mt-4">
+                    <div class="card-header bg-success-light bb-green text-bold text-green">
+                        {{ 'General'|trans }}
+                    </div>
+                    <div class="card-body text-center">
+                        <b>{{ 'OMS'|trans }} :</b> {{ medical.oms }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-10">
+                <div class="card border-green shadow-black mt-4">
+                    <div class="card-header bg-success-light bb-green text-bold text-green">
+                        {{ 'Constantes'|trans }}
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-md-8 col-8 text-right text-bold">
+                                        {{ 'Température'|trans }} :
+                                    </div>
+                                    <div class="col-md-4 col-4 ml-n4">
+                                        {{ medical.temper }}
+                                    </div>
+                                    <div class="col-md-8 col-8 text-right text-bold">
+                                        {{ 'Tension arterielle'|trans }} :
+                                    </div>
+                                    <div class="col-md-4 col-4 ml-n4">
+                                        {{ medical.tensionone }}/{{ medical.tensiontwo }}
+                                    </div>
+                                    <div class="col-md-8 col-8 text-right text-bold">
+                                        {{ 'Pouls'|trans }} :
+                                    </div>
+                                    <div class="col-md-4 col-4 ml-n4">
+                                        {{ medical.pouls }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-md-8 col-8 text-right text-bold">
+                                        {{ 'Fréqnence respiratoire'|trans }} :
+                                    </div>
+                                    <div class="col-md-4 col-4 ml-n4">
+                                        {{ medical.respir }}
+                                    </div>
+                                    <div class="col-md-8 col-8 text-right text-bold">
+                                        {{ 'Saturation en O2'|trans }} :
+                                    </div>
+                                    <div class="col-md-4 col-4 ml-n4">
+                                        {{ medical.oxygene }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 mt-4">
+            <div class="card border-green shadow-black mt-4">
+                <div class="card-header bg-success-light bb-green text-bold text-green">
+                    {{ 'Examen des appareils'|trans }}
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 text-right text-bold">
+                            {{ 'Coeur et vaisseaux'|trans }} :
+                        </div>
+                        <div class="col-6 ml-n4">
+                            {% if medical.coeuretvais is null %} - {% else %} {{ medical.coeuretvais }} {% endif %}
+                        </div>
+                        <div class="col-6 text-right text-bold">
+                            {{ 'Pulmonaire'|trans }} :
+                        </div>
+                        <div class="col-6 ml-n4">
+                            {% if medical.pulmo is null %} - {% else %} {{ medical.pulmo }} {% endif %}
+                        </div>
+                        <div class="col-6 text-right text-bold">
+                            {{ 'Neurologique'|trans }} :
+                        </div>
+                        <div class="col-6 ml-n4">
+                            {% if medical.neuro is null %} - {% else %} {{ medical.neuro }} {% endif %}
+                        </div>
+                        <div class="col-6 text-right text-bold">
+                            {{ 'Autres'|trans }} :
+                        </div>
+                        <div class="col-6 ml-n4">
+                            {% if medical.autreexam is null %} - {% else %} {{ medical.autreexam }} {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if pelerin.sexe == 'Feminin'%}
+        <div class="col-lg-6 mt-4">
+            <div class="card border-green shadow-black mt-4">
+                <div class="card-header bg-success-light bb-green text-bold text-green">
+                    {{ 'Gyneco osbstetricaux'|trans }}
+                </div>
+                <div class="card-body text-center">
+                    {{medical.obsteg}} <b>G</b><br>
+                    {{medical.obstep}} <b>P</b>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="card border-green shadow-black mt-4 mb-3">
+        <div class="card-header bg-success-light bb-green text-bold text-green">
+            <i class="fa fa-user-md"></i>
+            {{ 'Diagnostic'|trans }}
+        </div>
+        <div class="card-body">
+            {{ medical.diagnostic }}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

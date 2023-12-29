@@ -1,0 +1,226 @@
+{% extends "licence.html.twig" %}
+{% block title %} Facture - Hajjalbayt {% endblock %}
+{% block body %}
+
+<div class="container-fluid bg-success-light pb-5 main">
+    <div class="col-lg-8 offset-lg-2 bg-white mt-5 mb-5 pt-4">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-2">
+                    <img src="{{ asset('images/market/euclides.jpg') }}" alt="Logo" height="135">
+                </div>
+                <div class="col-10 text-center text-primary">
+                    <div class="row">
+                        <div class="col-12 titre">
+                            <h3 class="text-bold">EUCLIDES</h3>
+                        </div>
+                        <div class="col-12">
+                            <h5>
+                                S 198 HAMO 4 Guédiawaye Dakar Sénégal
+                                <br>
+                                Tel : 77 449 97 85 / 77 542 35 00
+                                <br>
+                                Email : hajjalbayt@euclideservices.com / hajjalbayt@gmail.com
+                                <br>
+                                Site web : www.euclideservices.com
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center text-bold border-imp mt-3 mb-4 pb-2 pt-2 radius-10">
+                    <h3 class="text-bold text-underline mt-5">FACTURE</h3>
+                </div>
+                <div class="col-6">
+                    <table class="table table-bordered mt-4">
+                        <tr>
+                            <td class="text-right text-bold border-primary">Agence</td>
+                            <td class="border-primary">{{ app.user.agence.nom }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-right text-bold border-primary">Responsable</td>
+                            <td class="border-primary">{{ app.user.agence.responsable }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-right text-bold border-primary">Téléphone</td>
+                            <td class="border-primary">{{ app.user.agence.phone }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-right text-bold border-primary">Email</td>
+                            <td class="border-primary">{{ app.user.agence.email }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-right text-bold border-primary">Pack</td>
+                            <td class="border-primary">
+                                {% if nombre <= 50 %}
+                                STARTER
+                                {% elseif nombre > 50  and nombre <= 100 %}
+                                SILVER
+                                {% elseif nombre > 100 and nombre <= 150 %}
+                                GOLDER
+                                {% elseif nombre > 150 %}
+                                PLATINUM
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-2"></div>
+                <div class="col-4">
+                    <table class="table table-bordered mt-4">
+                        <tr>
+                            <td class="text-right text-bold border-primary">
+                                Ref facture
+                            </td>
+                            <td class="border-primary">
+                                {% if nombre <= 50 %}
+                                ST{{"now"|date("ymd")}}{{numero}}
+                                {% elseif nombre > 50  and nombre <= 100 %}
+                                SV{{"now"|date("ymd")}}{{numero}}
+                                {% elseif nombre > 100 and nombre <= 150 %}
+                                GD{{"now"|date("ymd")}}{{numero}}
+                                {% elseif nombre >  150 %}
+                                PT{{"now"|date("ymd")}}{{numero}}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-right text-bold border-primary">Date</td>
+                            <td class="border-primary">{{"now"|date("d/m/Y")}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-12 mt-5">
+                    <table class="table table-bordered mt-4">
+                        <thead>
+                            <tr>
+                                <th class="border-primary text-center">Nombre</th>
+                                <th class="border-primary">Désignation</th>
+                                <th class="border-primary text-center">Prix unitaire</th>
+                                <th class="border-primary text-center">Prix total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border-primary align-top text-center" height="150px">{{ nombre|number_format(0, '' , ' ') }}</td>
+                                <td class="border-primary align-top">Licence annuelle</td>
+                                <td class="border-primary align-top text-center">
+                                    {% if nombre <= 50 %}
+                                    {% set prix = 3000 %}
+                                    {{ prix|number_format(0, '' , ' ') }}
+                                    {% elseif nombre > 50  and nombre <= 100%}
+                                    {% set prix = 2500 %}
+                                    {{ prix|number_format(0, '' , ' ') }}
+                                    {% elseif nombre > 100 and nombre <= 150%}
+                                    {% set prix = 2000 %}
+                                    {{ prix|number_format(0, '' , ' ') }}
+                                    {% elseif nombre >  150 %}
+                                    {% set prix = 1500 %}
+                                    {{ prix|number_format(0, '' , ' ') }}
+                                    {% endif %}
+                                </td>
+                                <td class="border-primary align-top text-center">
+                                    {{ (nombre * prix)|number_format(0, '' , ' ') }}
+                                </td>
+                            </tr>
+                            <tr class="text-bold">
+                                <td class="border-0"></td>
+                                <td class="border-0"></td>
+                                <td class="border-primary text-right">Total HT</td>
+                                <td class="border-primary text-center">{{ (nombre * prix)|number_format(0, '' , ' ') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="border-0" colspan="4">&nbsp;</td>
+                            </tr>
+                            <tr class="text-bold">
+                                <td colspan="2" class="border-0">
+                                </td>
+                                <td class="border-primary text-right">TVA (18%)</td>
+                                <td class="border-primary text-center">{{ (nombre * prix * 0.18)|number_format(0, '' , ' ') }}</td>
+                            </tr>
+                            <tr class="text-bold">
+                                <td colspan="2" class="border-0">
+                                </td>
+                                <td class="border-primary text-right">Total TTC</td>
+                                <td class="border-primary text-center">{{ ((nombre * prix * 0.18) + (nombre * prix))|number_format(0, '' , ' ') }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mt-5">
+            <p>
+                <form action="{{ path('validation')}}" method="POST">
+                    <input type="hidden" name="_validation" value="{{ nombre }}" />
+                    <button type="submit" class="btn btn-shadow btn-green radius-10 mt-n3 pl-4 pr-4 float-right">
+                        <h5 class="text-bold">
+                            <i class="fa fa-check-circle"></i>
+                            Je valide
+                        </h5>
+                    </button>
+                </form>
+                <b> Cette présente facture est valable pour 7 jours à compter de la date d'émission.</b>
+            </p>
+            <p>
+                Vous pouvez appuyer sur <b>"Mode de paiement"</b> ci-dessous pour découvrir les différents mode de paiement.
+            </p>
+        </div>
+
+        <div class="accordion mt-4 mb-5" id="volet">
+            <div class="col-12">
+                <h4 class="mb-4 fond-title" id="title">
+                    <a data-toggle="collapse" data-target="#modepaiement" aria-expanded="true" aria-controls="modepaiement" style="cursor:pointer">
+                        Mode de paiement
+                    </a>
+                </h4>
+                <div id="modepaiement" class="collapse hide" aria-labelledby="title" data-parent="#volet">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark active" href="#virement" data-toggle="tab" id="virement-tab" role="tab" aria-controls="hotel" aria-selected="false">
+                                Virement
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="#cheque" data-toggle="tab" id="cheque-tab" role="tab" aria-controls="chambre" aria-selected="true">
+                                Chèque
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link text-dark" href="#om" data-toggle="tab" id="om-tab" role="tab" aria-controls="chambre" aria-selected="true">
+                                Orange Money
+                            </a>
+                        </li>-->
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="virement" role="tabpanel" aria-labelledby="virement-tab">
+                            <div class="row mt-4">
+                                <div class="col-4 text-right text-bold mt-2">Banque :</div>
+                                <div class="col-8 ml-n4 mt-2">ECOBANK</div>
+                                <div class="col-4 text-right text-bold mt-2">Nom du compte :</div>
+                                <div class="col-8 ml-n4 mt-2">EUCLIDES</div>
+                                <div class="col-4 text-right text-bold mt-2">Code IBAN :</div>
+                                <div class="col-8 ml-n4 mt-2">SN094 01012 451039550401 59</div>
+                                <div class="col-4 text-right text-bold mt-2">Code SWIFT :</div>
+                                <div class="col-8 ml-n4 mt-2">ECOCSNDA</div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="cheque" role="tabpanel" aria-labelledby="cheque-tab">
+                            <p class="mt-4">
+                                A mettre au nom de <b>EUCLIDES</b> et l'envoyer au S 198 HAMO 4 Guédiawaye Dakar
+                            </p>
+                        </div>
+                        <div class="tab-pane fade" id="om" role="tabpanel" aria-labelledby="om-tab">
+                            <p class="mt-4">
+                                Faites un <b>paiement marchand</b> et entrez le numéro <b>123456</b>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

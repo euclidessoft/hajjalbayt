@@ -1,0 +1,262 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Regroupement'|trans }} - Hajjalbayt {% endblock %}
+{% block session %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="col-lg-10 offset-lg-1 mt-5 fond-7">
+    <h3 class="mt-4 mb-5 text-bold">
+        <i class="fa fa-university"></i>
+        {{ 'Regroupement'|trans }}
+    </h3>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" href="#group" data-toggle="tab" id="group-tab" role="tab" aria-controls="group" aria-selected="true">
+                {{ 'Regroupement'|trans }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#agencies" data-toggle="tab" id="agencies-tab" role="tab" aria-controls="agencies" aria-selected="false">
+                {{ 'Toutes les agences'|trans }}
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="group" role="tabpanel" aria-labelledby="group-tab">
+            <div class="row">
+                <div class="col-lg-12 mb-4">
+                    {# if chef is not null #}
+                    <button class="btn btn-shadow btn-green mt-5" id="agence" onclick="agencyadd()">
+                        <i class="fa fa-plus-circle"></i>
+                        {{ 'Ajouter membre'|trans }}
+                    </button>
+                    {# endif #}
+                    {% if quota == 0 %}
+                    <a href="{{ path('Mecque_SessionQuota', { group : 'yes' }) }}" class="btn btn-shadow btn-green mt-5 float-right" id="agence">
+                        <i class="fa fa-sign-in-alt"></i>
+                        {{ 'Définir mon quota'|trans }}
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-12 mt-5 mb-5 fond-5" id="agency">
+                <h5 class="mt-4 mb-5 text-bold">
+                    {{ 'Ajouter une agence en tant que membre du Regroupement'|trans }}
+                </h5>
+
+                {{form_start(form, {'attr':{'id': 'form'}})}}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_row(form.agence, {'label':false})}}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_row(form.quota, {'label':false, attr:{'placeholder':'Quota'}})}}
+                        </div>
+                    </div>
+                </div>
+                <div class="centrer mt-4 mb-4">
+                    <button type="button" class="btn btn-shadow btn-green mr-3 mb-2" id="send" onclick="envoie()">
+                        <i class="fa fa-save"></i>
+                        {{ 'Enregistrer'|trans }}
+                    </button>
+                    {{ form_rest(form) }}
+                    <button class="btn btn-shadow btn-warning mb-2" id="annule" onclick="agencycancel()">
+                        <i class="fa fa-undo"></i>
+                        {{ 'Annuler'|trans }}
+                    </button>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+            <table class="table table-success-light table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>{{ 'Agence'|trans }}</th>
+                        <th>{{ 'Adresse'|trans }}</th>
+                        <th class="phone">{{ 'Téléphone'|trans }}</th>
+                        <th>{{ 'Email'|trans }}</th>
+                        <th class="text-center">{{ 'Quota'|trans }}</th>
+                        <th class="text-center">{{ 'Modifier'|trans }}</th>
+                        <th class="text-center">{{ 'Supprimer'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if group is not empty %}
+                    {% for agency in group %}
+                    <tr>
+                        <td data-label="{{ 'Agence'|trans }}">
+                            <a href="{{ path('Mecque_Group_Agency', { agency : agency.agence.id}) }}">
+                                {{ agency.agence.nom}}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Adresse'|trans }}">
+                            <a href="{{ path('Mecque_Group_Agency', { agency : agency.agence.id}) }}">
+                                {{ agency.agence.adresse}}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                            <a href="{{ path('Mecque_Group_Agency', { agency : agency.agence.id}) }}">
+                                {{ agency.agence.phone}}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Email'|trans }}">
+                            <a href="{{ path('Mecque_Group_Agency', { agency : agency.agence.id}) }}">
+                                {{ agency.agence.email}}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Quota'|trans }}" class="text-center">
+                            <a href="{{ path('Mecque_Group_Agency', { agency : agency.agence.id}) }}">
+                                {{ agency.quota}}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Modifier'|trans }}">
+                            <a href="#">
+                                <button class="btn btn-shadow btn-td btn-primary disabled">
+                                    <i class="fa fa-edit fa-lg"></i>
+
+                                </button>
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Supprimer'|trans }}">
+                            <button class="btn btn-shadow btn-td btn-danger disabled">
+                                <i class="fa fa-trash-alt fa-lg"></i>
+
+                            </button>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td data-label="colspan" colspan="7">
+                            {{ 'Aucune autre agence dans le regroupement'|trans }}
+                        </td>
+                    </tr>
+                    {% endif %}
+
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="agencies" role="tabpanel" aria-labelledby="agencies-tab">
+            <a href="{{ path('Mecque_SessionGroup_AgencyAdd') }}">
+                <button class="btn btn-shadow btn-green mt-5 mb-4">
+                    <i class="fa fa-plus-circle"></i>
+                    {{ 'Ajouter une agence'|trans }}
+                </button>
+            </a>
+            <table class="table table-success-light table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>{{ 'Agence'|trans }}</th>
+                        <th>{{ 'Adresse'|trans }}</th>
+                        <th class="text-center">{{ 'Téléphone'|trans }}</th>
+                        <th>{{ 'Email'|trans }}</th>
+                        <th class="text-center">{{ 'Modifier'|trans }}</th>
+                        <th class="text-center">{{ 'Supprimer'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if agencies is not empty %}
+                    {% for agency in agencies %}
+                    <tr>
+                        <td data-label="{{ 'Agence'|trans }}">
+                            <a href="{{ path('Mecque_Group_Agency', { agency : agency.id}) }}">
+                                {{ agency.nom}}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Adresse'|trans }}">
+                            <a href="{{ path('Mecque_Group_Agency', { agency : agency.id}) }}">
+                                {{ agency.adresse}}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                            <a href="{{ path('Mecque_Group_Agency', { agency : agency.id}) }}">
+                                {{ agency.phone}}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Email'|trans }}">
+                            <a href="{{ path('Mecque_Group_Agency', { agency : agency.id}) }}">
+                                {{ agency.email}}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Modifier'|trans }}">
+                            <a href="{{ path('Mecque_Group_AgencyEdit', { agency : agency.id }) }}">
+                                <button class="btn btn-shadow btn-td btn-normal btn-primary" title="{{ 'Modifier agence'|trans }}">
+                                    <i class="fa fa-edit fa-lg"></i>
+
+                                </button>
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Supprimer'|trans }}">
+                            <button class="btn btn-shadow btn-td btn-danger disabled">
+                                <i class="fa fa-trash-alt fa-lg"></i>
+
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td data-label="colspan" colspan="6">
+                            {{ 'Aucune agence enregistrée'|trans }}</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="col-lg-10 offset-lg-1 mt-5 mb-5 pt-3 pb-3 fond-7">
+    <div class="centrer">
+        <div class="row">
+            {% if group == 'no' %}
+            <a href="{{ path('Mecque_SessionConfig') }}">
+                <button class="btn btn-shadow btn-normal btn-secondary mr-3">
+                    <i class="fa fa-backward"></i>
+                    {{ 'Précédent'|trans }}
+                </button>
+            </a>
+            {% else %}
+            <a href="{{ path('Mecque_SessionGroupConfig') }}">
+                <button class="btn btn-shadow btn-normal btn-secondary mr-3">
+                    <i class="fa fa-backward"></i>
+                    {{ 'Précédent'|trans }}
+                </button>
+            </a>
+            {% endif %}
+            <a href="{{ path('Mecque_Suivant') }}">
+                <button class="btn btn-shadow btn-normal btn-green">
+                    <i class="fa fa-forward"></i>
+                    {{ 'Terminer'|trans }}
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+    {% block script %}
+        <script>
+            //ajouter une agence au regroupement
+            function agencyadd() {
+                $('#agency').show();
+                $('#annule').show();
+                $('#agence').hide();
+                $('#mecquebundle_groupement_agence').val('');
+                $('#mecquebundle_groupement_quota').val('');
+            }
+
+            //annuler ajout d'une agence au regroupement
+            function agencycancel() {
+                $('#agency').hide();
+                $('#annule').hide();
+                $('#agence').show();
+                $('#mecquebundle_groupement_agence').val('');
+                $('#mecquebundle_groupement_quota').val('');
+            }
+
+        </script>
+    {% endblock %}
+
+{% endblock %}

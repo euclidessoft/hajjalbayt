@@ -1,0 +1,263 @@
+{% extends "layout.html.twig" %}
+{% block facture %} onload="window.print()" onafterprint="window.history.back()" {% endblock %}
+{% block title %} {{ 'Reçu de versement'|trans }} - Hajjalbayt {% endblock %}
+{% block body %}
+
+<div class="col-lg-8 offset-lg-2 fond-7 mb-3 recu">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-2">
+                <img src="{{ asset(app.user.agence.logo) }}" alt="Logo" height="135">
+            </div>
+            <div class="col-10 text-center">
+                <div class="row">
+                    <div class="col-12 titre">
+                        {{ app.user.agence.nom }}
+                    </div>
+                    <div class="col-12">
+                        {% if app.user.agence.adresse is not empty %}
+                        {{ app.user.agence.adresse }}
+                        {% else %}
+                        -
+                        {% endif %}
+                    </div>
+                    <div class="col-12">
+                        {% if app.user.agence.phone is not empty %}
+                        {{ app.user.agence.phone }}
+                        {%else %}
+                        -
+                        {% endif %}
+                        {% if app.user.agence.phone1 is not empty %}
+                        - {{app.user. agence.phone1 }}
+                        {% endif %}
+                        {% if app.user.agence.phone2 is not empty %}
+                        - {{ app.user.agence.phone2 }}
+                        {% endif %}
+                    </div>
+                    <div class="col-12">
+                        {% if app.user.agence.email is not empty %}
+                        Email : {{ app.user.agence.email }}
+                        {%else %}
+                        @
+                        {% endif %}
+                        {% if app.user.agence.email1 is not empty %}
+                        - {{ app.user.agence.email1 }}
+                        {% endif %}
+                        {% if app.user.agence.site is not empty %}
+                        - Site web : {{ app.user.agence.site }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="font-size:20px">
+            <div class="col-12 text-center text-bold border-imp border-dark mt-3 mb-4 pb-2 pt-2 text-uppercase radius-10">
+                Reçu de versement
+            </div>
+            <div class="col-6">
+                Reçu numéro : {{versement.date|date('ymd')}}{{ versement.id }}
+            </div>
+            <div class="col-6 text-right">
+                Date : {{versement.date|date('d/m/Y - H:i:s')}}
+            </div>
+            <div class="col-12 mt-5">
+                {% if pelerin.sexe == 'Feminin' %}
+                Madame
+                {% else %}
+                Monsieur
+                {% endif %}
+                <b>{{ pelerin.prenom}} {{ pelerin.nom}}</b>
+                {% if pelerin.datenaiss is not empty %}
+                {% if pelerin.sexe == 'Feminin' %}
+                née
+                {% else %}
+                né
+                {% endif %}
+                le
+                {{ pelerin.datenaiss|date('d/m/Y') }}
+                {% if pelerin.lieunaiss is not empty %}
+                à {{ pelerin.lieunaiss }}
+                {% endif %}
+                {% endif %}
+                , titulaire
+                {% if pelerin.numpassport != '' %}
+                du passeport numéro : {{ pelerin.numpassport}}
+                {% else %}
+                de la pièce d'identité numéro :
+                {% if pelerin.cin is not empty %}
+                {{ pelerin.cin}}
+                {% else %}
+                -
+                {% endif %}
+                {% endif %}
+                , a versé la somme de : <b class="text-nowrap"> {{ versement.montant|number_format(0, '' , ' ') }} F CFA</b> pour le Hajj {{ 'now'|date('Y') }}.
+            </div>
+            <div class="col-12 mt-3">
+                {% if pelerin.reduction is not null %}
+                {% set situation = pelerin.pack.montant - pelerin.reduction.montant %}
+                {% else %}
+                {% set situation = pelerin.pack.montant %}
+                {% endif%}
+                {% if pelerin.compte == situation %}
+                Situation : Soldé
+                {% else %}
+                {% set montant = situation - pelerin.compte %}
+                Reliquat : <b>{{ montant|number_format(0, '' , ' ') }} FCFA</b>{% if pelerin.pack.limite is not null %} à régler au plus tard le {{ pelerin.pack.limite|date('d/m/Y')}} {% endif %}.
+                {% endif %}
+            </div>
+            {% if app.user.agence.retenu %}
+            <div class="col-12 mt-3 text-bold">
+                NB:En cas d'annulation, une retenue de 10% sera appliqué sur le montant total versé.
+            </div>
+            {% endif %}
+            <div class="col-4 mt-4">
+                Facturé par : <b> {{ versement.facturer.username }} </b>
+            </div>
+            <div class="col-8 mt-4 text-right">
+                Mode de paiement : <b> {{ versement.type|trans }} </b>
+                {% if versement.banque is not empty %}
+                {{ versement.banque }} -
+                <span class="text-nowrap"> Nº : {{ versement.numero }}</span>
+                {% endif %}
+            </div>
+            <div class="col-6 mt-4">
+                Encaissé par : <b> {{ versement.encaisser.username }} </b>
+            </div>
+            <div class="col-6 mt-4 text-right">
+                <b>Dépositaire </b>
+            </div>
+            <div class="col-12 powered text-center mt-1">Application conçue par EUCLIDES (+221) 77 408 94 59 / (+221) 77 542 35 00</div>
+        </div>
+        <div class="col-12 mt5 mb-5">&nbsp;</div>
+    </div>
+    <hr class="trait">
+    <div class="col-12 mt-4">
+        <div class="row">
+            <div class="col-2">
+                <img src="{{ asset(app.user.agence.logo) }}" alt="Logo" height="135">
+            </div>
+            <div class="col-10 text-center">
+                <div class="row">
+                    <div class="col-12 titre">
+                        {{ app.user.agence.nom }}
+                    </div>
+                    <div class="col-12">
+                        {% if app.user.agence.adresse is not empty %}
+                        {{ app.user.agence.adresse }}
+                        {% else %}
+                        -
+                        {% endif %}
+                    </div>
+                    <div class="col-12">
+                        {% if app.user.agence.phone is not empty %}
+                        {{ app.user.agence.phone }}
+                        {%else %}
+                        -
+                        {% endif %}
+                        {% if app.user.agence.phone1 is not empty %}
+                        - {{app.user. agence.phone1 }}
+                        {% endif %}
+                        {% if app.user.agence.phone2 is not empty %}
+                        - {{ app.user.agence.phone2 }}
+                        {% endif %}
+                    </div>
+                    <div class="col-12">
+                        {% if app.user.agence.email is not empty %}
+                        Email : {{ app.user.agence.email }}
+                        {%else %}
+                        @
+                        {% endif %}
+                        {% if app.user.agence.email1 is not empty %}
+                        - {{ app.user.agence.email1 }}
+                        {% endif %}
+                        {% if app.user.agence.site is not empty %}
+                        - Site web : {{ app.user.agence.site }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="font-size:20px">
+            <div class="col-12 text-center text-bold border-imp border-dark mt-3 mb-4 pb-2 pt-2 text-uppercase radius-10">
+                {{ 'Reçu de versement'|trans }}
+            </div>
+            <div class="col-6">
+                {{ 'Reçu numéro'|trans }} : {{versement.date|date('ymd')}}{{ versement.id }}
+            </div>
+            <div class="col-6 text-right">
+                {{ 'Date'|trans }} : {{versement.date|date('d/m/Y - H:i:s')}}
+            </div>
+            <div class="col-12 mt-5">
+                {% if pelerin.sexe == 'Feminin' %}
+                {{ 'Madame'|trans }}
+                {% else %}
+                {{ 'Monsieur'|trans }}
+                {% endif %}
+                <b>{{ pelerin.prenom}} {{ pelerin.nom}}</b>
+                {% if pelerin.datenaiss is not empty %}
+                {% if pelerin.sexe == 'Feminin' %}
+                {{ 'née'|trans }}
+                {% else %}
+                {{ 'né'|trans }}
+                {% endif %}
+                {{ 'le'|trans }}
+                {{ pelerin.datenaiss|date('d/m/Y') }}
+                {% if pelerin.lieunaiss is not empty %}
+                {{ 'à'|trans }}
+                {{ pelerin.lieunaiss }}
+                {% endif %}
+                {% endif %}
+                ,{{ 'titulaire'|trans }}
+                {% if pelerin.numpassport != '' %}
+                {{ 'du passeport numéro'|trans }} : {{ pelerin.numpassport}}
+                {% else %}
+                {{ 'de la pièce d\'identité numéro'|trans }} :
+                {% if pelerin.cin is not empty %}
+                {{ pelerin.cin}}
+                {% else %}
+                -
+                {% endif %}
+                {% endif %}
+                , {{ 'a versé la somme de'|trans }} : <b class="text-nowrap"> {{ versement.montant|number_format(0, '' , ' ') }} F CFA</b> {{ 'pour le Hajj'|trans }} {{ 'now'|date('Y') }}.
+            </div>
+            <div class="col-12 mt-3">
+                {% set situation = pelerin.situation %}
+
+                {% if pelerin.compte == situation %}
+                {{ 'Situation'|trans }} : {{ 'Soldé'|trans }}
+                {% else %}
+                {% set montant = situation - pelerin.compte %}
+                {{ 'Reliquat'|trans }} : <b>{{ montant|number_format(0, '' , ' ') }} FCFA</b>
+                {% if pelerin.pack.limite is not null %}
+                {{ 'à régler au plus tard le'|trans }} {{ pelerin.pack.limite|date('d/m/Y')}}
+                {% endif %}.
+                {% endif %}
+            </div>
+            {% if app.user.agence.retenu %}
+            <div class="col-12 mt-3 text-bold">
+                {{ 'NB:En cas d\'annulation, une retenue de 10% sera appliqué sur le montant total versé.'|trans }}
+            </div>
+            {% endif %}
+            <div class="col-4 mt-4">
+                {{ 'Facturé par'|trans }} : <b> {{ versement.facturer.username }} </b>
+            </div>
+            <div class="col-8 mt-4 text-right">
+                {{ 'Mode de paiement'|trans }} : <b> {{ versement.type|trans }} </b>
+                {% if versement.banque is not empty %}
+                {{ versement.banque }} -
+                <span class="text-nowrap"> Nº : {{ versement.numero }}</span>
+                {% endif %}
+            </div>
+            <div class="col-6 mt-4">
+                {{ 'Encaissé par'|trans }} : <b> {{ versement.encaisser.username }} </b>
+            </div>
+            <div class="col-6 mt-4 text-right">
+                <b>{{ 'Dépositaire'|trans }} </b>
+            </div>
+            <div class="col-12 powered text-center mt-1">{{ 'Application conçue par'|trans }} EUCLIDES (+221) 77 408 94 59 / (+221) 77 542 35 00</div>
+        </div>
+        <div class="col-12 mt5 mb-5">&nbsp;</div>
+    </div>
+</div>
+
+{% endblock %}

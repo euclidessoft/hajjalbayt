@@ -1,0 +1,31 @@
+{% extends "accueil.html.twig" %}
+{% block title %} {{ 'Paramétrage nouvelle Session'|trans }} - Hajjalbayt {% endblock %}
+{% block body %}
+
+<div class="col-md-4 offset-md-4 fond-7">
+    <h3 class="mt-4 mb-5 text-bold">
+        <i class="fa fa-calendar-check mr-2"></i>
+        {{ 'Paramétrage nouvelle Session'|trans }}
+    </h3>
+    <div class="mt-4 text-bold text-center">
+        {{ 'Êtes vous dans un regroupement'|trans }} ?
+    </div>
+    <div class="centrer mt-4 mb-5">
+        <div class="row">
+            <a href="{{ path('Mecque_SessionGroupConfig') }}" class="btn btn-shadow btn-green btn-normal mb-2 mr-3">
+                &emsp;
+                <i class="fa fa-check-circle fa-lg mr-1"></i>
+                {{ 'Oui'|trans }}
+                &emsp;
+            </a>
+            <a href="{{ path('Mecque_SessionQuota', { group : 'no' }) }}" class="btn btn-shadow btn-danger btn-normal mb-2">
+                &emsp;
+                <i class="fa fa-times-circle fa-lg mr-1"></i>
+                {{'Non'|trans }}
+                &emsp;
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "licence.html.twig" %}
+{% block body %}
+
+<div class="container-fluid banner">
+    <div class="row">
+        <img src="images/market/Banner.jpg" alt="Banner" class="img-fluid w-100">
+    </div>
+</div>
+<div class="container-fluid bg-success-light">
+    <div class="col-lg-12">
+        <p class="mt-5 text-center text-bold">
+            En tant que chef de groupe, le nombre que vous achetez est équivalent au nombre total de pèlerins que vous gérez c’est-à-dire votre quota plus celui des agences membre de votre regroupement, dans le cas d'une gestion collective.
+        </p>
+        <div class="row mb-5">
+            <div class="col-lg-6 mt-5 left-pan">
+                <h4 class="text-center text-green text-bold">HAJJALBAYT by EUCLIDES</h4>
+                <img src="images/market/left-pan.jpg" alt="image" class="img-fluid align-center w-80">
+            </div>
+            <div class="col-lg-6 mt-5 text-center">
+                <div class="col-sm-10 offset-sm-1 mt-5 mb-5 login">
+                    <div class="col-8 offset-2 mt-5 mb-5">
+                        <h4 class="mb-5 text-green text-bold">
+                            Combien de pèlerins voulez-vous gérer ?
+                        </h4>
+                        <form action="{{ path('billing')}}" method="POST">
+                            <div class="form-group mt-4">
+                                <input type="number" name="_nombre" id="_nombre" placeholder="Nombre de pèlerins" class="form-control" required autofocus />
+                            </div>
+                            <div class="form-group mt-5">
+                                <button type="submit" class="btn btn-shadow btn-green radius-15 pl-4 pr-4">
+                                    <h5 class="text-bold">
+                                        Enregistrer
+                                        <i class="fa fa-save ml-1 align-middle"></i>
+                                    </h5>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

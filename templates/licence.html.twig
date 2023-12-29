@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    {{ include('head.html.twig') }}
+
+    <title> {% block title %} Hajjalbayt - {{ 'Le pèlerinage facile'|trans }} {% endblock %} </title>
+
+    <link href="{{ asset('fontawesome/css/all.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-4plus.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+    <!--[if lt IE 9]>
+        <script src="{{ asset('js/html5shiv.js') }}"></script>
+        <script src="{{ asset('js/respond.min.js') }}"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<div class="container-fluid bg-green text-light header" id="header">
+    <div class="container bg-white radius-20">
+        <div class="row">
+            <div class="col-2">
+                <a href="{{ asset('') }}">
+                    <img src="{{ asset('images/Hajjalbayt.png') }}" alt="Logo" class="logo">
+                </a>
+            </div>
+            <div class="col-10">
+                <div class="row">
+                    <div class="col-md-8 col-12">
+                        <div class="title mt-2">Le pèlerinage facile</div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="centrer mr-2 pt-4">
+                            <div class="row">
+                                <a href="#" class="text-green">
+                                    <i class="fab fa-facebook-square fa-2x mr-3"></i>
+                                </a>
+                                <a href="#" class="text-green">
+                                    <i class="fab fa-twitter fa-2x mr-3"></i>
+                                </a>
+                                <a href="#" class="text-green">
+                                    <i class="fab fa-instagram fa-2x mr-3"></i>
+                                </a>
+                                <a href="#" class="text-green">
+                                    <i class="fab fa-youtube fa-2x mr-3"></i>
+                                </a>
+                                <a href="https://wa.me/221774499785?send" class="text-green text-center">
+                                    <i class="fab fa-whatsapp fa-2x"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block body %}
+
+{% endblock %}
+<a href="#" title="Aller en haut">
+    <i class="fa fa-angle-up fa-2x go-top transition" id="go-top"></i>
+</a>
+<footer>
+    <div class="container-fluid bg-green text-light text-center pt-2 pb-2 footer">
+        <div class="container">
+            Copyright &copy; 2022 HAJJALBAYT - Tout droits réservés - Développé par EUCLIDES
+        </div>
+    </div>
+</footer>
+
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/popper.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
+<script>
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then(function (registration) {
+                console.log(
+                    'Service Worker registration successful with scope:', registration.scope
+                );
+            })
+            .catch(function (err) {
+                console.log('Service Worker registration failed:', err);
+            });
+    }
+
+    let deferredPrompt; // Allows to show the install prompt
+    const installButton = document.getElementById("install_button");
+
+    window.addEventListener("beforeinstallprompt", e => {
+        console.log("beforeinstallprompt fired");
+        // Prevent Chrome 76 and earlier from automatically showing a prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+        // Show the install button
+        installButton.hidden = false;
+        installButton.addEventListener("click", installApp);
+    });
+
+    function installApp() {
+        // Show the prompt
+        deferredPrompt.prompt();
+        installButton.disabled = true;
+
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice.then(choiceResult => {
+            if (choiceResult.outcome === "accepted") {
+                console.log("PWA setup accepted");
+                installButton.hidden = true;
+            } else {
+                console.log("PWA setup rejected");
+            }
+            installButton.disabled = false;
+            deferredPrompt = null;
+        });
+    }
+
+    $(window).scroll(function () {
+        if (document.body.clientWidth <= 768) {
+            if ($(this).scrollTop() > 1283) {
+                $('#header').removeClass('header');
+                $('#header').addClass('header1');
+                document.getElementById('go-top').style.opacity = '1';
+            } else {
+                $('#header').removeClass('header1');
+                $('#header').addClass('header');
+                document.getElementById('go-top').style.opacity = '0';
+            }
+        } else {
+            if ($(this).scrollTop() > 540) {
+                $('#header').removeClass('header');
+                $('#header').addClass('header1');
+                document.getElementById('go-top').style.opacity = '1';
+            } else {
+                $('#header').removeClass('header1');
+                $('#header').addClass('header');
+                document.getElementById('go-top').style.opacity = '0';
+            }
+        }
+    });
+
+    function faq(id) {
+        {#  var divChilds = document.getElementById("questionnaire").getElementsByTagName("i");   #}
+
+        $('#icon_1').removeClass();
+        $('#icon_1').addClass('fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon');
+        $('#icon_2').removeClass();
+        $('#icon_2').addClass('fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon');
+        $('#icon_3').removeClass();
+        $('#icon_3').addClass('fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon');
+        $('#icon_4').removeClass();
+        $('#icon_4').addClass('fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon');
+        $('#icon_5').removeClass();
+        $('#icon_5').addClass('fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon');
+        $('#icon_6').removeClass();
+        $('#icon_6').addClass('fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon');
+        $('#icon_7').removeClass();
+        $('#icon_7').addClass('fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon');
+        $('#icon_8').removeClass();
+        $('#icon_8').addClass('fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon');
+        $('#icon_9').removeClass();
+        $('#icon_9').addClass('fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon');
+        $('#icon_10').removeClass();
+        $('#icon_10').addClass('fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon');
+        $('#icon_11').removeClass();
+        $('#icon_11').addClass('fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon');
+        $('#icon_12').removeClass();
+        $('#icon_12').addClass('fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon');
+        if ($('#reponse' + id).attr('class') == 'collapse show') {
+            $('#icon' + id).removeClass();
+            $('#icon' + id).addClass('fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon');
+        } else {
+            $('#icon' + id).removeClass();
+            $('#icon' + id).addClass('fa fa-minus-circle fa-lg text-green mr-1 mt-3 qr-icon');
+        }
+    }
+
+    function accepte() {
+        if ($('#termes').is(':checked')) {
+            $('#incription').removeClass('disabled');
+        } else {
+            $('#incription').addClass('disabled');
+        }
+    }
+
+</script>
+</body>
+
+</html>

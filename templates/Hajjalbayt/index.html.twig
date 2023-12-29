@@ -1,0 +1,843 @@
+{% extends "licence.html.twig" %}
+{% block body %}
+
+    <div class="container-fluid text-light mb-4 banner" id="top">
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-lg-7 pt-4 pr-5">
+                    <h1 class="text-bold">HAJJALBAYT</h1>
+                    <p class="mt-4 font-italic text-justify">
+                        HAJJALBAYT est la première plateforme, au Sénégal, spécialement dédiée à la gestion du
+                        pèlerinage à la Mecque, créée par des experts du secteur informatique, taillée sur mesures et
+                        basée sur les réalités du Hajj sénégalais.
+                    </p>
+                    <p class="mt-4">
+                        <i class="fa fa-check-circle fa-2x text-green fa-bg mr-1 align-middle"></i>
+                        Plateforme en perpétuelle évolution selon les normes saoudiennes
+                    </p>
+                    <p class="mt-4">
+                        <i class="fa fa-check-circle fa-2x text-green fa-bg mr-1 align-middle"></i>
+                        Modules personnalisables selon le fonctionnement de votre agence
+                    </p>
+                    <p class="mt-4">
+                        <i class="fa fa-check-circle fa-2x text-green fa-bg mr-1 align-middle"></i>
+                        Simplicité dans la gestion des pèlerins et un confort d'utilisation
+                    </p>
+                    <button type="button" id="install_button" class="btn-green install-button" onclick="installApp()">
+                        <span class="install">
+                            Installer <i class="fa fa-download ml-1"></i>
+                        </span>
+                        <br>
+                        <span class="version">
+                            Version {{ include('Hajjalbayt/version.html.twig') }}
+                        </span>
+                    </button>
+                </div>
+                <div class="col-lg-5 pt-4">
+                    {% for message in app.session.flashbag.get('notice') %}
+                        <div class="alert alert-success alert-dismissible fade show radius-10 shadow-black mt-4 mb-5">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            {{ message|trans }}
+                        </div>
+                    {% endfor %}
+                    {{ form_start(form, {'attr':{'id': 'form'}}) }}
+                    <div class="form-group mt-4">
+                        {{ form_row(form.nom, {'label': false, 'attr': {'placeholder':'Nom de l\'agence'}}) }}
+                    </div>
+                    <div class="form-group mt-4">
+                        {{ form_row(form.responsable, {'label': false, 'attr': {'placeholder':'Nom du responsable'}}) }}
+                    </div>
+                    <div class="form-group mt-4">
+                        {{ form_row(form.phone, {'label': false, 'attr': {'placeholder':'Numéro téléphone'}}) }}
+                    </div>
+                    <div class="form-group mt-4">
+                        {{ form_row(form.email, {'label': false, 'attr': {'placeholder':'Adresse email'}}) }}
+                    </div>
+                    <div class="form-group mt-3 text-center">
+                        <input type="checkbox" id="termes" onclick="accepte()">
+                        <label for="termes">
+                            J'accepte les <a href="#" class="termes">termes et conditions</a> *
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-green btn-block btn-lg mt-2 mb-5 radius-20 disabled" id="incription">
+                        <h4 class="mt-n1 text-bold">
+                            S'inscrire <i class="fa fa-chevron-circle-right ml-1 mt-n1 align-middle"></i>
+                        </h4>
+                    </button>
+                    {{ form_rest(form) }}
+                    {{ form_end(form) }}
+                    {#
+                    <p class="text-center mt-n4 mb-5">
+                        Vous avez déjà un compte. <a href="/fr/login" class="connexion text-bold text-nowrap">Se
+                            connecter</a>
+                    </p>
+                    #}
+                    <p class="text-center mt-n4 mb-5 privacy">
+                        * Vous devez accepter les termes et conditions pour valider votre inscription
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-success-light">
+        <div class="container text-center">
+            <a href="#title1">
+                <i class="fa fa-angle-down fa-3x mt-n5 fleche"></i>
+            </a>
+            <h1 class="mt-3 text-bold text-green" id="title1">
+                Comment ça marche ?
+            </h1>
+            <p class="mt-5 text-justify">
+                Il suffit simplement de vous inscrire par le biais du formulaire ci-dessus pour obtenir un compte
+                gratuit vous permettant d’assurer votre gestion, à plusieurs niveaux, efficaces et sans tracasseries.
+            </p>
+            <p class="mt-3 text-justify">
+                En effet, HAJJALBAYT offre plusieurs niveaux d’accès permettant à chaque utilisateur de ne voir que les
+                données autorisées par la hiérarchie. Elle donne à l’administrateur les pleins pouvoirs sur sa gestion
+                financière et administrative lui permettant ainsi de tous contrôler avec une mainmise totale sur sa
+                campagne de pèlerinage.
+
+            </p>
+        </div>
+        <div class="row mb-5 text-center">
+            <div class="col-lg-3 mt-5">
+                <i class="fa fa-users fa-5x fa5x-bg"></i>
+                <h3 class="mt-4 text-bold text-green">
+                    Gestion efficace des pèlerins et du quota
+                </h3>
+                <p class="mt-5 text-justify">
+                    HAJJALBAYT permet à vous, acteurs du pèlerinage d'avoir une gestion facile et efficace de l’ensemble
+                    de vos pèlerins avec un suivi sur la progression de toutes les formalités et un aperçu exhaustif du
+                    hajj mais aussi et surtout d'avoir une orientation claire par rapport aux dispositifs à mettre en
+                    place et un contrôle strict du quota pour éviter tout dépassement.
+                </p>
+            </div>
+            <div class="col-lg-3 mt-5">
+                <i class="fa fa-money-bill fa-5x fa5x-bg"></i>
+                <h3 class="mt-4 text-bold text-green">
+                    Comptabilité très professionnelle
+                </h3>
+                <p class="mt-5 text-justify">
+                    HAJJALBAYT vous offre une solution complète et puissante capable de satisfaire l'ensemble de vos
+                    besoins en matière de gestion financière, comptabilité générale et auxiliaire, gestion des flux de
+                    caisse et des avoirs bancaires, des inventaires et états financiers en temps réel où que vous soyez.
+                    Toutes ces opérations sont automatiquement gérer par le système.
+                </p>
+            </div>
+            <div class="col-lg-3 mt-5">
+                <i class="fa fa-bed fa-5x fa5x-bg"></i>
+                <h3 class="mt-4 text-bold text-green">
+                    Gestion simple de l'hébergement
+                </h3>
+                <p class="mt-5 text-justify">
+                    Plus besoin d’être sur les lieux ou de patienter dans les halls des hôtels après plusieurs heures de
+                    vol pour faire le dispatching des pèlerins dans les chambres, HAJJALBAYT vous permet de gérer
+                    l’hébergement de vos pèlerins de la manière la plus simple bien avant le départ. A l’atterrissage,
+                    chaque pèlerin détient déjà ses numéros de chambres et pourra aller directement se reposer.
+                </p>
+            </div>
+            <div class="col-lg-3 mt-5">
+                <i class="fa fa-user-md fa-5x fa5x-bg"></i>
+                <h3 class="mt-4 text-bold text-green">
+                    Module médical complet
+                </h3>
+                <p class="mt-5 text-justify">
+                    HAJJALBAYT embarque un module médical très complet répondant aux normes internationales et
+                    permettant à votre médecin de définir l’état médical de chaque pèlerin avec un respect absolu du
+                    secret médical via un accès réservé uniquement au médecin. Il sera donc en mesure suivre
+                    médicalement tous les pèlerins tout au long du Hajj par simple clic sur le système.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-green text-light text-center">
+        <div class="container">
+            <h1 class="mt-5 text-bold">
+                Pourquoi utiliser HAJJALBAYT ?
+            </h1>
+            <p class="mt-5">
+                Pour sa simplicité, sa facilité d’utilisation, sa fiabilité, sa sécurité, ses multitudes d'options et
+                ses modules personnalisables à volonté. En effet HAJJALBAYT bénéficie d’une expérience de plus d’une
+                dizaine d’années de ses créateurs dans le domaine de l’informatique. Par ailleurs, cette expérience a
+                permis à HAJJALBAYT de murir et de se bonifier après plusieurs années en production.
+            </p>
+            <div class="row mt-4 mb-5">
+                <div class="col-lg-2">
+                </div>
+                <div class="col-lg-4">
+                    <a href="#form">
+                        <button class="btn btn-light btn-lg mt-4 mb-4 pt-1 text-bold radius-20 text-green">
+                            Tester gratuitement <i class="fa fa-chevron-circle-right ml-1"></i>
+                        </button>
+                    </a>
+                </div>
+                <div class="col-lg-4">
+                    <a href="{{ path('licence') }}">
+                        <button class="btn btn-light btn-lg mt-4 mb-4 pt-1 text-bold radius-20 text-green">
+                            Acheter la version complète
+                        </button>
+                    </a>
+                </div>
+                <div class="col-lg-2">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid border-white">
+        <div class="row">
+            <div class="col-lg-3 bg-success-light border-white">
+                <h6 class="mt-4 text-bold text-center">
+                    Multi-utilisateurs
+                </h6>
+                <div class="row mb-4">
+                    <div class="col-md-3 mt-4 text-center">
+                        <i class="fa fa-user-cog fa-3x mt-3 fa2x-bg text-light"></i>
+                    </div>
+                    <div class="col-md-9 mt-4 pl-4">
+                        <p class="text-justify">
+                            HAJJALBAYT vous offre la possibilité de créer un compte utilisateur pour chaque membres de
+                            votre équipe avec, pour chacun, sa fonction et les droits qui lui sont attribués.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 bg-green-light border-white">
+                <h6 class="mt-4 text-bold text-center">
+                    Multi-packages
+                </h6>
+                <div class="row mb-4">
+                    <div class="col-md-3 mt-4 text-center">
+                        <i class="fa fa-gifts fa-3x mt-3 fa2x-bg text-light"></i>
+                    </div>
+                    <div class="col-md-9 mt-4 pl-4">
+                        <p class="text-justify">
+                            Avec HAJJALBAYT, créez et gérez plusieurs packages à différents prix facilement et
+                            simultanément, avec pour chacun la gestion financière et administrative des pèlerins ayant
+                            souscrit.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 bg-success-light border-white">
+                <h6 class="mt-4 text-bold text-center">
+                    Situation journalière
+                </h6>
+                <div class="row mb-4">
+                    <div class="col-md-3 mt-4 text-center">
+                        <i class="fa fa-money-bill-wave fa-3x mt-3 fa2x-bg text-light"></i>
+                    </div>
+                    <div class="col-md-9 mt-4 pl-4">
+                        <p class="text-justify">
+                            A la fin de chaque journée, HAJJALBAYT vous donne la situation financière de la totalité des
+                            mouvements de fonds de la journée en un clic, pour la caisse ou la banque selon les besoins.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 bg-green-light border-white">
+                <h6 class="mt-4 text-bold text-center">
+                    Gestion du transport
+                </h6>
+                <div class="row mb-4">
+                    <div class="col-md-3 mt-4 text-center">
+                        <i class="fa fa-plane fa-3x mt-3 fa2x-bg text-light"></i>
+                    </div>
+                    <div class="col-md-9 mt-4 pl-4">
+                        <p class="text-justify">
+                            HAJJALBAYT vous permet de gérer tous le transport (aérien et terrestre) à l’avance, avec la
+                            possibilité d’avoir plusieurs vols en fonction de vos groupes de pèlerins.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 bg-green-light border-white">
+                <h6 class="mt-4 text-bold text-center">
+                    Exportation vers Excel
+                </h6>
+                <div class="row mb-4">
+                    <div class="col-md-3 mt-4 text-center">
+                        <i class="fa fa-file-excel fa-3x mt-3 fa2x-bg text-light"></i>
+                    </div>
+                    <div class="col-md-9 mt-4 pl-4">
+                        <p class="text-justify">
+                            Toutes vos données enregistrées dans HAJJALBAYT peuvent être exportées vers Excel pour
+                            d’autres utilisations ou pour un second archivage après celui du système.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 bg-success-light border-white">
+                <h6 class="mt-4 text-bold text-center">
+                    Suivi des comptes
+                </h6>
+                <div class="row mb-4">
+                    <div class="col-md-3 mt-4 text-center">
+                        <i class="fa fa-hourglass-half fa-3x mt-3 fa2x-bg text-light"></i>
+                    </div>
+                    <div class="col-md-9 mt-4 pl-4">
+                        <p class="text-justify">
+                            HAJJALBAYT gère automatiquement tous vos comptes (caisse et banque) de manière distincte et
+                            en temps réel avec des rapports précis et clairs selon de vos besoins.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 bg-green-light border-white">
+                <h6 class="mt-4 text-bold text-center">
+                    Traçabilité des versements
+                </h6>
+                <div class="row mb-4">
+                    <div class="col-md-3 mt-4 text-center">
+                        <i class="fa fa-sign-in-alt fa-3x mt-3 fa2x-bg text-light"></i>
+                    </div>
+                    <div class="col-md-9 mt-4 pl-4">
+                        <p class="text-justify">
+                            Finance rime forcément avec transparence et traçabilité. Avec HAJJALBAYT, vous avez la
+                            totalité des versements avec tous les détails (date, heure, type, agent, etc.).
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 bg-success-light border-white">
+                <h6 class="mt-4 text-bold text-center">
+                    Archives
+                </h6>
+                <div class="row mb-4">
+                    <div class="col-md-3 mt-4 text-center">
+                        <i class="fa fa-archive fa-3x mt-3 fa2x-bg text-light"></i>
+                    </div>
+                    <div class="col-md-9 mt-4 pl-4">
+                        <p class="text-justify">
+                            Dans HAJJALBAYT, vos données sont en parfaite sécurité et disponibles indéfiniment. Après
+                            chaque pèlerinage, la session est archivée mais accessible en cas de besoins.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 bg-success-light border-white">
+                <h6 class="mt-4 text-bold text-center">
+                    Gestion des regroupements
+                </h6>
+                <div class="row mb-4">
+                    <div class="col-md-3 mt-4 text-center">
+                        <i class="fa fa-university fa-3x mt-3 fa2x-bg text-light"></i>
+                    </div>
+                    <div class="col-md-9 mt-4 pl-4">
+                        <p class="text-justify">
+                            En tant que chef de groupe, HAJJALBAYT vous donne la clé pour gérer facilement votre
+                            regroupement ainsi que leurs pèlerins, que la gestion soit autonome ou commune.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 bg-green-light border-white">
+                <h6 class="mt-4 text-bold text-center">
+                    Gestion du courtage
+                </h6>
+                <div class="row mb-4">
+                    <div class="col-md-3 mt-4 text-center">
+                        <i class="fa fa-user-friends fa-3x mt-3 fa2x-bg text-light"></i>
+                    </div>
+                    <div class="col-md-9 mt-4 pl-4">
+                        <p class="text-justify">
+                            Plus besoin de vous soucier des courtiers, HAJJALBAYT s’en occupe à la perfection à votre
+                            place. En seulement quelques clics, vous avez toutes les commissions à payer à chaque
+                            courtier.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 bg-success-light border-white">
+                <h6 class="mt-4 text-bold text-center">
+                    Transfert de fonds
+                </h6>
+                <div class="row mb-4">
+                    <div class="col-md-3 mt-4 text-center">
+                        <i class="fa fa-angle-double-right fa-3x mt-3 fa2x-bg text-light"></i>
+                    </div>
+                    <div class="col-md-9 mt-4 pl-4 text-justify">
+                        <p class="text-justify">
+                            Avec l’option transfert de fond, HAJJALBAYT vous permet de déplacer des fonds, de la caisse
+                            vers la banque en ayant à portée de main la traçabilité de votre argent en temps réel.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 bg-green-light border-white">
+                <h6 class="mt-4 text-bold text-center">
+                    Gestion des dépenses
+                </h6>
+                <div class="row mb-4">
+                    <div class="col-md-3 mt-4 text-center">
+                        <i class="fa fa-sign-out-alt fa-3x mt-3 fa2x-bg text-light"></i>
+                    </div>
+                    <div class="col-md-9 mt-4 pl-4 text-justify">
+                        <p class="text-justify">
+                            Le Hajj étant très friand de dépenses, beaucoup peuvent être omises. Pas de soucis car
+                            HAJJALBAYT les enregistre toutes jusqu’au dernier centime quelle que soit leur nature.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-green text-light">
+        <div class="container">
+            <h1 class="mt-5 text-bold text-center">
+                Ce que disent nos utilisateurs
+            </h1>
+            <div id="feedback" class="carousel slide mt-5 pb-5" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#feedback" data-slide-to="0" class="active"></li>
+                    <li data-target="#feedback" data-slide-to="1"></li>
+                    <li data-target="#feedback" data-slide-to="2"></li>
+                    <li data-target="#feedback" data-slide-to="3"></li>
+                    <li data-target="#feedback" data-slide-to="4"></li>
+                    <li data-target="#feedback" data-slide-to="5"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="images/market/diop.jpg" class="rounded-circle" alt="image">
+                        <div class="carousel-caption mb-5">
+                            <h5 class="text-bold">Abdou Khadre DIOP</h5>
+                            <h6 class="font-italic">Marega Voyages</h6>
+                            <p class="mt-4">
+                                "Toutes les années, la fin des inscriptions reste très compliquée car il y a un rush
+                                ingérable, c’est le chaos total. Depuis que nous utilisons HAJJALBAYT, ce problème est
+                                complètement résolu. Maintenant, la gestion est centralisée et très bien maitrisée.
+                                Vraiment HAJJALBAYT nous a enlevé une très grosse épine du pied."
+                            </p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/market/tikam.jpg" class="rounded-circle" alt="image">
+                        <div class="carousel-caption mb-5">
+                            <h5 class="text-bold">Adja Tikam NDIAYE</h5>
+                            <h6 class="font-italic">Annour Voyages</h6>
+                            <p class="mt-4">
+                                "Je peux dire, en tant que première utilisatrice de HAJJALBAYT, que c’est un condensé
+                                d’innovations technologiques et un système très avant-gardiste et futuriste avec
+                                beaucoup de fonctionnalités affairant au Hajj. Cette plateforme a réglé tous mes
+                                problèmes de gestion administrative ainsi que financière avec une facilité démesurée et
+                                sans aucune tracasserie."
+                            </p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/market/imam.jpg" class="rounded-circle" alt="image">
+                        <div class="carousel-caption mb-5">
+                            <h5 class="text-bold">Imam Moustapha NIANG</h5>
+                            <h6 class="font-italic">Sirmang Voyages</h6>
+                            <p class="mt-4">
+                                "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus cum debitis,
+                                fugit cupiditate perferendis, nisi aliquam ex. Sit doloribus deleniti iusto quisquam
+                                totam, cupiditate perferendis, nisi aliquam ex. Sit doloribus deleniti iusto quisquam
+                                totam,officia sequi blanditiis ipsam?"
+                            </p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/market/soda.jpg" class="rounded-circle" alt="image">
+                        <div class="carousel-caption mb-5">
+                            <h5 class="text-bold">Adja Soda THIAM</h5>
+                            <h6 class="font-italic">Assadoul Hadj</h6>
+                            <p class="mt-4">
+                                "J'ai eu le privilège de faire partie des premiers utilisateurs de HAJJALBAYT. En effet,
+                                je suis très satisfaite de son utilisation car c’est un système très performant et qui
+                                est d'une utilité à satisfaire tous les besoins d’une agence qui se veut
+                                professionnelle. Je le conseille vivement à tout le monde sans aucune hésitation.
+                                Bonne continuation à l'équipe d'Euclide Services"
+                            </p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/market/babacar.jpg" class="rounded-circle" alt="image">
+                        <div class="carousel-caption mb-5">
+                            <h5 class="text-bold">Babacar NDIAYE</h5>
+                            <h6 class="font-italic">Mboup Voyages</h6>
+                            <p class="mt-4">
+                                "Ce qui m’a le plus frappé dans HAJJALBAYT, c’est sa simplicité. Pas besoin de chercher
+                                car tout est à portée de main, il me suffit juste de faire quelques clics pour trouver
+                                mon bonheur. En plus le pragmatisme et la réactivité de l’équipe technique est
+                                déconcertante car ils réagissent très rapidement pour satisfaire mes demandes."
+                            </p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/market/tabara.jpg" class="rounded-circle" alt="image">
+                        <div class="carousel-caption mb-5">
+                            <h5 class="text-bold">Adja Tabara DIOP</h5>
+                            <h6 class="font-italic">Kasy Voyages</h6>
+                            <p class="mt-4">
+                                "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus cum debitis,
+                                fugit cupiditate perferendis, nisi aliquam ex. Sit doloribus deleniti iusto quisquam
+                                totam, cupiditate perferendis, nisi aliquam ex. Sit doloribus deleniti iusto quisquam
+                                totam,officia sequi blanditiis ipsam?"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#feedback" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Précédent</span>
+                </a>
+                <a class="carousel-control-next" href="#feedback" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Suivant</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid opace">
+        <div class="container opace">
+            <h1 class="mt-5 text-bold text-center text-light">
+                Questions fréquentes
+            </h1>
+            <div class="accordion mt-4 text-light" id="questionnaire">
+                <div class="row mb-5">
+                    <div class="col-lg-6">
+                        <h5 class="mt-4 text-bold cursor" id="question_1">
+                            <a data-toggle="collapse" data-target="#reponse_1" aria-expanded="false"
+                               aria-controls="reponse_1" id="_1" onclick="faq('_1')">
+                            <span class="row">
+                                <span class="col-1">
+                                    <i class="fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon" id="icon_1"></i>
+                                </span>
+                                <span class="col-10 qr">
+                                    Faut-il avoir des connaissances en informatique pour utiliser HAJJALBAYT
+                                </span>
+                            </span>
+                            </a>
+                        </h5>
+                        <div id="reponse_1" class="collapse" aria-labelledby="question_1" data-parent="#questionnaire">
+                            <p class="pl-4_5 fond">
+                                Non, il n’est pas nécessaire d’avoir des connaissances en informatique, il suffit juste
+                                de savoir lire et écrire pour utiliser HAJJALBAYT car tout est à portée de main et bien
+                                imagé avec des icônes très significatives.
+                            </p>
+                        </div>
+
+                        <h5 class="mt-4 text-bold cursor" id="question_2">
+                            <a data-toggle="collapse" data-target="#reponse_2" aria-expanded="false"
+                               aria-controls="reponse_2" id="_2" onclick="faq('_2')">
+
+                            <span class="row">
+                                <span class="col-1">
+                                    <i class="fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon" id="icon_2"></i>
+                                </span>
+                                <span class="col-10 qr">
+                                    Que dois-je faire si j’oublie mon mot de passe
+                                </span>
+                            </span>
+                            </a>
+                        </h5>
+                        <div id="reponse_2" class="collapse" aria-labelledby="question_2" data-parent="#questionnaire">
+                            <p class="pl-4_5 fond">
+                                En cas d’oubli de votre mot de passe, il vous suffit juste de cliquer sur "mot de passe
+                                oublié" dans l’interface de connexion. Ensuite, renseignez l’adresse email (celle que vous aviez
+                                fourni lors de la création du compte) et cliquez sur "Réinitialiser". Vous allez recevoir un mail pour
+                                réinitialiser votre mot de passe et créer un nouveau.
+                            </p>
+                        </div>
+
+                        <h5 class="mt-4 text-bold cursor" id="question_3">
+                            <a data-toggle="collapse" data-target="#reponse_3" aria-expanded="false"
+                               aria-controls="reponse_3" id="_3" onclick="faq('_3')">
+
+                            <span class="row">
+                                <span class="col-1">
+                                    <i class="fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon" id="icon_3"></i>
+                                </span>
+                                <span class="col-10 qr">
+                                    Que se passe-t-il en cas d’erreur de versement
+                                </span>
+                            </span>
+                            </a>
+                        </h5>
+                        <div id="reponse_3" class="collapse" aria-labelledby="question_3" data-parent="#questionnaire">
+                            <p class="pl-4_5 fond">
+                                En cas d’erreur de versement, il y deux possibilités :
+                                <br>
+                                - Si le versement n’est pas encore encaissé, il suffit juste de le supprimer et en
+                                refaire un autre avec le bon montant et le bon type.
+                                <br>
+                                - Si le versement est déjà encaissé, il suffit d’aller sur la page du pèlerin, dans la
+                                rubrique "Historique des versements du pèlerin" (avec un compte admin) et cliquer sur le bouton "Modifier" du
+                                versement concerné.
+                            </p>
+                        </div>
+                        <h5 class="mt-4 text-bold cursor" id="question_4">
+                            <a data-toggle="collapse" data-target="#reponse_4" aria-expanded="false"
+                               aria-controls="reponse_4" id="_4" onclick="faq('_4')">
+
+                            <span class="row">
+                                <span class="col-1">
+                                    <i class="fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon" id="icon_4"></i>
+                                </span>
+                                <span class="col-10 qr">
+                                    En cas d’oubli, comment enregistrer une opération déjà effectuée
+                                </span>
+                            </span>
+                            </a>
+                        </h5>
+                        <div id="reponse_4" class="collapse" aria-labelledby="question_4" data-parent="#questionnaire">
+                            <p class="pl-4_5 fond">
+                                Si vous oubliez d’enregistrer une opération déjà effectuée, il suffit juste
+                                d’enregistrer une nouvelle opération du même type (financement, dépense ou transfert de
+                                fond), en prenant le soin de cocher la case "rattrapage" et mettre la bonne date et le
+                                bon montant.
+                            </p>
+                        </div>
+                        <h5 class="mt-4 text-bold cursor" id="question_5">
+                            <a data-toggle="collapse" data-target="#reponse_5" aria-expanded="false"
+                               aria-controls="reponse_5" id="_5" onclick="faq('_5')">
+
+                            <span class="row">
+                                <span class="col-1">
+                                    <i class="fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon" id="icon_5"></i>
+                                </span>
+                                <span class="col-10 qr">
+                                    Comment créer rapidement le nombre de chambres dont j’ai besoin
+                                </span>
+                            </span>
+                            </a>
+                        </h5>
+                        <div id="reponse_5" class="collapse" aria-labelledby="question_5" data-parent="#questionnaire">
+                            <p class="pl-4_5 fond">
+                                La création de chambre se fait très rapidement, il suffit de créer un modèle de chambre
+                                avec le nombre d’occupants, renseigner le nombre de chambres que vous voulez créer et
+                                valider pour avoir exactement le nombre de chambres de vous avez demandé.
+                            </p>
+                        </div>
+                        <h5 class="mt-4 text-bold cursor" id="question_6">
+                            <a data-toggle="collapse" data-target="#reponse_6" aria-expanded="false"
+                               aria-controls="reponse_6" id="_6" onclick="faq('_6')">
+
+                            <span class="row">
+                                <span class="col-1">
+                                    <i class="fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon" id="icon_6"></i>
+                                </span>
+                                <span class="col-10 qr">
+                                    Comment puis-je changer un pèlerin de chambre
+                                </span>
+                            </span>
+                            </a>
+                        </h5>
+                        <div id="reponse_6" class="collapse" aria-labelledby="question_6" data-parent="#questionnaire">
+                            <p class="pl-4_5 fond">
+                                Après avoir logé un pèlerin, pour le changer de chambre, il n’y a rien de plus simple.
+                                Il faut d’abord le déloger de l’actuelle chambre, ensuite choisir la bonne chambre de
+                                destination, cliquer sur le bouton "Loger", sélectionner le pèlerin en question et enfin
+                                cliquer sur le bouton "Loger".
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mt-n1">
+                        <h5 class="mt-4 text-bold cursor" id="question_7">
+                            <a data-toggle="collapse" data-target="#reponse_7" aria-expanded="false"
+                               aria-controls="reponse_7" id="_7" onclick="faq('_7')">
+                            <span class="row">
+                                <span class="col-1">
+                                    <i class="fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon" id="icon_7"></i>
+                                </span>
+                                <span class="col-10 qr">
+                                    Comment faire pour remplacer un pèlerin par un autre
+                                </span>
+                            </span>
+                            </a>
+                        </h5>
+                        <div id="reponse_7" class="collapse" aria-labelledby="question_7" data-parent="#questionnaire">
+                            <p class="pl-4_5 fond">
+                                Pour remplacer un pèlerin déjà enregistré par un autre, il d’abord aller sur la page du
+                                pèlerin à remplacer, cliquer sur le bouton "Modifier pèlerin", mettre les informations
+                                du nouveau pèlerin et cliquer sur le bouton "Enregistrer".
+                            </p>
+                        </div>
+
+                        <h5 class="mt-4 text-bold cursor" id="question_8">
+                            <a data-toggle="collapse" data-target="#reponse_8" aria-expanded="false"
+                               aria-controls="reponse_8" id="_8" onclick="faq('_8')">
+
+                            <span class="row">
+                                <span class="col-1">
+                                    <i class="fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon" id="icon_8"></i>
+                                </span>
+                                <span class="col-10 qr">
+                                    Comment puis-je me procurer une licence d'utilisation
+                                </span>
+                            </span>
+                            </a>
+                        </h5>
+                        <div id="reponse_8" class="collapse" aria-labelledby="question_8" data-parent="#questionnaire">
+                            <p class="pl-4_5 fond">
+                                Pour se procurer une licence, il faut aller sur le site de HAJJALBAYT, cliquer sur le
+                                bouton "Acheter la version complète", choisir le pack qui vous arrange, remplir le
+                                nombre de pèlerins à traiter (y compris les cotât des agences membres de votre regroupement si
+                                vous êtes chef de groupe dans le cadre d'une gestion commune) et enregistrer. Votre facture est automatiquement générée avec
+                                toutes les informations de facturation. Pour finaliser la commande, vous avez juste à
+                                cliquer sur le bouton "Valider" qui se trouve sur la facture (qui vous sera aussi envoyé
+                                par mail) et procéder au règlement avec le mode paiement de votre choix parmi ceux
+                                disponible.
+                            </p>
+                        </div>
+
+                        <h5 class="mt-4 text-bold cursor" id="question_9">
+                            <a data-toggle="collapse" data-target="#reponse_9" aria-expanded="false"
+                               aria-controls="reponse_9" id="_9" onclick="faq('_9')">
+
+                            <span class="row">
+                                <span class="col-1">
+                                    <i class="fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon" id="icon_9"></i>
+                                </span>
+                                <span class="col-10 qr">
+                                    Pour combien de temps la licence est-elle valable
+                                </span>
+                            </span>
+                            </a>
+                        </h5>
+                        <div id="reponse_9" class="collapse" aria-labelledby="question_9" data-parent="#questionnaire">
+                            <p class="pl-4_5 fond">
+                                La licence est valable un an à partir de la date d’activation et l’utilisation est sans
+                                restriction durant toute la durée de la licence.
+                            </p>
+                        </div>
+                        <h5 class="mt-4 text-bold cursor" id="question_10">
+                            <a data-toggle="collapse" data-target="#reponse_10" aria-expanded="false"
+                               aria-controls="reponse_10" id="_10" onclick="faq('_10')">
+
+                            <span class="row">
+                                <span class="col-1">
+                                    <i class="fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon" id="icon_10"></i>
+                                </span>
+                                <span class="col-10 qr">
+                                    Quelle différence y a-t-il entre les différents packs de licence
+                                </span>
+                            </span>
+                            </a>
+                        </h5>
+                        <div id="reponse_10" class="collapse" aria-labelledby="question_10"
+                             data-parent="#questionnaire">
+                            <p class="pl-4_5 fond">
+                                La différence qui existe entre les différents packs de licence se trouve sur le nombre et le prix.
+                                Le prix diminue en fonction de l’augmentation du nombre de pèlerins. Plus vous avez de
+                                pèlerin moins vous payez.
+                            </p>
+                        </div>
+                        <h5 class="mt-4 text-bold cursor" id="question_11">
+                            <a data-toggle="collapse" data-target="#reponse_11" aria-expanded="false"
+                               aria-controls="reponse_11" id="_11" onclick="faq('_11')">
+
+                            <span class="row">
+                                <span class="col-1">
+                                    <i class="fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon" id="icon_11"></i>
+                                </span>
+                                <span class="col-10 qr">
+                                    Comment faire pour renouveler ma licence
+                                </span>
+                            </span>
+                            </a>
+                        </h5>
+                        <div id="reponse_11" class="collapse" aria-labelledby="question_11"
+                             data-parent="#questionnaire">
+                            <p class="pl-4_5 fond">
+                                Le renouvellement de votre licence est très facile. Il vous suffit simplement de vous
+                                connecter à votre compte HAJJALBAYT et cliquer sur le bouton "Renouveler licence" et
+                                suivre la procédure jusqu’à terme.
+                            </p>
+                        </div>
+                        <h5 class="mt-4 text-bold cursor" id="question_12">
+                            <a data-toggle="collapse" data-target="#reponse_12" aria-expanded="false"
+                               aria-controls="reponse_12" id="_12" onclick="faq('_12')">
+
+                            <span class="row">
+                                <span class="col-1">
+                                    <i class="fa fa-plus-circle fa-lg text-green mr-1 mt-3 qr-icon" id="icon_12"></i>
+                                </span>
+                                <span class="col-10 qr">
+                                    Que se passe-t-il en cas d’expiration de ma licence
+                                </span>
+                            </span>
+                            </a>
+                        </h5>
+                        <div id="reponse_12" class="collapse" aria-labelledby="question_12"
+                             data-parent="#questionnaire">
+                            <p class="pl-4_5 fond">
+                                En cas d’expiration de votre licence, vous êtes automatiquement basculés sur la version
+                                gratuite avec des fonctionnalités limitées.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-green text-light text-center">
+        <div class="container">
+            <h1 class="mt-5 text-bold">
+                Vous êtes prêt pour utiliser HAJJALBAYT ?
+            </h1>
+            <div class="row mt-4 mb-5">
+                <div class="col-lg-2">
+                </div>
+                <div class="col-lg-4">
+                    <a href="#form">
+                        <button class="btn btn-light btn-lg mt-4 mb-4 pt-1 text-bold radius-20 text-green">
+                            Tester gratuitement <i class="fa fa-chevron-circle-right ml-1"></i>
+                        </button>
+                    </a>
+                </div>
+                <div class="col-lg-4">
+                    <a href="{{ path('licence') }}">
+                        <button class="btn btn-light btn-lg mt-4 mb-4 pt-1 text-bold radius-20 text-green">
+                            Acheter la version complète
+                        </button>
+                    </a>
+                </div>
+                <div class="col-lg-2">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-light">
+        <div class="container mb-5">
+            <h1 class="mt-5 text-bold text-center text-green">
+                Qui sommes-nous
+            </h1>
+            <div class="row mb-5">
+                <div class="col-lg-6">
+                    <h4 class="mt-5 text-bold text-center">A propos de l'entreprise</h4>
+                    <p class="mt-3 text-justify"><br/>
+                        EUCLIDES est une société de technologie et de communication digitale, née de la volonté
+                        d’augmenter l’efficacité, le rendement et la visibilité de nos partenaires sur internet et dans
+                        la vie active. Notre clientèle s’étend sur plusieurs pays et nous avons des milliers de membres
+                        heureux à travers le monde. Nous avons aussi pour but de réduire la fracture numérique dont
+                        souffre l’Afrique et promouvoir son indépendance dans le domaine du numérique et contribuer à la
+                        création de valeurs ajoutées.
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    <h4 class="mt-5 mb-5 text-bold text-center">Politique de Confidentialité</h4>
+                    <div class="mt-3">
+                        <i class="fa fa-check-circle fa-lg text-green mr-2"></i>
+                        <p class="politique">
+                            Vos données sont sécurisées à 100% et traitées avec confidentialité.
+                        </p>
+                    </div>
+                    <div class="mt-3">
+                        <i class="fa fa-check-circle fa-lg text-green mr-2"></i>
+                        <p class="politique">
+                            Nous respectons les règles de la Loi sur la protection des données personnelles.
+                        </p>
+                    </div>
+                    <div class="mt-2">
+                        <i class="fa fa-check-circle fa-lg text-green mr-2"></i>
+                        <p class="politique">
+                            Vous pouvez donner votre résiliation à notre service gratuitement à tout moment.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

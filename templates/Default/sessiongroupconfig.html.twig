@@ -1,0 +1,35 @@
+{% extends "accueil.html.twig" %}
+{% block title %} {{ 'Regroupement'|trans }} - Hajjalbayt {% endblock %}
+{% block session %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+<div class="col-md-4 offset-md-4 fond-7">
+    <h3 class="mt-4 mb-5 text-bold">
+        <i class="fa fa-university mr-2"></i>
+        {{ 'Regroupement'|trans }}
+    </h3>
+    <div class="mt-4 text-bold text-center">
+        {{ 'Êtes vous chef de groupe'|trans }} ?
+    </div>
+    <div class="centrer mt-4 mb-4">
+        <div class="row">
+            <a href="{{ path('Mecque_SessionGroupCreate') }}" class="btn btn-shadow btn-green btn-normal mb-2 mr-2">
+                &emsp;
+                <i class="fa fa-check-circle fa-lg mr-1"></i>
+                {{ 'Oui'|trans }}
+                &emsp;
+            </a>
+            <a href="{{ path('Mecque_SessionQuota', { group: 'no' }) }}" class="btn btn-shadow btn-danger btn-normal mb-2 mr-2">
+                &emsp;
+                <i class="fa fa-times-circle fa-lg mr-1"></i>
+                {{'Non'|trans }}
+                &emsp;
+            </a>
+        </div>
+    </div>
+    <a href="{{ path('Mecque_SessionConfig') }}" class="btn btn-shadow btn-secondary btn-normal mb-3 mr-2">
+        <i class="fa fa-backward"></i>
+        {{ 'Précédent'|trans }}
+    </a>
+</div>
+
+{% endblock %}

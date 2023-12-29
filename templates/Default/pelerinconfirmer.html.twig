@@ -1,0 +1,111 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Pèlerins sans versement'|trans }} - Hajjalbayt {% endblock %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="container-fluid mt-4 mb-5 fond-7">
+    <h3 class="mt-4 mb-5 text-bold">
+        <i class="fa fa-users mr-2"></i>
+        {{ 'Pèlerins sans versement'|trans }}
+    </h3>
+    <table class="table table-success-light table-bordered table-hover table-striped" id="list">
+        <thead>
+            <tr>
+                <th class="text-center">{{ 'Numéro'|trans }}</th>
+                <th class="text-center">{{ 'Photo'|trans }}</th>
+                <th>{{ 'Prénom'|trans }}</th>
+                <th>{{ 'Nom'|trans }}</th>
+                <th class="text-center">{{ 'Date de naissance'|trans }}</th>
+                <th>{{ 'Lieu de naissance'|trans }}</th>
+                <th class="passeport">{{ 'Nº Passeport'|trans }}</th>
+                <th class="phone">{{ 'Téléphone'|trans }}</th>
+                <th>{{ 'Package'|trans }}</th>
+                <th class="text-center">{{ 'Date d\'inscription'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if pelerins is not empty %}
+            {% for pelerin in pelerins %}
+            {% if pelerin.sexe == 'Masculin' %}
+            <tr class="bg-man">
+                {% else %}
+            <tr class="bg-woman">
+                {% endif %}
+                <td data-label="{{ 'Numéro dossier'|trans }}" class="text-center">
+                    <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">
+                        {{ pelerin.numdossier }}
+                    </a>
+                </td>
+                <td data-label="{{ 'Photo'|trans }}">
+                    {% if pelerin.image is not empty %}
+                    <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">
+                        <img src="{{ asset('images/'~ pelerin.image.url)}}" alt="{{ pelerin.image.alt}}" class="rounded-circle">
+                    </a>
+                    {% else %}
+                    <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">
+                        {% if pelerin.sexe == 'Feminin' %}
+                        <img src="{{ asset('images/avatar-femme.jpg')}}" alt="Photo pèlerin" class="rounded-circle">
+                        {% else %}
+                        <img src="{{ asset('images/avatar.jpg')}}" alt="Photo pèlerin" class="rounded-circle">
+                        {% endif %}
+                    </a>
+                    {% endif %}
+                </td>
+                <td data-label="{{ 'Prénom'|trans }}">
+                    <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">
+                        {{ pelerin.prenom}}
+                    </a>
+                </td>
+                <td data-label="{{ 'Nom'|trans }}">
+                    <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">
+                        {{ pelerin.nom}}
+                    </a>
+                </td>
+                <td data-label="{{ 'Date de naissance'|trans }}" class="text-center">
+                    <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">
+                        {% if pelerin.datenaiss is empty %}
+
+                        {% else %}
+                        {{ pelerin.datenaiss|date('d/m/Y')}}
+                        {% endif %}
+                    </a>
+                </td>
+                <td data-label="{{ 'Lieu de naissance'|trans }}">
+                    <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">
+                        {{ pelerin.lieunaiss}}
+                    </a>
+                </td>
+                <td data-label="{{ 'Nº Passeport'|trans }}" class="passeport">
+                    <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">
+                        {{ pelerin.numpassport}}
+                    </a>
+                </td>
+                <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                    <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">
+                        {{ pelerin.phone}}
+                    </a>
+                </td>
+                <td data-label="{{ 'Package'|trans }}">
+                    <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">
+                        {{ pelerin.pack.designation}}
+                    </a>
+                </td>
+                <td data-label="{{ 'Date d\'inscription'|trans }}" class="text-center">
+                    {{ pelerin.date|date('d/m/Y')}}
+                    <br>
+                    {{ pelerin.date|date('H:i:s')}}
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td data-label="colspan" colspan="10">
+                    {{ 'Aucun pèlerin'|trans }}
+                </td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

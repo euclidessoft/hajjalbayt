@@ -1,0 +1,278 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Restauration pèlerin'|trans }} - Hajjalbayt {% endblock %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="container-fluid mt-3 fond-7">
+    <h3 class="mt-4 mb-5 text-bold">
+        <i class="fa fa-user-plus mr-2"></i>
+        {{ 'Restauration pèlerin'|trans }}
+    </h3>
+    {% for message in app.session.flashbag.get('notice') %}
+    <div class="alert bg-danger-light text-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{ message|trans }}
+    </div>
+    {% endfor %}
+    <h6 class="mt-4 text-danger">
+        {{ 'Les champs marqués par * sont obligatoires'|trans }}
+    </h6>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card border-green mt-3 mb-3">
+                <div class="card-header bg-success-light bb-green text-green">
+                    <i class="fa fa-id-card mr-2"></i>
+                    {{ 'Identité'|trans }}
+                </div>
+                <div class="card-body">
+                    {{form_start(form, {'attr':{'id': 'form'}}) }}
+
+                    <div class="form-group">
+                        {{ form_row(form.prenom, {'attr':{'placeholder':'Prénom *'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.nom, {'attr':{'placeholder':'Nom *'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.datenaiss, {'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.lieunaiss, {'attr':{'placeholder':'Lieu de naissance'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.sexe, {'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.phone, {'attr':{'placeholder':'Téléphone *'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.cin, {'attr':{'placeholder':'Nº carte nationale d\'identité (sans espace)'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.numpassport, {'attr' : {'placeholder':'Nº Passeport', 'onkeyup' : 'Passeport()'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group" id="Passeport">
+                        {{ form_row(form.expiredate, {'label':'Date d\'expiration'}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.profession, {'attr':{'placeholder':'Profession'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.adresse, {'attr':{'placeholder':'Adresse'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.region, {'label':false}) }}
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-warning mt-3 mb-3">
+                <div class="card-header bg-warning-light bb-warning text-warning">
+                    <i class="fa fa-info-circle mr-2"></i>
+                    {{ 'Informations complémentaires'|trans }}
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        {{ form_row(form.pack, {'label' : false}) }}
+                    </div>
+
+                    {% if is_granted('ROLE_CHEF')%}
+                    {% if is_granted('ROLE_PROPRIETAIRE')%}
+                    <div class="alert mt-4 mb-4 pt-4 bg-success-light border-green radius-10">
+                        <div class="row">
+                            <div class="col-5">
+                                <input type="checkbox" id="exonore" value="agence" onchange="exonorer()" />
+                                <label for="exonore">{{ 'Exonérer'|trans }}</label>
+                            </div>
+                            <div class="col-7">
+                                <input type="checkbox" id="reduction" onclick="reduit()" />
+                                <label for="reduction">{{ 'Accorder réduction'|trans }}</label>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group" id="espreduct">
+                                    {{ form_row(form.reduction, {'label' : false, 'attr' : {'class' : 'mb-4'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+
+                    {% if agences is not null %}
+                    <div class="card border-green mb-4">
+                        <div class="card-header bg-success-light bb-green text-green">
+                            {{ 'Agence'|trans }}
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <input type="radio" name="distingo" id="marega" value="agence" onchange="agences()" />
+                                    <label for="marega">{{ app.user.agence.nom}}</label>
+                                </div>
+                                <div class="col-12">
+                                    <input type="radio" name="distingo" id="agence" onchange="agences()" value="groupement" />
+                                    <input type="hidden" id="tamp" />
+                                    <label for="agence">{{ 'Regroupement'|trans }}</label>
+                                </div>
+                                <div class="col-12">
+                                    <table id="agencelist" class="table table-success-light table-striped table-bordered table-hover border-green">
+                                        <tbody>
+                                            {% if agences is not empty %}
+                                            {% for agence in agences %}
+                                            <tr onclick="choiceagence({{agence.agence.id}})">
+                                                <td data-label="{{ 'Nom agence'|trans }}">
+                                                    {{ agence.agence.nom }}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="agencechoisi" class="col-12">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% else %}
+                    <input type="hidden" id="tamp" value="submit" />
+                    {% endif %}
+                    <div class="alert bg-warning radius-10">
+                        <p class="text-bold">
+                            {{ 'Le pèlerin a t-il effectué un pèlerinage durant ces 5 dermières années'|trans }} ?
+                        </p>
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <input type="radio" name="surplus" id="oui" onchange="surplu('oui')" value="oui" />
+                                <label for="oui">{{ 'OUI'|trans }}</label>
+                            </div>
+                            <div class="col-6">
+                                <input type="radio" name="surplus" id="non" value="non" onchange="surplu('non')" checked="true" />
+                                <label for="non">{{ 'NON'|trans }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-5">
+                            {{ form_row(form.photo, {'label' : 'Photo déposée'}) }}
+                        </div>
+                        <div class=" col-7">
+                            <input type="checkbox" id="courtier" onclick="courtage()" />
+                            <label for="courtier">{{ 'Amené par un courtier'|trans }}</label>
+                        </div>
+                        <div class="col-12">
+                            <table class="table table-success-light table-striped table-bordered table-hover border-green" id="courtierlist">
+                                <tbody>
+                                    {% if courtiers is not empty %}
+                                    {% for courtier in courtiers %}
+                                    <tr onclick="choicecourtier({{courtier.id}})">
+                                        <td data-label="{{ 'Prénom'|trans }}">{{ courtier.prenom}}</td>
+                                        <td data-label="{{ 'Nom'|trans }}">{{ courtier.nom}}</td>
+                                        <td data-label="{{ 'Téléphone'|trans }}">{{ courtier.phone}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="choisi" class="col-12">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-danger mt-3 mb-3 focus-shadow-danger">
+                <div class="card-header bg-danger-light bb-danger text-danger">
+                    <i class="fa fa-info-circle mr-2"></i>
+                    {{ 'Informations sensibles'|trans }}
+                </div>
+                <div class="card-body">
+                    <div class="col-12 form-group">
+                        {{ form_row(form.visite, {'label':'Visite médicale obtenue', 'attr':{'class':'border-danger focus-shadow-danger'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.ethnie, {'attr':{'placeholder':'Ethnie', 'class':'border-danger focus-shadow-danger'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.bloodgroup, {'attr':{'class':'border-danger focus-shadow-danger'}, 'label':false}) }}
+                    </div>
+                    <div class="alert bg-danger-light border-danger mt-4 pt-4 radius-10">
+                        <div class="row">
+                            <div class="col-6 mt-1 mb-1">
+                                {{ form_widget(form.diabete, {'attr':{'class':'focus-shadow-danger'}, 'label':'Diabète'})}}
+                            </div>
+                            <div class="col-6 mt-1 mb-1">
+                                {{ form_widget(form.handicap, {'attr':{'class':'focus-shadow-danger'}, 'label':'Handicape'})}}
+                            </div>
+                            <div class="col-6 mt-1 mb-1">
+                                {{ form_widget(form.hypo, {'attr':{'class':'focus-shadow-danger'}, 'label':'Hypotension'})}}
+                            </div>
+                            <div class="col-6 mt-1 mb-1">
+                                {{ form_widget(form.hyper, {'attr':{'class':'focus-shadow-danger'}, 'label':'Hypertension'})}}
+                            </div>
+                            <div class="col-6 mt-1 mb-1">
+                                {{ form_widget(form.nonvoyant, {'attr':{'class':'focus-shadow-danger'}, 'label':'Non voyant'})}}
+                            </div>
+                            <div class="col-6 mt-1">
+                                <input class="focus-shadow-danger" type="checkbox" id="autre" value="autre" onclick="autretext()">
+                                <label for="autre"> {{ 'Autre'|trans }} </label>
+                            </div>
+                            <div class="col-12 mb-1">
+                                {{ form_widget(form.remark, {'attr':{'class':'border-danger focus-shadow-danger', 'placeholder':'Autre remarque à noter'}, 'label':false})}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card border-danger mt-4 mb-3">
+                        <div class="card-header bg-danger-light bb-danger text-danger">
+                            {{ 'Personne à contacter'|trans }}
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                {{ form_row(form.famillyname, {'attr':{'placeholder':'Prénom(s) et nom', 'class':'border-danger focus-shadow-danger'}, 'label':false}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_row(form.famillylink, {'label':false, 'attr' : {'class':'border-danger focus-shadow-danger'}}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_row(form.famillyphone, {'attr':{'placeholder':'Téléphone', 'class':'border-danger focus-shadow-danger'}, 'label':false}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt-4 mb-5 pt-3 pb-2 fond-7">
+    <div class="centrer">
+        <div class="row">
+            <button type="button" class="btn btn-shadow btn-green btn-normal mb-2 mr-2" id="send" onclick="envoieadd()">
+                <i class="fa fa-save"></i>
+                {{ 'Enregistrer'|trans }}
+            </button>
+            <button type="reset" class="btn btn-shadow btn-danger btn-normal mb-2 mr-2">
+                <i class="fa fa-undo"></i>
+                {{ 'Effacer'|trans }}
+            </button>
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+    {% block script %}
+        <script>
+
+            {{ include('scripts/pelerinnew.html.twig') }}
+
+        </script>
+    {% endblock %}
+
+{% endblock %}

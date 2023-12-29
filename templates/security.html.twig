@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    {{ include('head.html.twig') }}
+
+    <title> {% block title %} Hajjalbayt - {{ 'Le pèlerinage facile'|trans }} {% endblock %} </title>
+
+    {% block stylesheets %}
+        <link href="{{ asset('fontawesome/css/all.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/bootstrap-4plus.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/login.css') }}" rel="stylesheet">
+    {% endblock %}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+    <!--[if lt IE 9]>
+    <script src="{{ asset('js/html5shiv.js') }}"></script>
+    <script src="{{ asset('js/respond.min.js') }}"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="col-lg-4 offset-lg-4 col-md-8 offset-md-2 col-sm-10 offset-sm-1 col-10 offset-1 fond">
+    <div class="row">
+        <div class="col-5">
+            <img class="img-fluid mt-2" src="{{ asset('images/Hajjalbayt.png') }}" alt="Logo Hajjalbayt" width="100">
+        </div>
+        <div class="col-7 ml-n4 pt-4">
+            <p class="mt-3">
+                HAJJALBAYT {{ 'est un produit de'|trans }} <a href="http://euclideservices.com" target="_blank"><strong>EUCLIDES</strong></a>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mb-4">
+            <label for="langue">
+                <i class="fa fa-globe"></i>
+            </label>
+            <select name="langue" id="langue" onchange="choixlangue()">
+
+            </select>
+        </div>
+    </div>
+
+    {% block body %}
+
+    {% endblock %}
+
+    <button type="button" id="install_button" onclick="installApp()" hidden></button>
+
+    <p class="mt-4 mb-4 text-muted">&copy; 2017-{{ 'now'|date('Y') }} v{{ include('Hajjalbayt/version.html.twig') }} EuclideSoft - {{ 'Tous droits réservés'|trans }}</p>
+</div>
+
+{% block javascripts %}
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('fontawesome/js/all.js') }}"></script>
+{% endblock %}
+
+<script>
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then(function (registration) {
+                console.log(
+                    'Service Worker registration successful with scope:', registration.scope
+                );
+            })
+            .catch(function (err) {
+                console.log('Service Worker registration failed:', err);
+            });
+    }
+
+    let deferredPrompt; // Allows to show the install prompt
+    const installButton = document.getElementById("install_button");
+
+    window.addEventListener("beforeinstallprompt", e => {
+        console.log("beforeinstallprompt fired");
+        // Prevent Chrome 76 and earlier from automatically showing a prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+        // Show the install button
+        installButton.hidden = false;
+        installButton.addEventListener("click", installApp);
+    });
+
+    function installApp() {
+
+        // Show the prompt
+        deferredPrompt.prompt();
+        installButton.disabled = true;
+
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice.then(choiceResult => {
+            if (choiceResult.outcome === "accepted") {
+                console.log("PWA setup accepted");
+                installButton.hidden = true;
+            } else {
+                console.log("PWA setup rejected");
+            }
+            installButton.disabled = false;
+            deferredPrompt = null;
+        });
+    }
+
+    function choixlangue() {
+        var url = $(location).attr("href");
+        var index;
+        var langselect = $('#langue option:selected');
+        if (langselect.val() === 'Francais') {
+            index = url.indexOf("/en/");
+            if (index !== -1) {
+                url = url.replace("/en/", "/fr/");
+            } else {
+                url = url.replace("/ar/", "/fr/");
+            }
+        } else if (langselect.val() === 'English') {
+            index = url.indexOf("/fr/");
+            if (index !== -1) {
+                url = url.replace("/fr/", "/en/");
+            } else {
+                url = url.replace("/ar/", "/en/");
+            }
+        } else {
+            index = url.indexOf("/en/");
+            if (index !== -1) {
+                url = url.replace("/en/", "/ar/");
+            } else {
+                url = url.replace("/fr/", "/ar/");
+            }
+        }
+        document.location.href = url;
+    }
+
+    function positionlangue() {
+
+        var url = $(location).attr("href");
+        var fr = url.indexOf("/fr/");
+        var en = url.indexOf("/en/");
+        if (fr !== -1) {
+            $("#langue").html("<option value='Francais'>Français</option><option value='English'>English</option><option value='Arabe'>العربية</option>")
+
+        } else if (en !== -1) {
+            $("#langue").html("<option value='English'>English</option><option value='Francais'>Français</option><option value='Arabe'>العربية</option>")
+
+
+        } else {
+            $("#langue").html("<option value='Arabe'>العربية</option><option value='Francais'>Français</option><option value='English'>English</option>")
+
+        }
+
+    }
+
+    $(document).ready(function () {
+        positionlangue();
+    });
+
+</script>
+</body>
+
+</html>

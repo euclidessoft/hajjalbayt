@@ -1,0 +1,19 @@
+//selectionner le type d'entree ou de sortie d'argent
+function typeversement() {
+    if ($('#mecquebundle_versement_type option:selected').val() == 'Cheque' || $('#mecquebundle_versement_type option:selected').val() == 'Virement') {
+        $('#versement').show();
+        $('#mecquebundle_versement_numero').val();
+    } else if ($('#mecquebundle_versementagence_type option:selected').val() == 'Cheque' || $('#mecquebundle_versementagence_type option:selected').val() == 'Virement') {
+        $('#versement').show();
+        $('#mecquebundle_versement_numero').val();
+    } else if ($('#mecquebundle_depense_type option:selected').val() == 'Cheque' || $('#mecquebundle_depense_type option:selected').val() == 'Virement') {
+        $('#versement').show();
+        $('#mecquebundle_depense_type').val();
+    } else if ($('#mecquebundle_gain_type option:selected').val() == 'Cheque' || $('#mecquebundle_gain_type option:selected').val() == 'Virement') {
+        $('#versement').show();
+        $('#mecquebundle_gain_type').val();
+    } else {
+        $('#versement').hide();
+        $('#mecquebundle_versement_numero').val();
+    }
+}

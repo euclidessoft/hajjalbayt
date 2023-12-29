@@ -1,0 +1,110 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Dépenses'|trans }} - Hajjalbayt {% endblock %}
+{% block finance %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="col-md-8 offset-md-2 mt-5 fond-7">
+    <h3 class="mt-4 text-bold">
+        <i class="fa fa-money-bill"></i><i class="fa fa-sign-out-alt"></i>
+        {{ 'Dépenses'|trans }}
+    </h3>
+    {% if app.user.agence.licence == 1 %}
+    <a href="{{ path('Mecque_Spend') }}" class="btn btn-shadow btn-green mt-5 mb-4">
+        <i class="fa fa-plus-circle"></i>
+        {{ 'Nouvelle dépense'|trans }}
+    </a>
+    {% else %}
+    <button data-toggle="modal" data-target="#licence" class="btn btn-shadow btn-green mt-5 mb-4">
+        <i class="fa fa-plus-circle"></i>
+        {{ 'Nouvelle dépense'|trans }}
+    </button>
+    {{ include('licence/licence-popup.html.twig') }}
+    {% endif %}
+
+    {% for message in app.session.flashbag.get('success') %}
+    <div class="alert alert-success alert-dismissible fade show radius-10 shadow-black mt-5 mb-5">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{ message|trans }}
+    </div>
+    {% endfor %}
+
+    {% for message in app.session.flashbag.get('notice') %}
+    <div class="alert alert-danger alert-dismissible fade show radius-10 shadow-black mt-5 mb-5">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{ message|trans }}
+    </div>
+    {% endfor %}
+    <table class="table table-success-light table-bordered table-hover table-striped" id="list">
+        <thead>
+            <tr>
+                <th class="text-center">{{ 'Date'|trans }}</th>
+                <th>{{ 'Motif'|trans }}</th>
+                <th>{{ 'Type'|trans }}</th>
+                <th class="text-center">{{ 'Montant'|trans }}</th>
+                <th class="text-center">{{ 'Modifier'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if result is not empty %}
+            {% for depense in result %}
+            <tr>
+                <td data-label="{{ 'Date'|trans }}" class="text-center">
+                    {{depense.date|date('d/m/Y')}}
+                    <br>
+                    {{depense.date|date('H:i:s')}}
+                </td>
+                <td data-label="{{ 'Motif'|trans }}">
+                    {{depense.motif}}
+                </td>
+                <td data-label="{{ 'Type'|trans }}">
+                    {{depense.type|trans}}
+                    {% if depense.banque is not null %}
+                    {{depense.banque}}
+                    <br>
+                    <span class="text-nowrap">Nº : {{depense.numero}}</span>
+                    {% endif %}
+                </td>
+                <td data-label="{{ 'Montant'|trans }}" class="montant">
+                    {{depense.montant|number_format(0, '',' ') }} F CFA
+                </td>
+                <td data-label="{{ 'Modifier'|trans }}">
+                    <a href="{{ path('Mecque_SpendEdit', { id : depense.id }) }}">
+                        <button class="btn btn-shadow btn-td btn-primary">
+                            <i class="fa fa-edit"></i>
+                            {{ 'Modifier'|trans }}
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td data-label="colspan" colspan="5">
+                    {{ 'Aucune dépense'|trans }}
+                </td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% if app.user.agence.licence == 1 %}
+{% if result is not empty %}
+<div class="col-md-8 offset-md-2 mt-4 mb-5 fond-7 pt-3 pb-2">
+    <div class="centrer">
+        <span id="exportexcel"></span>
+    </div>
+</div>
+{% endif %}
+{% else %}
+<div class="col-md-8 offset-md-2 mt-4 mb-5 fond-7 pt-3 pb-2">
+    <div class="centrer">
+        <button data-toggle="modal" data-target="#licence1" class="btn btn-shadow btn-bas btn-green">
+            <i class="fa fa-file-excel fa-lg"></i>
+            {{ 'Exporter vers Excel'|trans }}
+        </button>
+        {{ include('licence/licence-popup1.html.twig') }}
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

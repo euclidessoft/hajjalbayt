@@ -1,0 +1,331 @@
+function designorganisateur(id) {
+    if (confirm("{{'Designer le pelerin comme organisateur'|trans}}")) {
+        $('#organis' + id).html("<div class='ajax-loader'></div>");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_DesigneOrganisateur') }}",
+            data: "plr=" + id,
+            success: function (data) {
+                if (data['id'] != '') {
+                    document.location.href = "{{ path('Mecque_OrganisateurList') }}";
+                }
+            },
+            error: function () {
+                alert("{{'La requête n a pas abouti'|trans }}");
+            }
+        });
+    }
+}
+
+function designorganisateuresident(id) {
+    if (confirm("{{'Designer comme organisateur'|trans}}")) {
+        $('#btorgan' + id).html("<div class='ajax-loader'></div>");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_DesigneOrganisateurResident') }}",
+            data: "organ=" + id,
+            success: function (data) {
+                if (data['ok'] != 'ok') {
+                    alert("{{'deja choisi'|trans }}");
+                    $('#btorgan' + id).html("Choisir");
+                } else document.location.href = "{{ path('Mecque_OrganisateurList') }}";
+            },
+            error: function () {
+                alert("{{'La requête n a pas abouti'|trans }}");
+            }
+        });
+    }
+}
+
+function annulorganisateur(id) {
+    if (confirm("{{'Designer Comme simple pelerin'|trans}}")) {
+        $('#' + id).html("<div class='ajax-loader'></div>");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_AnnulerOrganisateur') }}",
+            data: "pel=" + id,
+            success: function (data) {
+                $('#tr' + id).remove();
+            },
+            error: function () {
+                alert("{{'La requête n a pas abouti'|trans }}");
+            }
+        });
+    }
+}
+
+function annulorganisateuresident(id) {
+    if (confirm("{{'Retirer grade organisateur'|trans}}")) {
+        $('#supp' + id).html("<div class='ajax-loader'></div>");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_AnnulerOrganisateurResident') }}",
+            data: "organ=" + id,
+            success: function (data) {
+                $('#trorgan' + id).remove();
+            },
+            error: function () {
+                alert("{{'La requête n a pas abouti'|trans }}");
+            }
+        });
+    }
+}
+
+function supprimorganisateur(id) {
+    if (confirm("{{'Voulez-vous vraiment supprimer cet Organisateur?'|trans}}")) {
+        $('#supp' + id).html("<div class='ajax-loader'></div>");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_OrganisateurDelete') }}",
+            data: "plr=" + id,
+            success: function (data) {
+                if (data['id'] != '') {
+                    document.location.href = "{{ path('Mecque_OrganisateurList') }}";
+                }
+            },
+            error: function () {
+                alert("{{'La requête n a pas abouti'|trans }}");
+            }
+        });
+    }
+}
+
+function designmedecin(id) {
+    if (confirm("{{'Designer ce pelerin comme medecin'|trans}}")) {
+        $('#' + id).html("<div class='ajax-loader'></div>");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_DesigneMedecin') }}",
+            data: "plr=" + id,
+            success: function (data) {
+                if (data['id'] != '') {
+                    document.location.href = "{{ path('Mecque_MedecinList') }}";
+                }
+            },
+            error: function () {
+                alert("{{'La requête n a pas abouti'|trans }}");
+            }
+        });
+    }
+}
+
+function designimam(id) {
+    if (confirm("{{'Designer ce pelerin comme Imam'|trans}}")) {
+        $('#btim' + id).html("<div class='ajax-loader'></div>");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_DesigneImam') }}",
+            data: "imam=" + id,
+            success: function (data) {
+                if (data['id'] != '') {
+                    document.location.href = "{{ path('Mecque_ImamList') }}";
+                }
+            },
+            error: function () {
+                alert("{{'La requête n a pas abouti'|trans }}");
+            }
+        });
+    }
+}
+
+function designimamresident(id) {
+    if (confirm("{{'Designer comme imam'|trans}}")) {
+        $('#btimam' + id).html("<div class='ajax-loader'></div>");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_DesigneImamResident') }}",
+            data: "imam=" + id,
+            success: function (data) {
+                if (data['ok'] != 'ok') {
+                    alert("{{'deja choisi'|trans }}");
+                    $('#btimam' + id).html("Choisir");
+                } else document.location.href = "{{ path('Mecque_ImamList') }}";
+            },
+            error: function () {
+                alert("{{'La requête n a pas abouti'|trans }}");
+            }
+        });
+    }
+}
+
+function supprimimam(id) {
+    if (confirm("{{'Voulez-vous vraiment supprimer ce guide religieux ?'|trans}}")) {
+        $('#supprim' + id).html("<div class='ajax-loader'></div>");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_ImamDelete') }}",
+            data: "plr=" + id,
+            success: function (data) {
+                if (data['id'] != '') {
+                    document.location.href = "{{ path('Mecque_ImamList') }}";
+                }
+            },
+            error: function () {
+                alert("{{'La requête n a pas abouti'|trans }}");
+            }
+        });
+    }
+}
+
+function annulimamresident(id) {
+    if (confirm("{{'Retirer grade imam'|trans}}")) {
+        $('#supprim' + id).html("<div class='ajax-loader'></div>");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_AnnulerImamResident') }}",
+            data: "imam=" + id,
+            success: function (data) {
+                $('#trimam' + id).remove();
+            },
+            error: function () {
+                alert("{{'La requête n a pas abouti'|trans }}");
+            }
+        });
+    }
+}
+
+function affecterpelerin(imam) {
+    var pel = "0";
+    $("input[type=checkbox]:checked").each(
+        function () {
+            if ($(this).attr("id") != 'tous') {
+                pel = pel + ";" + $(this).attr("id");
+            }
+        });
+    if (pel != "0") {
+        if (confirm("{{'Voulez vous vraiment affecter les pèlerins selectionnés'|trans}}")) {
+            $('button').html("<div class='ajax-loader'></div>");
+            $.ajax({
+                type: "POST",
+                url: "{{ path('Mecque_AffectationPelerins') }}",
+                data: "pel=" + pel + "&imam=" + imam,
+                success: function (data) {
+                    if (data['id'] != '') {
+                        document.location.href = "{{ path('Mecque_ImamList') }}";
+                    }
+                },
+                error: function () {
+                    alert("{{'La requête n a pas abouti'|trans }}");
+                }
+            });
+        }
+    } else alert("{{'Selectionnez au moins un pèlerin'|trans }}");
+}
+
+function affectpelerin(imam) {
+    var pel = "0";
+    $("input[type=checkbox]:checked").each(
+        function () {
+            if ($(this).attr("id") != 'tous') {
+                pel = pel + ";" + $(this).attr("id");
+            }
+        });
+    if (pel != "0") {
+        if (confirm("{{'Voulez vous vraiment affecter les pèlerins selectionnés'|trans}}")) {
+            $('button').html("<div class='ajax-loader'></div>");
+            $.ajax({
+                type: "POST",
+                url: "{{ path('Mecque_AffectationPelerinsDeux') }}",
+                data: "pel=" + pel + "&imam=" + imam,
+                success: function (data) {
+                    if (data['id'] != '') {
+                        document.location.href = "{{ path('Mecque_ImamList') }}";
+                    }
+                },
+                error: function () {
+                    alert("{{'La requête n a pas abouti'|trans }}");
+                }
+            });
+        }
+    } else alert("{{'Selectionnez au moins un pèlerin'|trans }}");
+}
+
+function annulerpelerin(imam) {
+    var pel = "0";
+    $("input[type=checkbox]:checked").each(
+        function () {
+            if ($(this).attr("id") != 'tous') {
+                pel = pel + ";" + $(this).attr("id");
+            }
+        });
+    if (pel != "0") {
+        if (confirm("{{'Voulez vous vraiment annuler l affectation des pèlerins selectionnés'|trans}}")) {
+            $('button').html("<div class='ajax-loader'></div>");
+            $.ajax({
+                type: "POST",
+                url: "{{ path('Mecque_AnnulationPelerins') }}",
+                data: "pel=" + pel + "&imam=" + imam,
+                success: function (data) {
+                    if (data['id'] != '') {
+                        document.location.href = "{{ path('Mecque_ImamList') }}";
+                    }
+                },
+                error: function () {
+                    alert("{{'La requête n a pas abouti'|trans }}");
+                }
+            });
+        }
+    } else alert("{{'Selectionnez au moins un pèlerin'|trans }}");
+}
+
+function annulpelerin(imam) {
+    var pel = "0";
+    $("input[type=checkbox]:checked").each(
+        function () {
+            if ($(this).attr("id") != 'tous') {
+                pel = pel + ";" + $(this).attr("id");
+            }
+        });
+    if (pel != "0") {
+        if (confirm("{{'Voulez vous vraiment annuler l affectation des pèlerins selectionnés'|trans}}")) {
+            $('button').html("<div class='ajax-loader'></div>");
+            $.ajax({
+                type: "POST",
+                url: "{{ path('Mecque_AnnulationPelerinsDeux') }}",
+                data: "pel=" + pel + "&imam=" + imam,
+                success: function (data) {
+                    if (data['id'] != '') {
+                        document.location.href = "{{ path('Mecque_ImamList') }}";
+                    }
+                },
+                error: function () {
+                    alert("{{'La requête n a pas abouti'|trans }}");
+                }
+            });
+        }
+    } else alert("{{'Selectionnez au moins un pèlerin'|trans }}");
+}
+
+function annuleraffectation(id) {
+    if (confirm("{{'Retirer du groupe?'|trans}}")) {
+        $('#btencad' + id).html("<div class='ajax-loader'></div>");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_AnnulerAffectation') }}",
+            data: "imam=" + id,
+            success: function (data) {
+                $('#trencad' + id).remove();
+            },
+            error: function () {
+                alert("{{'La requête n a pas abouti'|trans }}");
+            }
+        });
+    }
+}
+
+function annulaffectation(id) {
+    if (confirm("{{'Retirer du groupe?'|trans}}")) {
+        $('#btanaf' + id).html("<div class='ajax-loader'></div>");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_AnnulAffectation') }}",
+            data: "imam=" + id,
+            success: function (data) {
+                $('#tranaf' + id).remove();
+            },
+            error: function () {
+                alert("{{'La requête n a pas abouti'|trans}}");
+            }
+        });
+    }
+}

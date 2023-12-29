@@ -1,0 +1,174 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Liste définitive'|trans }} - Hajjalbayt {% endblock %}
+{#{% block title %} {{ 'Liste définitive'|trans }} {{ app.user.agence.nom }} et {{ 'Regroupement'|trans }} - Hajjalbayt {% endblock %}#}
+{#{% block title %} {{ app.user.agence.nom }} - Hajjalbayt {% endblock %}#}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+    {% if app.user.agence.licence == 1 %}
+        <div class="container-fluid mt-5 pt-2 pb-2 fond-7">
+            <h3 class="mt-4 mb-5 text-bold">
+                <i class="fa fa-users"></i>
+                {{ 'Liste définitive de tous les pèlerins'|trans }}
+            </h3>
+            <a href="{{ path('Mecque_All') }}"{# target="_blank"#} class="btn btn-shadow btn-success-light mt-4 mb-5">
+                <i class="fa fa-print"></i>
+                {{ 'Imprimer'|trans }}
+            </a>
+            <table class="table table-success-light table-bordered border-imp" id="list">
+                <thead>
+                <tr class="text-center">
+                    <th> {{ 'Numéro'|trans }} </th>
+                    <th> {{ 'Photo'|trans }} </th>
+                    <th class="text-left"> {{ 'Prénom'|trans }} </th>
+                    <th class="text-left"> {{ 'Nom'|trans }} </th>
+                    <th> {{ 'Date de naissance'|trans }} </th>
+                    <th class="text-left"> {{ 'Lieu de naissance'|trans }} </th>
+                    <th> {{ 'Téléphone'|trans }} </th>
+                    <th class="passeport"> {{ 'Nº Passeport'|trans }} </th>
+                    <th> {{ 'Séquence'|trans }} </th>
+                    <th> {{ 'Groupe sanguin'|trans }} </th>
+                    <th> {{ 'Vol allée'|trans }} </th>
+                    <th> {{ 'Compagnie'|trans }} </th>
+                    <th> {{ 'Destination'|trans }} </th>
+                    <th> {{ 'Vol retour'|trans }} </th>
+                    <th> {{ 'Compagnie'|trans }} </th>
+                    <th> {{ 'Provenance'|trans }} </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if pelerins is not empty %}
+                    {% for pelerin in pelerins %}
+
+                        <tr>
+                            <td data-label="{{ 'Numéro dossier'|trans }}" class="text-center">
+                                {{ pelerin.numdossier }}
+                            </td>
+                            <td data-label="{{ 'Photo'|trans }}">
+                                {% if pelerin.image is not empty %}
+                                    <img src="{{ asset('images/'~ pelerin.image.url) }}" alt="{{ pelerin.image.alt }}"
+                                         class="rounded-circle">
+                                {% else %}
+                                    {% if pelerin.sexe == 'Feminin' %}
+                                        <img src="{{ asset('images/avatar-femme.jpg') }}" alt="Photo pèlerin"
+                                             class="rounded-circle">
+                                    {% else %}
+                                        <img src="{{ asset('images/avatar.jpg') }}" alt="Photo pèlerin"
+                                             class="rounded-circle">
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                            <td data-label="{{ 'Prénom'|trans }}">
+                                {{ pelerin.prenom }}
+                            </td>
+                            <td data-label="{{ 'Nom'|trans }}">
+                                {{ pelerin.nom }}
+                            </td>
+                            <td data-label="{{ 'Date de naissance'|trans }}" class="text-center">
+                                {{ pelerin.datenaiss|date('d/m/Y') }}
+                            </td>
+                            <td data-label="{{ 'Lieu de naissance'|trans }}">
+                                {{ pelerin.lieunaiss }}
+                            </td>
+                            <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                                {{ pelerin.phone }}
+                            </td>
+                            <td data-label="{{ 'Nº Passeport'|trans }}" class="passeport">
+                                {{ pelerin.numpassport }}
+                            </td>
+                            <td data-label="{{ 'Séquence'|trans }}">
+                                {{ pelerin.numsaoudiantax }}
+                            </td>
+                            <td data-label="{{ 'Groupe sanguin'|trans }}" class="gs">
+                                {{ pelerin.bloodgroup }}
+                            </td>
+
+                            {% if pelerin.vol is not null %}
+                                <td data-label="{{ 'Vol allée'|trans }}" class="text-nowrap text-right">
+                                    Nº : {{ pelerin.vol.numero }}
+                                    <br>
+                                    {{ pelerin.vol.datedepart|date('d/m/Y') }}
+                                    <br>
+                                    {{ pelerin.vol.heuredepart|date('H:i') }}
+                                </td>
+                                <td data-label="{{ 'Compagnie'|trans }}">{{ pelerin.vol.compagnie.nom }} </td>
+                                <td data-label="{{ 'Destination'|trans }}">{{ pelerin.vol.destination }}</td>
+                            {% else %}
+                                <td data-label="{{ 'Vol allée'|trans }}"></td>
+                                <td data-label="{{ 'Compagnie'|trans }}"></td>
+                                <td data-label="{{ 'Destination'|trans }}"></td>
+                            {% endif %}
+
+                            {% if pelerin.retour is not null %}
+                                {% if pelerin.retour.numero is null or
+                                    pelerin.retour.datedepart is null or
+                                    pelerin.retour.lieudepart is null or
+                                    pelerin.retour.heuredepart is null %}
+                                    <td data-label="{{ 'Vol retour'|trans }}" class="text-center">
+                                        {{ 'Dernier vol'|trans }}
+                                    </td>
+                                    <td data-label="{{ 'Compagnie'|trans }}">
+                                        {% if pelerin.retour.compagnie is not null %}
+                                            {{ pelerin.retour.compagnie.nom }}
+                                        {% endif %}
+                                    </td>
+                                    <td data-label="{{ 'Provenance'|trans }}">
+                                        {% if pelerin.retour is not null %}
+                                            {{ pelerin.retour.lieudepart }}
+                                        {% endif %}
+                                    </td>
+                                {% else %}
+                                    <td data-label="{{ 'Vol retour'|trans }}" class="text-nowrap text-right">
+                                        {% if pelerin.retour is not null %}
+                                            Nº : {{ pelerin.retour.numero }}
+                                        {% endif %}
+                                        <br>
+                                        {% if pelerin.retour is not null %}
+                                            {{ pelerin.retour.datedepart|date('d/m/Y') }}
+                                        {% endif %}
+                                        <br>
+                                        {% if pelerin.retour.heuredepart is not null %}
+                                            {{ pelerin.retour.heuredepart|date('H:i') }}
+                                        {% endif %}
+                                    </td>
+                                    <td data-label="{{ 'Compagnie'|trans }}">
+                                        {% if pelerin.retour.compagnie is not null %}
+                                            {{ pelerin.retour.compagnie.nom }}
+                                        {% endif %}
+                                    </td>
+                                    <td data-label="{{ 'Provenance'|trans }}">
+                                        {% if pelerin.retour is not null %}
+                                            {{ pelerin.retour.lieudepart }}
+                                        {% endif %}
+                                    </td>
+                                {% endif %}
+                            {% else %}
+                                <td data-label="{{ 'Vol retour'|trans }}"></td>
+                                <td data-label="{{ 'Compagnie'|trans }}"></td>
+                                <td data-label="{{ 'Provenance'|trans }}"></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td data-label="colspan" colspan="16"> {{ 'Aucun pèlerin'|trans }} </td>
+                    </tr>
+                {% endif %}
+
+                </tbody>
+            </table>
+        </div>
+        <div class="container-fluid mt-4 mb-5 pt-3 pb-2 fond-7">
+            <div class="row centrer">
+                <a href="{{ path('Mecque_All') }}" class="btn btn-shadow btn-success-light mb-2 mr-2">
+                    <i class="fa fa-print"></i>
+                    {{ 'Imprimer'|trans }}
+                </a>
+                <span id="exportexcel" class="btn mb-2 mr-2"></span>
+            </div>
+        </div>
+    {% else %}
+        {{ include('licence/licence-page.html.twig') }}
+    {% endif %}
+
+{% endblock %}

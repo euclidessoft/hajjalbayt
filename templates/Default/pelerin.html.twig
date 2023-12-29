@@ -1,0 +1,1374 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ pelerin.numdossier }} {{ pelerin.prenom }} {{ pelerin.nom }} - Hajjalbayt {% endblock %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block facture %} onload="cacher()" {% endblock %}
+{% block body %}
+    <div class="col-md-10 offset-md-1 mt-4 pt-3 pb-2 fond-7">
+        <div class="row centrer">
+            <a href="{{ path('Mecque_PelerinEdit', { id : pelerin.id}) }}"
+               class="btn btn-shadow btn-normal btn-primary mb-2 mr-2">
+                <i class="fa fa-user-edit"></i>
+                {{ 'Modifier pèlerin'|trans }}
+            </a>
+            <a href="{{ path('Mecque_PackChangement', { pelerin : pelerin.id}) }}"
+               class="btn btn-shadow btn-normal btn-default mb-2 mr-2">
+                <i class="fa fa-sync"></i>
+                {{ 'Changer package'|trans }}
+            </a>
+            {% if pelerin.exonorer == 1 %}
+                <a href="#" class="btn btn-shadow btn-normal btn-green mb-2 mr-2 disabled" id="btn-versement">
+                    <i class="fa fa-money-bill fa-lg"></i><i class="fa fa-sign-in-alt ml-n1"></i>
+                    {{ 'Versement'|trans }}
+                </a>
+                {% if is_granted('ROLE_PROPRIETAIRE') %}
+                    <div class="btn-group btn-shadow btn-normal mb-2 mr-2">
+                        {% if pelerin.reduction is not null %}
+                            <a href="#" id="btreduct" class="btn btn-warning disabled">
+                                <i class="fa fa-money-bill fa-lg"></i><i class="fa fa-level-down-alt"></i>
+                                {{ 'Réduction'|trans }}
+                            </a>
+                            <button id="btn-split"
+                                    class="btn btn-warning dropdown-toggle dropdown-toggle-split disabled"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <ul class="dropdown-menu reduction-menu">
+                                <li>
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-edit"></i>
+                                        {{ 'Modifier'|trans }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-trash-alt"></i>
+                                        {{ 'Supprimer'|trans }}
+                                    </a>
+                                </li>
+                            </ul>
+                        {% else %}
+                            <a href="#" id="btreduct" class="btn btn-warning disabled">
+                                <i class="fa fa-money-bill fa-lg"></i><i class="fa fa-level-down-alt"></i>
+                                {{ 'Réduction'|trans }}
+                            </a>
+                            <button id="btn-split"
+                                    class="btn btn-warning dropdown-toggle dropdown-toggle-split disabled"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <ul class="dropdown-menu reduction-menu">
+                                <li>
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-check"></i>
+                                        {{ 'Accorder'|trans }}
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <button class="btn btn-shadow btn-secondary btn-normal mb-2 mr-2"
+                            onclick="annulexo({{ pelerin.id }})" id="exonor">
+                        <i class="fa fa-money-bill fa-lg"></i>
+                        <i class="fa fa-undo fa-sm"></i>
+                        {{ 'Annuler exonéré'|trans }}
+                    </button>
+                {% endif %}
+            {% else %}
+                {% set situation = pelerin.situation %}
+                {% if pelerin.compte >= situation %}
+                    <a href="#" class="btn btn-shadow btn-normal btn-green mb-2 mr-2 disabled" id="btn-versement">
+                        <i class="fa fa-money-bill fa-lg"></i><i class="fa fa-sign-in-alt ml-n1"></i>
+                        {{ 'Versement'|trans }}
+                    </a>
+                    {% if is_granted('ROLE_PROPRIETAIRE') %}
+                        <div class="btn-group btn-shadow btn-normal mb-2 mr-2">
+                            {% if pelerin.reduction is not null %}
+                                <a href="#" id="btreduct" class="btn btn-warning disabled">
+                                    <i class="fa fa-money-bill fa-lg"></i><i class="fa fa-level-down-alt"></i>
+                                    {{ 'Réduction'|trans }}
+                                </a>
+                                <button id="btn-split"
+                                        class="btn btn-warning dropdown-toggle dropdown-toggle-split disabled"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <ul class="dropdown-menu reduction-menu">
+                                    <li>
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-edit"></i>
+                                            {{ 'Modifier'|trans }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="nav-link">
+                                            <i class="fas fa-trash-alt"></i>
+                                            {{ 'Supprimer'|trans }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            {% else %}
+                                <a href="#" id="btreduct" class="btn btn-warning disabled">
+                                    <i class="fa fa-money-bill fa-lg"></i><i class="fa fa-level-down-alt"></i>
+                                    {{ 'Réduction'|trans }}
+                                </a>
+                                <button id="btn-split"
+                                        class="btn btn-warning dropdown-toggle dropdown-toggle-split disabled"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <ul class="dropdown-menu reduction-menu">
+                                    <li>
+                                        <a href="#" class="nav-link">
+                                            <i class="fa fa-check"></i>
+                                            {{ 'Accorder'|trans }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            {% endif %}
+                        </div>
+                        <button class="btn btn-shadow btn-secondary btn-normal mb-2 mr-2 disabled">
+                            <i class="fa fa-money-bill fa-lg"></i><i class="fa fa-times-circle fa-sm ml-n1"></i>
+                            {{ 'Exonérer'|trans }}
+                        </button>
+                    {% endif %}
+                {% else %}
+                    <a href="{{ path('Mecque_Versement', { id : pelerin.id}) }}"
+                       class="btn btn-shadow btn-normal btn-green mb-2 mr-2" id="btn-versement">
+                        <i class="fa fa-money-bill fa-lg"></i><i class="fa fa-sign-in-alt ml-n1"></i>
+                        {{ 'Versement'|trans }}
+                    </a>
+                    {% if is_granted('ROLE_PROPRIETAIRE') %}
+                        <div class="btn-group btn-shadow btn-normal mb-2 mr-2">
+                            {% if pelerin.reduction is not null %}
+                                <a href="{{ path('Mecque_ReductionEdit', { pelerin : pelerin.id}) }}" id="btreduct"
+                                   class="btn btn-warning">
+                                    <i class="fa fa-money-bill fa-lg"></i><i class="fa fa-level-down-alt"></i>
+                                    {{ 'Réduction'|trans }}
+                                </a>
+                                <button id="btn-split" class="btn btn-warning dropdown-toggle dropdown-toggle-split"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <ul id="reduct-menu" class="dropdown-menu reduction-menu">
+                                    <li>
+                                        <a href="{{ path('Mecque_ReductionEdit', { pelerin : pelerin.id}) }}"
+                                           class="nav-link">
+                                            <i class="fa fa-edit"></i>
+                                            {{ 'Modifier'|trans }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onclick="reductiondelete({{ pelerin.id }})" class="nav-link">
+                                            <i class="fas fa-trash-alt"></i>
+                                            {{ 'Supprimer'|trans }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            {% else %}
+                                <a href="{{ path('Mecque_Reduction', { pelerin : pelerin.id}) }}" id="btreduct"
+                                   class="btn btn-warning">
+                                    <i class="fa fa-money-bill fa-lg"></i><i class="fa fa-level-down-alt"></i>
+                                    {{ 'Réduction'|trans }}
+                                </a>
+                                <button id="btn-split" class="btn btn-warning dropdown-toggle dropdown-toggle-split"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                </button>
+                                <ul class="dropdown-menu reduction-menu">
+                                    <li>
+                                        <a href="{{ path('Mecque_Reduction', { pelerin : pelerin.id}) }}"
+                                           class="nav-link">
+                                            <i class="fa fa-check"></i>
+                                            {{ 'Accorder'|trans }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            {% endif %}
+                        </div>
+                        <button class="btn btn-shadow btn-secondary btn-normal mb-2 mr-2"
+                                onclick="exonor({{ pelerin.id }})" id="exonor">
+                            <i class="fa fa-money-bill fa-lg"></i><i class="fa fa-times-circle fa-sm ml-n1"></i>
+                            {{ 'Exonérer'|trans }}
+                        </button>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+            {% if is_granted('ROLE_CHEF') %}
+                <button type="button" class="btn btn-shadow btn-danger btn-normal mb-2 mr-2" id="btn-sup{{ pelerin.id }}"
+                        onclick="deletePelerin({{ pelerin.id }})">
+                    <i class="fa fa-user-times"></i>
+                    {{ 'Supprimer'|trans }}
+                </button>
+            {% endif %}
+        </div>
+    </div>
+    {% for message in app.session.flashbag.get('notice') %}
+        <div class="col-md-10 offset-md-1 mt-4 alert alert-success alert-dismissible fade show radius-10 shadow-black"
+             role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" aria-hidden="true">
+                &times;
+            </button>
+            <div class="row">
+                <div class="col-lg-9 mb-2">
+                    {{ message|trans }}
+                </div>
+                <div class="col-lg-3">
+                    <button type="button" class="btn btn-shadow btn-warning float-right" id="btn{{ facturer }}"
+                            onclick="deleteversement({{ facturer }})">
+                        <i class="fa fa-undo"></i>
+                        {{ 'Annuler'|trans }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    {% for message in app.session.flashbag.get('annuleversement') %}
+        <div class="col-md-10 offset-md-1 mt-4 alert alert-danger alert-dismissible fade show radius-10 shadow-black"
+             role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" aria-hidden="true">&times;
+            </button>
+            <i class="fa fa-exclamation-triangle"></i>
+            {{ message|trans }}
+        </div>
+    {% endfor %}
+    <div class="col-md-10 offset-md-1 mt-4 mb-5 fond-7">
+        <h3 class="mt-4 mb-5 text-bold">
+            <i class="fa fa-user-circle fa-lg"></i>
+            {{ 'Informations pèlerin'|trans }}
+        </h3>
+        <h5 class="mt-3 mb-3 ml-3">
+            <i class="fa fa-folder-open"></i>
+            {{ 'Dossier Nº'|trans }} : <b> {{ pelerin.numdossier }} </b>
+        </h5>
+        <div class="alert alert-info radius-10 shadow-black mt-5">
+            <div class="row">
+                {% if agence is not null %}
+                    <div class="col-md-2 col-6 text-right">
+                        <b>{{ 'Agence'|trans }}</b> :
+                    </div>
+                    <div class="col-md-10 col-6 ml-n4">
+                        {{ agence }}
+                    </div>
+                {% endif %}
+                <div class="col-md-2 col-6 text-right">
+                    <b>{{ 'Package'|trans }}</b> :
+                </div>
+                <div class="col-md-10 col-6 ml-n4">
+                    {{ pelerin.pack.designation }}
+                </div>
+                {% if pelerin.reduction is not null and is_granted('ROLE_CHEF') %}
+                    <div id="reduction-label" class="col-md-2 col-6 text-right">
+                        <b>{{ 'Réduction'|trans }}</b> :
+                    </div>
+                    <div id="reduction-montant" class="col-md-10 col-6 ml-n4">
+                        {{ pelerin.reduction.montant|number_format(0, '' , ' ') }} F CFA
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        {% set situation = pelerin.situation %}
+        {% if pelerin.compte == situation or pelerin.exonorer == 1 %}
+            <div class="alert alert-success radius-10 shadow-black mt-4" id="situation">
+                <div class="row">
+                    <div class="col-md-2 col-6 text-right">
+                        <b> {{ 'Situation'|trans }} </b> :
+                    </div>
+                    <div class="col-md-3 col-6 ml-n4">
+                        {{ 'Soldé'|trans }}
+                        {% if is_granted('ROLE_CHEF') and pelerin.exonorer == 1 %}
+                            {% if pelerin.sexe == 'Feminin' %}
+                                || {{ 'Exonérée'|trans }}
+                            {% else %}
+                                || {{ 'Exonéré'|trans }}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    {% set surplus = pelerin.pack.taux * 2000 %}
+                    {% if pelerin.surplus == 1 %}
+                        <div class="col-md-7 col-12 text-center text-bold">
+                            {{ '2000 Riyals en surplus soit'|trans }} {{ surplus|number_format(0, '' , ' ') }} F
+                            CFA {{ 'sur montant du package'|trans }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% elseif pelerin.compte > situation %}
+            <div class="alert alert-success radius-10 shadow-black mt-4" id="situation">
+                <div class="row">
+                    <div class="col-md-2 col-6 text-right">
+                        <b> {{ 'Situation'|trans }} </b> :
+                    </div>
+                    {% set montant = pelerin.compte - situation %}
+                    <div class="col-md-3 col-6 ml-n4">
+                        +{{ montant|number_format(0, '' , ' ') }} F CFA
+                    </div>
+                    {% set surplus = pelerin.pack.taux * 2000 %}
+                    {% if pelerin.surplus == 1 %}
+                        <div class="col-md-7 col-12 text-center text-bold">
+                            {{ '2000 Riyals en surplus soit'|trans }} {{ surplus|number_format(0, '' , ' ') }} F
+                            CFA {{ 'sur montant du package'|trans }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-danger radius-10 shadow-black mt-4" id="situation">
+                <div class="row">
+                    <div class="col-md-2 col-6 text-right">
+                        <b>{{ 'Situation'|trans }} </b> :
+                    </div>
+                    {% set montant = pelerin.compte - situation %}
+                    <div class="col-md-3 col-6 ml-n4">
+                        {{ montant|number_format(0, '' , ' ') }} F CFA
+                    </div>
+                    {% set surplus = pelerin.pack.taux * 2000 %}
+                    {% if pelerin.surplus == 1 %}
+                        <div class="col-md-7 col-12 text-center text-bold">
+                            {{ '2000 Riyals en surplus soit'|trans }} {{ surplus|number_format(0, '' , ' ') }} F
+                            CFA {{ 'sur le montant du package'|trans }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+        {% if pelerin.diabete ==1 or
+            pelerin.handicap ==1 or
+            pelerin.nonvoyant ==1 or
+            pelerin.hypo ==1 or
+            pelerin.hyper ==1 or
+            pelerin.remark is not null %}
+            <div class="alert alert-danger shadow-black radius-10 mt-4 p-3 border-danger border-2 text-danger text-bold">
+                {% if pelerin.diabete ==1 %}
+                    <div class="col-12">
+                        <i class="fa fa-asterisk"></i>
+                        {{ 'Diabétique'|trans }}
+                    </div>
+                {% endif %}
+                {% if pelerin.handicap ==1 %}
+                    <div class="col-12">
+                        <i class="fa fa-asterisk"></i>
+                        {% if pelerin.sexe == 'Feminin' %}
+                            {{ 'Handicapée'|trans }}
+                        {% else %}
+                            {{ 'Handicapé'|trans }}
+                        {% endif %}
+                    </div>
+                {% endif %}
+                {% if pelerin.nonvoyant ==1 %}
+                    <div class="col-12">
+                        <i class="fa fa-asterisk"></i>
+                        {% if pelerin.sexe == 'Feminin' %}
+                            {{ 'Non Voyante'|trans }}
+                        {% else %}
+                            {{ 'Non Voyant'|trans }}
+                        {% endif %}
+                    </div>
+                {% endif %}
+                {% if pelerin.hypo ==1 %}
+                    <div class="col-12">
+                        <i class="fa fa-asterisk"></i>
+                        {% if pelerin.sexe == 'Feminin' %}
+                            {{ 'Hypotendue'|trans }}
+                        {% else %}
+                            {{ 'Hypotendu'|trans }}
+                        {% endif %}
+                    </div>
+                {% endif %}
+                {% if pelerin.hyper ==1 %}
+                    <div class="col-12">
+                        <i class="fa fa-asterisk"></i>
+                        {% if pelerin.sexe == 'Feminin' %}
+                            {{ 'Hypertendue'|trans }}
+                        {% else %}
+                            {{ 'Hypertendu'|trans }}
+                        {% endif %}
+                    </div>
+                {% endif %}
+                {% if pelerin.remark is not null %}
+                    <div class="col-12">
+                        <i class="fa fa-asterisk"></i> {{ pelerin.remark }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        <div class="card border-green fond-5 mt-4">
+            <div class="card-header bg-success-light bb-green text-bold text-green">
+                <i class="fa fa-id-card"></i>
+                {{ 'Identité'|trans }}
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8 mt-4">
+                        <div class="row">
+                            <div class="col-6 text-right text-bold mb-2">
+                                {{ 'Civilité'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4 text-uppercase mb-2">
+                                {% if pelerin.sexe == 'Feminin' %}
+                                    {{ 'Madame'|trans }}
+                                {% else %}
+                                    {{ 'Monsieur'|trans }}
+                                {% endif %}
+                            </div>
+                            <div class="col-6 text-right text-bold mb-2">
+                                {{ 'Prénom'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4 text-uppercase mb-2">
+                                {{ pelerin.prenom }}
+                            </div>
+                            <div class="col-6 text-right text-bold mb-2">
+                                {{ 'Nom'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4 text-uppercase mb-2">
+                                {{ pelerin.nom }}
+                            </div>
+                            <div class="col-6 text-right text-bold mb-2">
+                                {{ 'Date de naissance'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4 mb-2">
+                                {% if pelerin.datenaiss is empty %}
+                                    -
+                                {% else %}
+                                    {{ pelerin.datenaiss|date('d/m/Y') }}
+                                {% endif %}
+                            </div>
+                            <div class="col-6 text-right text-bold mb-2">
+                                {{ 'Lieu de naissance'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4 text-uppercase mb-2">
+                                {% if pelerin.lieunaiss is empty %}
+                                    -
+                                {% else %}
+                                    {{ pelerin.lieunaiss }}
+                                {% endif %}
+                            </div>
+                            <div class="col-6 text-right text-bold mb-2">
+                                {{ 'Profession'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4 text-uppercase mb-2">
+                                {% if pelerin.profession is empty %}
+                                    -
+                                {% else %}
+                                    {{ pelerin.profession }}
+                                {% endif %}
+                            </div>
+                            <div class="col-6 text-right text-bold mb-2">
+                                {{ 'Téléphone'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4 mb-2">
+                                {% if pelerin.phone is empty %}
+                                    -
+                                {% else %}
+                                    {{ pelerin.phone }}
+                                {% endif %}
+                            </div>
+                            <div class="col-6 text-right text-bold mb-2">
+                                {{ 'Nº carte d identité'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4 mb-2">
+                                {% if pelerin.cin is empty %}
+                                    -
+                                {% else %}
+                                    {{ pelerin.cin }}
+                                {% endif %}
+                            </div>
+                            <div class="col-6 text-right text-bold mb-2">
+                                {{ 'Nº Passeport'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4 mb-2">
+                                {% if pelerin.numpassport is empty %}
+                                    -
+                                {% else %}
+                                    {{ pelerin.numpassport }}
+                                {% endif %}
+                            </div>
+                            <div class="col-6 text-right text-bold mb-2">
+                                {{ 'Expire le'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4 mb-2">
+                                {% if pelerin.expiredate is empty %}
+                                    -
+                                {% else %}
+                                    {{ pelerin.expiredate|date('d/m/Y') }}
+                                {% endif %}
+                            </div>
+                            <div class="col-6 text-right text-bold mb-2">
+                                {{ 'Séquence'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4 mb-2">
+                                {% if pelerin.numsaoudiantax is empty %}
+                                    -
+                                {% else %}
+                                    {{ pelerin.numsaoudiantax }}
+                                {% endif %}
+                            </div>
+                            <div class="col-6 text-right text-bold mb-2">
+                                {{ 'Groupe sanguin'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4 mb-2">
+                                {% if pelerin.bloodgroup is empty %}
+                                    -
+                                {% else %}
+                                    {{ pelerin.bloodgroup }}
+                                {% endif %}
+                            </div>
+                            <div class="col-6 text-right text-bold mb-2">
+                                {{ 'Ethnie'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4 text-uppercase mb-2">
+                                {% if pelerin.ethnie is empty %}
+                                    -
+                                {% else %}
+                                    {{ pelerin.ethnie }}
+                                {% endif %}
+                            </div>
+                            <div class="col-6 text-right text-bold mb-2">
+                                {{ 'Adresse'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4 text-uppercase mb-2">
+                                {% if pelerin.adresse is empty %}
+                                    -
+                                {% else %}
+                                    {{ pelerin.adresse }}
+                                {% endif %}
+                            </div>
+                            <div class="col-6 text-right text-bold mb-2">
+                                {{ 'Région'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4 text-uppercase mb-2">
+                                {% if pelerin.region is empty %}
+                                    -
+                                {% else %}
+                                    {{ pelerin.region }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="col-12">
+                            <div class="photo">
+                                {% if pelerin.photo == 1 %}
+                                    {% if pelerin.image is not empty %}
+                                        <img src="{{ asset('images/'~ pelerin.image.url) }}"
+                                             alt="{{ pelerin.image.alt }}" class="rounded-circle">
+                                        {% if app.user.caisse != 1 %}
+                                            <div class="caption">
+                                                <div class="row">
+                                                    <div class="col-6 border-right-white-2">
+                                                        <button type="button"
+                                                                class="btn btn-photo"
+                                                                id="selectimage" onclick="selectphoto()">
+                                                            <i class="fa fa-edit"></i>
+                                                            {{ 'Modifier'|trans }}
+                                                        </button>
+                                                        {{ form_start(form, {'attr': {'id': 'form'}}) }}
+                                                        {{ form_row(form.file, {'label':false}) }}
+                                                        {{ form_rest(form) }}
+                                                        {{ form_end(form) }}
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <button type="button" class="btn btn-photo" id="deleteimage" onclick="">
+                                                            <i class="fa fa-trash"></i>
+                                                            {{ 'Supprimer'|trans }}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="caption-mobil">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <button type="button"
+                                                                class="btn btn-shadow btn-primary btn-photo"
+                                                                id="selectimage" onclick="selectphoto()">
+                                                            <i class="fa fa-edit"></i>
+                                                            {{ 'Modifier'|trans }}
+                                                        </button>
+                                                        {{ form_start(form, {'attr': {'id': 'form'}}) }}
+                                                        {{ form_row(form.file, {'label':false}) }}
+                                                        {{ form_rest(form) }}
+                                                        {{ form_end(form) }}
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <button type="button"
+                                                                class="btn btn-shadow btn-danger btn-photo"
+                                                                id="deleteimage" onclick="">
+                                                            <i class="fa fa-edit"></i>
+                                                            {{ 'Supprimer'|trans }}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        {% endif %}
+                                    {% else %}
+                                        {% if pelerin.sexe == 'Feminin' %}
+                                            <img src="{{ asset('images/avatar-femme.jpg') }}" alt="Photo pèlerin"
+                                                 class="rounded-circle">
+                                        {% else %}
+                                            <img src="{{ asset('images/avatar.jpg') }}" alt="Photo pèlerin"
+                                                 class="rounded-circle">
+                                        {% endif %}
+                                        {% if app.user.caisse != 1 %}
+                                            <div class="caption">
+
+                                                <button type="button" class="btn btn-photo"
+                                                        id="selectimage" onclick="selectphoto()">
+                                                    <i class="fa fa-image"></i>
+                                                    {{ 'Ajouter photo'|trans }}
+                                                </button>
+                                                {{ form_start(form, {'attr': {'id': 'form'}}) }}
+                                                {{ form_row(form.file, {'label':false}) }}
+                                                {{ form_rest(form) }}
+                                                {{ form_end(form) }}
+
+                                            </div>
+                                            <div class="caption-mobil">
+
+                                                <button type="button" class="btn btn-shadow btn-green btn-photo"
+                                                        id="selectimage" onclick="selectphoto()">
+                                                    <i class="fa fa-image"></i>
+                                                    {{ 'Ajouter photo'|trans }}
+                                                </button>
+                                                {{ form_start(form, {'attr': {'id': 'form'}}) }}
+                                                {{ form_row(form.file, {'label':false}) }}
+                                                {{ form_rest(form) }}
+                                                {{ form_end(form) }}
+                                            </div>
+
+                                        {% endif %}
+                                    {% endif %}
+                                {% else %}
+                                    <b>{{ 'Pas de photo'|trans }}</b>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <img src="{{ asset('images/QRcode.png') }}" alt="QRcode" width="100">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card border-green fond-5 mt-4">
+                    <div class="card-header bg-success-light bb-green text-green text-bold text-center">
+                        <i class="fa fa-user-check"></i>
+                        {{ 'Personne à contacter'|trans }}
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 text-right text-bold">
+                                {{ 'Prénom(s) et nom'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4">
+                                {% if pelerin.famillyname is empty %}
+                                    -
+                                {% else %}
+                                    {{ pelerin.famillyname }}
+                                {% endif %}
+                            </div>
+                            <div class="col-6 text-right text-bold">
+                                {{ 'Lien de parenté'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4">
+                                {% if pelerin.famillylink is empty %}
+                                    -
+                                {% else %}
+                                    {{ pelerin.famillylink }}
+                                {% endif %}
+                            </div>
+                            <div class="col-6 text-right text-bold">
+                                {{ 'Téléphone'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4">
+                                {% if pelerin.famillyphone is empty %}
+                                    -
+                                {% else %}
+                                    {{ pelerin.famillyphone }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-green fond-5 mt-4">
+                    <div class="card-header bg-success-light bb-green text-green text-bold text-center">
+                        <i class="fa fa-user-friends"></i>
+                        {{ 'Amené par'|trans }}
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 text-right text-bold">
+                                {{ 'Courtier'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4">
+                                {% if pelerin.courtiers|length >0 %}
+                                    {{ pelerin.courtiers[0].courtier.prenom }}
+                                    {{ pelerin.courtiers[0].courtier.nom }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </div>
+                            <div class="col-6 text-right text-bold">
+                                {{ 'Téléphone'|trans }} :
+                            </div>
+                            <div class="col-6 ml-n4">
+                                {% if pelerin.courtiers|length >0 %}
+                                    {{ pelerin.courtiers[0].courtier.phone }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </div>
+                            <div class="col-6 text-right text-bold">
+                                <br>
+                            </div>
+                            <div class="col-6 ml-n4">
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card border-green fond-5 mt-4">
+            <div class="card-header bg-success-light bb-green text-bold text-green">
+                <i class="fa fa-tasks"></i>
+                {{ 'Formalité'|trans }}
+            </div>
+            <div class="card-body text-center">
+                <div class="row">
+                    <div class="col-md-4">
+                        <b>{{ 'Visite médicale'|trans }}</b> :
+                        {% if pelerin.visite == 1 %}
+                            OK
+                        {% else %}
+                            {{ 'Pas encore'|trans }}
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        <b>{{ 'Visa'|trans }}</b> : {{ 'En attente'|trans }}
+                    </div>
+                    <div class="col-md-4">
+                        <b>{{ 'Versement bancaire'|trans }}</b> :
+                        {% if pelerin.numsaoudiantax is not empty %}
+                            OK
+                        {% else %}
+                            {{ 'Pas encore'|trans }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 mt-4 fond-5">
+            <h5 class="mt-3">
+                <i class="fa fa-quran"></i>
+                {{ 'culte'|trans }}
+            </h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card border-green shadow-black mt-4 mb-3">
+                        <div class="card-header bg-success-light bb-green text-bold text-green">
+                            <i class="fa fa-check-circle"></i>
+                            {{ 'Type de Hajj'|trans }}
+                        </div>
+                        <div class="card-body">
+                            <b>{{ 'Hajj choisi'|trans }} :</b> -
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card border-green shadow-black mt-4 mb-3">
+                        <div class="card-header bg-success-light bb-green text-bold text-green">
+                            <i class="fa fa-dungeon"></i>
+                            {{ 'kullu ziar'|trans }}
+                        </div>
+                        <div class="card-body">
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 mt-4 fond-5">
+            <h5 class="mt-3">
+                <i class="fa fa-plane"></i><i class="fa fa-bus-alt"></i>
+                {{ 'Transport'|trans }}
+            </h5>
+            <div class="card border-green shadow-black mt-4">
+                <div class="card-header bg-success-light bb-green text-bold text-green">
+                    <i class="fa fa-plane"></i>
+                    {{ 'Transport aérien'|trans }}
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card border-green shadow-black mt-3">
+                                <div class="card-header bg-default bb-green text-bold text-green">
+                                    <i class="fa fa-plane-departure"></i>
+                                    {{ 'Allée'|trans }}
+                                    {% if pelerin.vol is not null %}
+                                        <a href="#" class="btn btn-shadow btn-sm btn-primary float-right btn-haut">
+                                            {{ 'Modifier'|trans }}
+                                        </a>
+                                    {% else %}
+                                        <a href="#" class="btn btn-shadow btn-sm btn-green float-right btn-haut">
+                                            {{ 'Définir'|trans }}
+                                        </a>
+                                    {% endif %}
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        {% if pelerin.vol is not null %}
+                                            <div class="col-md-4 col-6 text-right text-bold">
+                                                {{ 'Compagnie'|trans }} :
+                                            </div>
+                                            <div class="col-md-8 col-6 ml-n4">
+                                                {{ pelerin.vol.compagnie.nom }}
+                                            </div>
+                                            <div class="col-md-4 col-6 text-right text-bold">
+                                                {{ 'Numero vol'|trans }} :
+                                            </div>
+                                            <div class="col-md-8 col-6 ml-n4">
+                                                {{ pelerin.vol.numero }}
+                                            </div>
+                                            <div class="col-md-4 col-6 text-right text-bold">
+                                                {{ 'Destination'|trans }} :
+                                            </div>
+                                            <div class="col-md-8 col-6 ml-n4">
+                                                {{ pelerin.vol.destination }}
+                                            </div>
+                                            <div class="col-md-4 col-6 text-right text-bold">
+                                                {{ 'Date de vol'|trans }} :
+                                            </div>
+                                            <div class="col-md-8 col-6 ml-n4">
+                                                {{ pelerin.vol.datedepart|date('d/m/Y') }}
+                                            </div>
+                                            <div class="col-md-4 col-6 text-right text-bold">
+                                                {{ 'Heure de vol'|trans }} :
+                                            </div>
+                                            <div class="col-md-8 col-6 ml-n4">
+                                                {{ pelerin.vol.heuredepart|date('H:i') }}
+                                            </div>
+                                        {% else %}
+                                            <div class="col-md-12">
+                                                {{ 'Pas encore défini'|trans }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-green shadow-black mt-3">
+                                <div class="card-header bg-default bb-green text-bold text-green">
+                                    <i class="fa fa-plane-arrival fa-flip-horizontal"></i>
+                                    {{ 'Retour'|trans }}
+                                    {% if pelerin.retour is not null %}
+                                        <a href="#" class="btn btn-shadow btn-sm btn-primary float-right btn-haut">
+                                            {{ 'Modifier'|trans }}
+                                        </a>
+                                    {% else %}
+                                        <a href="#" class="btn btn-shadow btn-sm btn-green float-right btn-haut">
+                                            {{ 'Définir'|trans }}
+                                        </a>
+                                    {% endif %}
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        {% if pelerin.retour is not null %}
+                                            <div class="col-md-4 col-6 text-right text-bold">
+                                                {{ 'Compagnie'|trans }} :
+                                            </div>
+                                            <div class="col-md-8 col-6 ml-n4">
+                                                {{ pelerin.retour.compagnie.nom }}
+                                            </div>
+                                            <div class="col-md-4 col-6 text-right text-bold">
+                                                {{ 'Numero vol'|trans }} :
+                                            </div>
+                                            <div class="col-md-8 col-6 ml-n4">
+                                                {{ pelerin.retour.numero }}
+                                            </div>
+                                            <div class="col-md-4 col-6 text-right text-bold">
+                                                {{ 'Provenance'|trans }} :
+                                            </div>
+                                            <div class="col-md-8 col-6 ml-n4">
+                                                {{ pelerin.retour.lieudepart }}
+                                            </div>
+                                            <div class="col-md-4 col-6 text-right text-bold">
+                                                {{ 'Date de vol'|trans }} :
+                                            </div>
+                                            <div class="col-md-8 col-6 ml-n4">
+                                                {{ pelerin.retour.datedepart|date('d/m/Y') }}
+                                            </div>
+                                            <div class="col-md-4 col-6 text-right text-bold">
+                                                {{ 'Heure de vol'|trans }} :
+                                            </div>
+                                            <div class="col-md-8 col-6 ml-n4">
+                                                {{ pelerin.retour.heuredepart|date('H:i') }}
+                                            </div>
+                                        {% else %}
+                                            <div class="col-md-12">
+                                                {{ 'Pas encore défini'|trans }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card border-green shadow-black mt-4 mb-3">
+                <div class="card-header bg-success-light bb-green text-bold text-green">
+                    <i class="fa fa-bus-alt"></i>
+                    {{ 'Transport terrestre'|trans }}
+                    {% if pelerin.bus is not null %}
+                        <a href="{{ path('Mecque_ChangeBus', { pelerin : pelerin.id }) }}"
+                           class="btn btn-shadow btn-sm btn-primary float-right btn-haut">
+                            {{ 'Modifier'|trans }}
+                        </a>
+                    {% else %}
+                        <a href="{{ path('Mecque_DefineBus', { pelerin : pelerin.id }) }}"
+                           class="btn btn-shadow btn-sm btn-green float-right btn-haut">
+                            {{ 'Définir'|trans }}
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% if pelerin.bus is not null %}
+                            <div class="col-md-2 col-6 text-right text-bold">
+                                {{ 'Numero bus'|trans }} :
+                            </div>
+                            <div class="col-md-10 col-6 ml-n4">
+                                {{ pelerin.bus.numero }}
+                            </div>
+                            <div class="col-md-2 col-6 text-right text-bold">
+                                {{ 'Matricule'|trans }} :
+                            </div>
+                            <div class="col-md-10 col-6 ml-n4">
+                                {{ pelerin.bus.matricule }}
+                            </div>
+                        {% else %}
+                            <div class="col-md-12">
+                                {{ 'Pas encore défini'|trans }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 mt-4 mb-3 fond-5">
+            <h5 class="mt-3">
+                <i class="fa fa-bed"></i>
+                {{ 'Hébergement'|trans }}
+            </h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card border-green shadow-black mt-3 mb-3">
+                        <div class="card-header bg-success-light bb-green text-bold text-green">
+                            <i class="fa fa-mosque"></i>
+                            {{ 'Médine'|trans }}
+                            {% if pelerin.chambre is not null %}
+                                <a href="#" class="btn btn-shadow btn-sm btn-primary float-right btn-haut">
+                                    {{ 'Modifier'|trans }}
+                                </a>
+                            {% else %}
+                                <a href="#" class="btn btn-shadow btn-sm btn-green float-right btn-haut">
+                                    {{ 'Définir'|trans }}
+                                </a>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                {% if pelerin.chambre is not null %}
+                                    <div class="col-md-5 col-6 text-right text-bold">
+                                        {{ 'Hotel'|trans }} :
+                                    </div>
+                                    <div class="col-md-7 col-6 ml-n4">
+                                        {{ pelerin.chambre.hotel.nom }}
+                                    </div>
+                                    <div class="col-md-5 col-6 text-right text-bold">
+                                        {{ 'Groupe'|trans }} :
+                                    </div>
+                                    <div class="col-md-7 col-6 ml-n4">
+                                        {{ pelerin.chambre.numero }}
+                                    </div>
+                                    <div class="col-md-5 col-6 text-right text-bold">
+                                        {{ 'Nº chambre'|trans }} :
+                                    </div>
+                                    <div class="col-md-7 col-6 ml-n4">
+                                        {{ pelerin.chambre.numeroreel }}
+                                    </div>
+                                {% else %}
+                                    <div class="col-md-12">
+                                        {{ 'Pas encore défini'|trans }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card border-green shadow-black mt-3 mb-3">
+                        <div class="card-header bg-success-light bb-green text-bold text-green">
+                            <i class="fa fa-kaaba"></i>
+                            {{ 'Mecque'|trans }}
+                            {% if pelerin.chambremecque is not null %}
+                                <a href="#" class="btn btn-shadow btn-sm btn-primary float-right btn-haut">
+                                    {{ 'Modifier'|trans }}
+                                </a>
+                            {% else %}
+                                <a href="#" class="btn btn-shadow btn-sm btn-green float-right btn-haut">
+                                    {{ 'Définir'|trans }}
+                                </a>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                {% if pelerin.chambremecque is not null %}
+                                    <div class="col-md-5 col-6 text-right text-bold">
+                                        {{ 'Hotel'|trans }} :
+                                    </div>
+                                    <div class="col-md-7 col-6 ml-n4">
+                                        {{ pelerin.chambremecque.hotel.nom }}
+                                    </div>
+                                    <div class="col-md-5 col-6 text-right text-bold">
+                                        {{ 'Groupe'|trans }} :
+                                    </div>
+                                    <div class="col-md-7 col-6 ml-n4">
+                                        {{ pelerin.chambremecque.numero }}
+                                    </div>
+                                    <div class="col-md-5 col-6 text-right text-bold">
+                                        {{ 'Nº chambre'|trans }} :
+                                    </div>
+                                    <div class="col-md-7 col-6 ml-n4">
+                                        {{ pelerin.chambremecque.numeroreel }}
+                                    </div>
+                                {% else %}
+                                    <div class="col-md-12">
+                                        {{ 'Pas encore défini'|trans }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if is_granted('ROLE_CHEF') %}
+            <div class="accordion mt-4 mb-3 fond-5" id="volet">
+                <div class="col-12">
+                    <h5 class="mt-3 mb-3" id="headingOne">
+                        <a data-toggle="collapse" data-target="#collapseversement" aria-expanded="true"
+                           aria-controls="collapseversement" style="cursor: pointer">
+                            <i class="fa fa-money-bill fa-lg"></i><i class="fa fa-sign-in-alt ml-n1"></i>
+                            {{ 'Versements'|trans }}
+                        </a>
+                    </h5>
+                    <div id="collapseversement" class="collapse hide" aria-labelledby="headingOne" data-parent="#volet">
+                        <div class="card border-green shadow-black mt-5 mb-4">
+                            <div class="card-header bg-success-light bb-green text-bold text-green">
+                                <i class="fa fa-history"></i>
+                                {{ 'Historique des versements du pèlerin'|trans }}
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-success-light table-bordered table-striped mt-3" id="list">
+                                    <thead>
+                                    <tr class="text-center">
+                                        <th>{{ 'Nº versement'|trans }}</th>
+                                        <th>{{ 'Date'|trans }}</th>
+                                        <th>{{ 'Montant'|trans }}</th>
+                                        <th class="text-left">{{ 'Type de versement'|trans }}</th>
+                                        <th>{{ 'Actions'|trans }}</th>
+                                        {#                                            <th>{{ 'Duplicata'|trans }}</th>#}
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set montant = 0 %}
+                                    {% if versements is not empty %}
+                                        {% for versement in versements %}
+                                            <tr>
+                                                <td data-label="{{ 'Nº versement'|trans }}" class="text-center">
+                                                    <a class="text-green text-bold"
+                                                       href="{{ path('Finance_versement_list') }}#versement_{{ versement.id }}">
+                                                        {{ versement.date|date('ymd') }}{{ versement.id }}
+                                                    </a>
+                                                </td>
+                                                <td data-label="{{ 'Date'|trans }}" class="text-center">
+                                                    {{ versement.date|date('d/m/Y') }}
+                                                    <br>
+                                                    {{ versement.date|date('H:i:s') }}
+                                                </td>
+                                                <td data-label="{{ 'Montant'|trans }}" class="montant">
+                                                    {{ versement.montant|number_format(0, '' , ' ') }} FCFA
+                                                </td>
+                                                <td data-label="{{ 'Type de versement'|trans }}">
+                                                    {{ versement.type|trans }}
+                                                    {% if versement.banque is not null %}
+                                                        {{ versement.banque }}
+                                                        <br>
+                                                        <span class="text-nowrap">
+                                                                Nº : {{ versement.numero }}
+                                                            </span>
+                                                    {% endif %}
+                                                </td>
+                                                {% if versement.encaisser is not null %}
+                                                    <td data-label="{{ 'Action'|trans }}" class="text-center">
+                                                        <a href="{{ path('Mecque_VersementEdit', { id: versement.id }) }}">
+                                                            <button class="btn btn-shadow btn-primary btn-td" title="{{ 'Modifier'|trans }}">
+                                                                <i class="fa fa-edit"></i>
+{#                                                                {{ 'Modifier'|trans }}#}
+                                                            </button>
+                                                        </a>
+                                                        <button class="btn btn-shadow btn-danger btn-td"
+                                                                id="btn{{ versement.id }}"
+                                                                onclick="deleteversement({{ versement.id }})" title="{{ 'Supprimer'|trans }}">
+                                                            <i class="fa fa-trash"></i>
+                                                            {#{{ 'Annuler'|trans }}#}
+                                                        </button>
+{#                                                    </td>#}
+                                                {% else %}
+                                                    <td data-label="{{ 'Annulation'|trans }}" class="text-center">
+                                                        <button class="btn btn-shadow btn-danger btn-td"
+                                                                id="btn{{ versement.id }}"
+                                                                onclick="cancelversement({{ versement.id }})" title="{{ 'Annuler'|trans }}">
+                                                            <i class="fa fa-undo"></i>
+{#                                                            {{ 'Annuler'|trans }}#}
+                                                        </button>
+{#                                                    </td>#}
+                                                {% endif %}
+{#                                                <td data-label="{{ 'Duplicata'|trans }}">#}
+                                                    {% if versement.encaisser is not null %}
+                                                        <a href="{{ path('Mecque_Confirm', { plr: pelerin.id, vsm: versement.id }) }}"{# target="_blank"#}>
+                                                            <button class="btn btn-shadow btn-green btn-td" title="{{ 'Imprimer'|trans }}">
+                                                                <i class="fa fa-print"></i>
+{#                                                                {{ 'Imprimer'|trans }}#}
+                                                            </button>
+                                                        </a>
+                                                    {% else %}
+                                                        <button class="btn btn-shadow btn-warning btn-td no-events">
+                                                            <!--<i class="fa fa-info-circle"></i>-->
+                                                            {{ 'Non encaissé'|trans }}
+                                                        </button>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% set montant = montant + versement.montant %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td data-label="colspan" colspan="6">{{ 'Aucun versement'|trans }}</td>
+                                        </tr>
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer bg-default bt-green">
+                                <div class="row">
+                                    <div class="col-lg-6 mt-2 mb-2">
+                                        <b>{{ 'Montant total versé'|trans }}</b>
+                                        : {{ montant|number_format(0, '' , ' ') }} F CFA
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <span id="exportexcel" class="float-right"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% if pelerin.compte >= situation or pelerin.exonorer == 1 %}
+                            <a href="#" class="btn btn-shadow btn-bas btn-green mb-3 disabled" id="btn-versement2">
+                                <i class="fa fa-money-bill fa-lg"></i><i class="fa fa-sign-in-alt ml-n1"></i>
+                                {{ 'Effectuer versement'|trans }}
+                            </a>
+                        {% else %}
+                            <a href="{{ path('Mecque_Versement', { id : pelerin.id}) }}"
+                               class="btn btn-shadow btn-bas btn-green mb-3" id="btn-versement2">
+                                <i class="fa fa-money-bill fa-lg"></i><i class="fa fa-sign-in-alt ml-n1"></i>
+                                {{ 'Effectuer versement'|trans }}
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    {% block script %}
+        <script>
+            function exonor(id) {
+                if (confirm("{{ 'Voulez-vous vraiment exonérer ce pèlerin ?'|trans }}")) {
+                    $('#exonor').html("<div class='ajax-loader'></div>");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('Mecque_Exonorer') }}",
+                        data: "exonore=" + id,
+                        success: function (data) {
+                            if (data['ok'] == 'ok') {
+                                $('#exonor').html("<i class='fa fa-money-bill fa-lg'></i><i class='fa fa-undo'></i> {{ 'Annuler exonéré'|trans }}");
+                                $('#exonor').attr("onclick", "annulexo(" + id + ")");
+                                $('#btn-versement').addClass("disabled");
+                                $('#btn-versement2').addClass("disabled");
+                                $('#btreduct').addClass("disabled");
+                                $('#btn-split').addClass("disabled");
+                                $('#btn-split').addClass("no-events");
+                                $('#btn-versement').attr("href", "#");
+                                $('#btn-versement2').attr("href", "#");
+                                $('#btreduct').attr("href", "#");
+                                $('#btn-split').removeAttr("data-toggle")
+                                $('#btn-split').removeAttr("aria-haspopup")
+                                $('#btn-split').removeAttr("aria-expanded")
+                                $('#situation').attr("class", "alert alert-success radius-10 shadow-black mb-4");
+                                $('#situation').html("<div class='row'> <div class='col-lg-2 col-6 text-right'> <b> {{ 'Situation'|trans }} </b> : </div> <div class='col-lg-3 col-6 ml-n4'> {{ 'Soldé'|trans }} || {{ 'Exonéré'|trans }} </div> <div class='col-lg-7 col-12 text-center text-bold'>  </div> </div>");
+                            } else alert("{{ 'Impossible d exonérer ce pèlerin'|trans }}");
+                        },
+                        error: function () {
+                            alert("{{ 'La requête n a pas abouti'|trans }}");
+                        }
+                    });
+                }
+            }
+
+            function annulexo(id) {
+                if (confirm("{{ 'Voulez-vous vraiment annuler l exonération de ce pèlerin ?'|trans }}")) {
+                    $('#exonor').html("<div class='ajax-loader'></div>");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('Mecque_Exonorer') }}",
+                        data: "exonore=" + id + "&annul=o",
+                        success: function (data) {
+                            if (data['ok'] == 'ok') {
+                                $('#exonor').html("<i class='fa fa-money-bill fa-lg'></i><i class='fa fa-times-circle fa-sm ml-n1'></i> {{ 'Exonérer'|trans }}");
+                                $('#exonor').attr("onclick", "exonor(" + id + ")");
+                                $('#btn-versement').removeClass("disabled");
+                                $('#btn-versement2').removeClass("disabled");
+                                $('#btreduct').removeClass("disabled");
+                                $('#btn-split').removeClass("disabled");
+                                $('#btn-split').removeClass("no-events");
+                                $('#btn-versement').attr("href", "{{ path('Mecque_Versement', { id : pelerin.id }) }}");
+                                $('#btn-versement2').attr("href", "{{ path('Mecque_Versement', { id : pelerin.id }) }}");
+                                if ($('#mecquebundle_pelerin_reduction_montant').val() != '') {
+                                    $('#btreduct').attr("href", "{{ path('Mecque_ReductionEdit', { pelerin : pelerin.id }) }}");
+                                } else {
+                                    $('#btreduct').attr("href", "{{ path('Mecque_Reduction', { pelerin : pelerin.id }) }}");
+                                }
+                                $('#btn-split').attr("data-toggle", "dropdown")
+                                $('#btn-split').attr("aria-haspopup", "true")
+                                $('#btn-split').attr("aria-expanded", "false")
+                                $('#situation').attr("class", "alert alert-danger radius-10 shadow-black mb-4");
+                                $('#situation').html("<div class='row'> <div class='col-lg-2 col-6 text-right'> <b> {{ 'Situation'|trans }} </b> : </div> <div class='col-lg-3 col-6 ml-n4'>" + data('compte') + " F CFA</div> <div class='col-lg-7 col-12 text-center text-bold'>  </div> </div>");
+                            } else {
+                                $('#exonor').html("<i class='fa fa-money-bill fa-lg'></i><i class='fa fa-times-circle fa-sm ml-n1'></i> {{ 'Exonérer'|trans }}");
+                                $('#exonor').attr("onclick", "exonor(" + id + ")");
+                                $('#btn-versement').removeClass("disabled");
+                                $('#btn-versement2').removeClass("disabled");
+                                $('#btreduct').removeClass("disabled");
+                                $('#btn-split').removeClass("disabled");
+                                $('#btn-split').removeClass("no-events");
+                                $('#btn-versement').attr("href", "{{ path('Mecque_Versement', { id : pelerin.id }) }}");
+                                $('#btn-versement2').attr("href", "{{ path('Mecque_Versement', { id : pelerin.id }) }}");
+                                if ($('#mecquebundle_pelerin_reduction_montant').val() != '') {
+                                    $('#btreduct').attr("href", "{{ path('Mecque_ReductionEdit', { pelerin : pelerin.id }) }}");
+                                } else {
+                                    $('#btreduct').attr("href", "{{ path('Mecque_Reduction', { pelerin : pelerin.id }) }}");
+                                }
+                                $('#btn-split').attr("data-toggle", "dropdown")
+                                $('#btn-split').attr("aria-haspopup", "true")
+                                $('#btn-split').attr("aria-expanded", "false")
+                                $('#situation').attr("class", "alert alert-danger radius-10 shadow-black mb-4");
+                                $('#situation').html("<div class='row'><div class='col-lg-2 col-6 text-right'> <b> {{ 'Situation'|trans }} </b> : </div> <div class='col-lg-3 col-6 ml-n4'>" + data['compte'] + " F CFA</div> <div class='col-lg-7 col-12 text-center text-bold'></div> </div>");
+                            }
+                        },
+                        error: function () {
+                            alert("{{ 'La requête n a pas abouti'|trans }}");
+                        }
+                    });
+                }
+            }
+
+            function reductiondelete(id) {
+                if (confirm("{{ 'Voulez-vous vraiment supprimer cette réduction ?'|trans }}")) {
+                    $('#btreduct').html("<div class='ajax-loader'></div>");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('Mecque_ReductionDelete') }}",
+                        data: "plr=" + id,
+                        success: function (data) {
+                            if (data['ok'] == 'ok') {
+                                $('#btreduct').attr("href", "{{ path('Mecque_Reduction', { pelerin : pelerin.id }) }}");
+                                $('#btreduct').html("<i class='fa fa-money-bill fa-lg'></i><i class='fa fa-level-down-alt'></i> {{ 'Réduction'|trans }}");
+                                $('#reduction-label').html("");
+                                $('#reduction-montant').html("");
+                                $('#reduct-menu').html("<li> <a href='{{ path('Mecque_Reduction', { pelerin : pelerin.id}) }}' class='nav-link'> <i class='fa fa-check'></i> {{ 'Accorder'|trans }} </a> </li>");
+                                $('#situation').html("<div class='row'><div class='col-lg-2 col-6 text-right'><b>{{ 'Situation'|trans }}</b> : </div><div class='col-lg-3 col-6 ml-n4'>" + data['compte'] + " F CFA</div></div>");
+                            }
+                        },
+                        error: function () {
+                            alert("{{ 'La requête n a pas abouti'|trans }}");
+                        }
+                    });
+                }
+            }
+
+            function cacher() {
+                $('#form').hide();
+            }
+
+            //suppression versement
+            function cancelversement(id) {
+                if (confirm("{{ 'Voulez-vous vraiment annuler ce versement?'|trans }}")) {
+                    $('#btn' + id).html("<div class='ajax-loader'></div>");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('Mecque_VersementCancel') }}",
+                        data: "vsm=" + id,
+                        success: function (data) {
+                            if (data['id'] != '') {
+                                document.location.href = data['ok'];
+                            }
+                        },
+                        error: function () {
+                            alert("{{ 'La requête n a pas abouti'|trans }}");
+                        }
+                    });
+                }
+            }
+//suppression versement
+            function deleteversement(id) {
+                if (confirm("{{ 'Voulez-vous vraiment supprimer ce versement?'|trans }}")) {
+                    $('#btn' + id).html("<div class='ajax-loader'></div>");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('Mecque_VersementDelete') }}",
+                        data: "vsm=" + id,
+                        success: function (data) {
+                            if (data['id'] != '') {
+                                document.location.href = data['ok'];
+                            }
+                        },
+                        error: function () {
+                            alert("{{ 'La requête n a pas abouti'|trans }}");
+                        }
+                    });
+                }
+            }
+
+            //suppression pelerin
+            function deletePelerin(id) {
+                if (confirm("{{ 'Voulez-vous vraiment supprimer ce pèlerin'|trans }}")) {
+                    $('#btn-sup' + id).html("<div class='ajax-loader'></div>");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('Mecque_PelerinDelete') }}",
+                        data: "plr=" + id,
+                        success: function (data) {
+                            if (data['id'] != '') {
+                                document.location.href = "{{ path('Mecque_PelerinList') }}";
+                            }
+                        },
+                        error: function () {
+                            alert("{{ 'Suppression impossible !!! Verifiez si ce pèlerin n est pas un membre de l organisation ou lié à un courtier.'|trans }}");
+                            $('#btn-sup' + id).html("<i class='fa fa-user-times'></i> {{ 'Supprimer'|trans }}");
+                        }
+                    });
+                }
+            }
+
+            //choix image pelerin
+            function selectphoto() {
+                $('#mecquebundle_image_file').trigger('click');
+                return false;
+            }
+        </script>
+    {% endblock %}
+{% endblock %}

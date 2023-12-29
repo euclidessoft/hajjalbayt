@@ -1,0 +1,21 @@
+//supprimer un vol
+function voldelete(id) {
+    if (confirm("{{ 'Voulez-vous vraiment supprimer ce vol ?'|trans }}")) {
+        $('#sup' + id).html("<div class='ajax-loader'></div>");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_VolDelete') }}",
+            data: "vol=" + id,
+            success: function (data) {
+                if (data['id'] == 1) {
+                    document.location.href = "{{ path('Mecque_TransportAerien') }}";
+                } else {
+                    document.location.href = "{{ path('Mecque_TransportAerienRetour') }}";
+                }
+            },
+            error: function () {
+                alert("{{ 'La requête n a pas abouti'|trans }}");
+            }
+        });
+    }
+}

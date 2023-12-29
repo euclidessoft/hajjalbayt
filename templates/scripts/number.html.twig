@@ -1,0 +1,36 @@
+//entrée et sortie d'argent
+function number() {
+    var reg = new RegExp("^[0-9]{5,9}$");
+    var reg2 = new RegExp("^[0-9]{3,9}$");
+    if (document.getElementById('mecquebundle_versement_montant')) {
+        if (reg.test($('#mecquebundle_versement_montant').val())) {
+            if ($('#mecquebundle_versement_type option:selected').val() == 'Cheque' || $('#mecquebundle_versement_type option:selected').val() == 'Virement') {
+                if ($('#mecquebundle_versement_banque').val() != '' && $('#mecquebundle_versement_numero').val() != '') {
+                    $('#send').html("<div class='ajax-loader'></div>");
+                    $('#form').submit();
+                } else alert('Veuillez renseigner tous les champs');
+            } else {
+                $('#send').html("<div class='ajax-loader'></div>");
+                $('#form').submit();
+            }
+        } else alert("{{ 'Nombre compris entre 5 et 9 chiffres'|trans }}");
+    }
+    if (document.getElementById('transfert_montant')) {
+        if (reg2.test($('#transfert_montant').val())) {
+            $('#send').html("<div class='ajax-loader'></div>");
+            $('#form').submit();
+        } else alert("{{ 'Nombre compris entre 3 et 9 chiffres'|trans }}");
+    }
+    if (document.getElementById('mecquebundle_depense_montant')) {
+        if (reg2.test($('#mecquebundle_depense_montant').val())) {
+            $('#send').html("<div class='ajax-loader'></div>");
+            $('#form').submit();
+        } else alert("{{ 'Nombre compris entre 3 et 9 chiffres'|trans }}");
+    }
+    if (document.getElementById('mecquebundle_gain_montant')) {
+        if (reg2.test($('#mecquebundle_gain_montant').val())) {
+            $('#send').html("<div class='ajax-loader'></div>");
+            $('#form').submit();
+        } else alert("{{ 'Nombre compris entre 3 et 9 chiffres'|trans }}");
+    }
+}

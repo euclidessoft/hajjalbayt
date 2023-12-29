@@ -1,0 +1,706 @@
+Le pèlerinage facile: The easy pilgrimage
+Accueil: Home
+Pèlerin: Pilgrim
+Ajouter nouveau: Add new
+Tous les pèlerins: All pilgrims
+Liste définitive: Final list
+Réservation: Booking
+Staff: Staff
+Administratif: Administrative
+Médecin: Doctor
+Guide religieux: Religious guide
+Transport: Transport
+Aérien: Airline
+Vol allée: Departure flight
+Vol retour: Arrival flight
+Terrestre: Terrestrial
+Compagnies: Companies
+Hébergement: Accommodation
+Médine: Medina
+Mecque: Macca
+Courtier: Broker
+Courtiers actifs: Active brokers
+Tous les courtiers: All brokers
+Package: Package
+Tous les packages: All packages
+Session: Session
+Clôturer actuelle: Close current
+Regroupement: Regroupment
+Archives: Archives
+Finance: Finance
+Encaissement: Checkout
+Paiement courtier: Broker's payment
+Dépenses: Expenses
+Financements: Financing
+Transfert de fonds: Fund transfer
+Compte: Accounting
+Aide: Help
+Informations agence: Agency information
+Manuel: Manual
+Commentaire: Feedback
+Rapport: Report
+A propos de: About
+Bienvenue: Welcome
+Langue: Language
+Français: English
+Administration: Settings
+Déconnexion: Logout
+enregistré: registered
+enregistrés: registered
+Voir les détails: View details
+en règle: paid
+avec acompte: with deposit
+sans versement: without payment
+en attente: waiting
+avec remarque: with remark
+regroupement: regroupment
+Information: Incomplete
+incomplète: information
+Exporter vers Excel: Export to Excel
+Supprimer: Delete
+Pèlerins: Pilgrims
+Informations: Incomplete
+incomplètes: informations
+Vous utilisez la version gratuite de HAJJALBAYT avec des fonctionnalités limitées.: You are using the free version of HAJJALBAYT with limited features.
+Veuillez acheter une licence pour disposer de la version complète avec toutes les fonctionnalités.: Please buy a licence for full version with all features.
+Homme: Man
+Femme: Woman
+Hommes: Men
+Femmes: Women
+Femmes -45 ans: Women -45 years
+Via courtier: By broker
+3ième âge: Old people
+Réductions: Discounted
+Exonérés: Exempted
+Abandons: Deleted
+Numéro: Number
+Photo: Photo
+Prénom: Fist name
+Nom: Last name
+Date de naissance: Date of birth
+Lieu de naissance: Place of birth
+Nº Passeport: Passport Nº
+Profession: Job title
+Téléphone: Phone
+Situation: Situation
+Aucun pèlerin: No pilgrim
+Imprimer les pèlerins en règle: Print paid pilgrims
+Imprimer les pèlerins avec acompte: Print pilgrims with deposit
+Imprimer tous: Print all
+Soldé: Paid
+Avertissement: Warning
+Cette fonctionnalité n'est disponible que dans la version complète.: This feature is available only on the full version.
+Veuillez acheter une licence pour avoir accès à toutes les fonctionnalités.: Please buy a licence for getting all features.
+Liste des hommes: Men list
+Imprimer: Print
+Liste des femmes: Women list
+Femmes agées de moins de 45 ans: Women under 45 years old
+Age: Age
+Tuteur: Tutor
+Annulation: Cancellation
+ans: years
+Assigner: Assign
+Annuler: Cancel
+Pèlerins amenés par un courtier: Pilgrims brought by broker
+Pèlerins du troisième âge: Old pilgrims
+Région: Region
+Pèlerins avec réduction: Pilgrims with discount
+Pèlerins bénéficiant d'une réduction: Pilgrims with discount
+Réduction: Discount
+Pèlerins exonérés: Exempted pilgrims
+Pèlerins supprimés: Deleted pilgrims
+Agence: Agency
+Restauration: Restoration
+Restaurer: Restore
+Situation financière en régle: Paid pilgrims
+Pèlerins avec acompte: Pilgrims with deposit
+Montant à recouvrer: Amount to recover
+Pèlerins sans versement: Pilgrims without payment
+Date d'inscription: Registration date
+Réservations: Bookings
+Nouvelle réservation: New booking
+Adresse: Address
+Date: Date
+Confirmation: Confirmation
+Suppression: Deleting
+Aucun pèlerin en attente: No waiting pilgrim
+Les champs marqués par * sont obligatoires: All fields with * are required
+Prénom *: Fist name *
+Nom *: Last name *
+Sélectionnez le genre *: Select gender *
+Feminin: Female
+Masculin: Male
+Téléphone *: Phone *
+Enregistrer: Save
+Confirmer: Confirm
+Pèlerins avec remarques: Pilgrims with remark
+Diabète: Diabete
+Handicape: Disability
+Non voyant: Blind
+Hypotension: High blood pressure
+Hypertension: Low blood pressure
+Autre: Other
+Pèlerins du regroupement: Regroupment's pilgrims
+Informations incomplètes: Incomplete informations
+Pèlerins ayant des informations à incomplèter: Pilgrim with incomplete informations
+Nº carte d'identité: ID card number
+Séquence: Sequence
+Nouveau pèlerin: New pilgrim
+Identité: Identity
+Nº carte nationale d'identité (sans espace): ID card number (without space)
+Date d'expiration: Expiration date
+Sélectionnez une région: Select a region
+Dakar: Dakar
+Diourbel: Diourbel
+Fatick: Fatick
+Kaffrine: Kaffrine
+Kaolack: Kaolack
+Kedougou: Kedougou
+Kolda: Kolda
+Louga: Louga
+Matam: Matam
+Saint-Louis: Saint-Louis
+Sedhiou: Sedhiou
+Tambacounda: Tambacounda
+Thies: Thies
+Ziguinchor: Ziguinchor
+Informations complémentaires: Further informations
+Selectionnez package *: Select package
+Exonérer: Exempt
+Accorder réduction: Discount
+Montant à réduire: Amount to discount
+Le pèlerin a t-il effectué un pèlerinage durant ces 5 dermières années: Did the pilgrim be at Mecca 5 years ago
+OUI: YES
+NON: NO
+Photo déposée: Photo brought
+Amené par un courtier: Brought by broker
+Informations sensibles: Sensitive informations
+Visite médicale obtenue: Medical visit obtained
+Ethnie: Ethnic group
+Sélectionnez une ethnie: Select an ethnic group
+Wolof: Wolof
+Pulaar: Pulaar
+Sérère: Sérère
+Diola: Diola
+Malinké: Malinké
+Socé: Socé
+Bambara: Bambara
+Diakhanké: Diakhanké
+Soninkés: Soninkés
+Manjaque: Manjaque
+Mancagne: Mancagne
+Autres: Autres
+Sélectionnez le groupe sanguin: Select blood group
+A+: A+
+A-: A-
+AB+: AB+
+AB-: AB-
+B+: B+
+B-: B-
+O+: O+
+O-: O-
+Autre remarque à noter: Other remark to note
+Personne à contacter: Emergency contact
+Prénom(s) et nom: First and last name
+Lien de parenté: Relationship
+Papa: Father
+Maman: Mother
+Epoux: Husband
+Epouse: Wife
+Fils: Son
+Fille: Daughter
+Frère: Brother
+Soeur: Sister
+Nièce: Niece
+Neveu: Nephew
+Tante: Aunt
+Oncle: Uncle
+Cousin: Cousin
+Cousine: Female cousin
+Beau père: Father in law
+Belle mère: Mother in law
+Beau fils: Son in law
+Belle fille: Daughter in law
+Ami: Friend
+Amie: Friend
+Voisin: Neighbor
+Voisine: Neighbor
+Effacer: Reset
+Liste définitive de tous les pèlerins: Final list of all pilgrims
+Groupe sanguin: Blood group
+Compagnie: Company
+Destination: Destination
+Provenance: From
+Nouveau vol: New flight
+pèlerin en attente: waiting pilgrim
+pèlerins en attente: waiting pilgrims
+Modifier: Edit
+Nº vol: Flight Nº
+Date de vol: Flight date
+Heure: Hour
+Pèlerins à bord: Pilgrims on board
+Embarquer: Embark
+Débarquer: Disembark
+Aucun vol créé: No flight created
+Transport terrestre: Terrestrial transport
+Nouveau bus: New bus
+femme: woman
+femmes: women
+et: and
+homme: man
+hommes: men
+non embarqué: outboard
+non embarquée: outboard
+non embarqués: outboard
+non embarquées: outboard
+Genre: Gender
+Matricule: Plate number
+Nombre de places: Number of place
+Monter: Bring up
+Descendre: Bring down
+Aucun bus créé: No bus created
+Compagnies de transport: Transport company
+Nouvelle compagnie: New company
+Type: Type
+Email: Email
+Nom compagnie: Company name
+Hébergement Mecque: Macca accommodation
+Hôtel: Hotel
+Chambre: Room
+Nouvel hôtel: New hotel
+Nom hôtel: Hotel name
+Créer chambre: Create room
+non logé: unhoused
+non logés: unhoused
+non logée: unhoused
+non logées: unhoused
+Groupe: Group
+Nº chambre: Room Nº
+Nombre de lits: Number of bed
+Nombre d'occupants: Number of occupants
+Logement: Housing
+Aucune chambre créée: No room created
+Aucun hôtel créé: No hotel created
+Aucune compagnie enregistrée: No company created
+Sélectionnez la compagnie: Select company
+Heure de vol: Flight hour
+Type de compagnie: Company type
+Aerienne: Airline
+Automobile: Automotive
+Genre pour occuper le bus: Gender for bus occupation
+Mixte: Mixed
+Création chambre: Room creation
+Selectionnez hôtel: Select hotel
+Type de chambre: Room type
+Classique: Classic
+Confort: Comfort
+Luxe: Luxury
+Combien de chambre voulez-vous créer ?: How many room would you create ?
+Création hôtel: Hotel creation
+Nom de l'hôtel: Hotel's name
+Adresse de l'hôtel: Hotel's address
+Adresse email: Email address
+Nouveau courtier: New broker
+Commission *: Commition *
+Hébergement Médine: Medina accommodation
+Commission: Commition
+Modification: Editing
+Nouveau package: New package
+Nom du package: Package name
+Prix du package: Package price
+Date limite de paiement: Payment deadline
+Taux du Riyal: Riyal rate
+Composantes du package: Package components
+Montant d'exploitation: Operating amount
+Compagnies aériennes: Airline company
+Prix du billet en CFA: Ticket price in CFA
+Prix en Riyal: Price in Riyal
+Compagnie 2: Company 2
+Compagnie 3: Company 3
+Coût du lit en CFA: Bed cost in CFA
+Coût en Riyal: Cost in Riyal
+Pension: Pension
+Formule: Formula
+Coût en CFA: Cost in CFA
+Sélectionnez pension: Select pension
+Pension complète: Full-board
+Demi-pension: Half-board
+Ordinaire: Normal
+Transport ordinaire: Normal transport
+VIP: VIP
+Transport VIP: VIP transport
+Autre transport: Other transport
+Autres services VIP: Other VIP services
+Service: Service
+Service VIP 1: VIP service 1
+Coût service VIP 1: VIP service 1 cost
+Service VIP 2: VIP service 2
+Coût service VIP 2: VIP service 2 cost
+Service VIP 3: VIP service 3
+Coût service VIP 3: VIP service 3 cost
+Eléments du package commun à la DGP: Common package components with DGP 
+Taxe saoudienne: Saudi tax
+Tentes Mouna et Arafat + matelas Mouna: Mouna and Arafat tents + Mouna mattress
+Restauration Mouna et Arafat: Mouna and Arafat feed
+Assurance: Insurance
+Vaccins: Vaccines
+Pécule: Peclum
+Zam zam: Zam zam
+Charge de fonctionnement: Operating charges
+Guides: Guides
+Coût guide: Guide cost
+Médecins: Doctors
+Coût medecin: Doctor cost
+Administratifs: Administrative
+Coût administratifs: Administrative cost
+Autres Services: Other services
+Coût autres services: Other services cost
+Produits de promotion hors package: Out package products
+Service 1: Service 1
+Coût service 1: Service 1 cost
+Service 2: Service 2
+Coût service 2: Service 2 cost
+Service 3: Service 3
+Coût service 3: Service 3 cost
+Détails: Details
+Fermer: Close
+Modification package: Package edit
+Fermeture de Session: Closing session
+Vous êtes sur le point de clôturer la session en cours: You are closing the current session
+En êtes-vous sûr ?: Are you sure ?
+Oui: Yes
+Non: No
+Aucune agence dans le regroupement: No agency in the regroupment
+Nouvelle Session: New Session
+Nom de la nouvelle Session: New Session name
+Paramétrage nouvelle Session: Setting new Session
+Êtes vous dans un regroupement: Are you in a regroupment
+Êtes vous chef de groupe: Are you group leader
+Précédent: Previous
+Toutes les agences: All agencies
+Ajouter membre: Add member
+Définir mon quota: Define my quota
+Ajouter une agence en tant que membre du Regroupement: Add agency like member of regroupment
+Sélectionnez agence à ajouter: Select agency to add
+Quota: Quota
+Aucune autre agence dans le regroupement: No other agency in the regroupment
+Ajouter une agence: Add agency
+Aucune agence enregistrée: No agency registered
+Terminer: Finish
+Définition quota: Define quota
+Ajouter agence: Add agency
+Nom de l'agence: Agency name
+Adresse de l'agence: Agency address
+Retenu: Retain
+Aucun package enregistré: No package available
+Date de démarrage: Starting date
+Date de fermeture: Closure date
+Action: Action
+Modification Session: Session edit
+Nom Session: Session name
+File d'attente encaissement: Checkout queue
+Aucun versement à encaisser: No payment to cash
+Paiement: Payement
+Aucun courtier à payer: No broker to pay
+Nouvelle dépense: New expense
+Motif: Reason
+Montant: Amount
+Aucune dépense: No expense
+Type de règlement: Settlement type
+Espece: Cash
+Cheque: Check
+Virement: Bank transfer
+Frais banquaire: Bank fees
+Banque: Bank
+Tous les financements: All financing
+Nouveau financement: New financing
+Aucun financement: No financing
+Type de financement: Financing type
+Nouveau transfert: New tranfer
+Bénéficiaire: Recipient
+Aucun transfert de fonds: No fund tranfer
+Nouveau transfert de fonds: New fund tranfer
+Soldes: Balances
+Solde caisse: Cash balance
+Avoirs en banque: Bank balance
+Solde global: Global balance
+Situations: Situations
+Situation du jour: day situation
+Situation journalière: day situation
+Quelle situation voulez-vous ?: What situation would you like ?
+Caisse: Cash
+Situation à une autre date: Another date situation
+Valider: Validate
+Situation dans un intervalle de dates: Dates interval situation
+Du: From
+Au: To
+Total transfert: Total transfer
+Entrées: Money entries
+Vide: Empty
+Total entrées: Total entries
+Sorties: Outlet money
+Total sorties: Total outlet
+Situation journalière caisse du: Cash day situation of
+Solde d'ouverture: Previous balance
+Aucun encaissement: No checkout
+Total: Total
+Financement: Financing
+Balance journalière: Daily balance
+Solde actuel: Current balance
+Versement: Payment
+Situation journalière banque du: Bank day situation of
+Situation du: Situation of
+Situation caisse du: Cash situation of
+Balance du: Balance of
+Solde au: Balance at
+Situation banque du: Bank situation of
+du: from
+au: to
+Situation caisse: Cash situation
+Balance: Balance
+Solde à la date du: Balance at
+Situation banque: Bank situation
+Facturé le: Billed on
+Encaissé le: Cashed on
+Modifier pèlerin: Edit pilgrim
+Changer package: Change package
+Informations pèlerin: Pilgrim's informations
+Dossier Nº: Folder Nº
+Civilité: Civility
+Monsieur: Mister
+Expire le: Expire at
+Modifier photo: Change photo
+Amené par: Brought by
+Formalité: Formality
+Visite médicale: Medical visit
+Pas encore: Not yet
+Visa: Vista
+En attente: Waiting
+Versement bancaire: Bank transfer
+culte: Cult
+Type de Hajj: Type of Hajj
+Hajj choisi: Choosen Hajj
+kullu ziar: Kullu ziar
+Transport aérien: Airline transport
+Allée: Departure
+Définir: Define
+Pas encore défini: Undefined
+Retour: Arrival
+Versements: Payments
+Historique des versements du pèlerin: Pilgrim's payments history
+Type de versement: Payment type
+Duplicata: Duplicate
+Montant total versé: Total amount paid
+Effectuer versement: Performe a payment
+Voulez-vous vraiment exonérer ce pèlerin ?: Are you sure you want to exempt this pilgrim ?
+Annuler exonéré: Cancel exemption
+Exonéré: Exempted
+Impossible d'exonérer ce pèlerin: Can not exempt this pilgrim
+La requête n'a pas abouti: The request failed
+Voulez-vous vraiment annuler l'exonération de ce pèlerin ?: Are you sure you want to cancel the exemption of this pilgrim ?
+Voulez-vous vraiment supprimer cette réduction ?: Are you sure you want to delete this discount
+Accorder: Grant
+Changement package: Package change
+Selectionner un autre package: Select another package
+Madame: Mrs
+Ajouter photo: Add photo
+Modification pèlerin: Editing pilgrim
+Pèlerin bénéficiaire: Benefit pilgrim
+Non encaissé: uncashed
+Encaisser: Checkout
+Reçu de versement: Payment ticket
+Reçu numéro: Ticket number
+titulaire: ouwner
+de la pièce d'identité numéro: of ID car number
+a versé la somme de: has paid the amount of
+pour le Hajj: for Hajj
+Reliquat: Remaining amount
+à régler au plus tard le: to pay before
+NB:En cas d'annulation, une retenue de 10% sera appliqué sur le montant total versé.: NB:In case of leave, a retain of 10% will be substract to the total amount.
+Facturé par: Billed by
+Mode de paiement: Payement type
+Encaissé par: Cashed by
+Dépositaire: Depositary
+Application conçue par: This app is powered by
+Aucun versement: No payment
+Connexion: Connection
+est un produit de: is a product of
+Mot de passe oublié: Password forgotten
+Se connecter: Connect
+Tous droits réservés: All rights reserved
+Retour à la page de connexion: Back to login page
+Réinitialiser: Reset
+Mot de passe: Password
+Adresse email ou mot de passe incorrecte: Incorrect email or password
+Changement mot de passe: Change password
+Changer mot de passe : Change password
+Mot de passe incorrecte: Incorrect password
+Modification profil: Edit profile
+Nouvel utilisateur: New user
+Profil utilisateur: User profile
+Identifiant: Username
+Réinitialisation mot de passe: Reset password
+Informations utilisateur: User information
+Fonction: Function
+Désactiver: Disable
+Activer: Enable
+Modifier mon profil: Edit my profile
+Tous les utilisateurs: All users
+Mot de passe actuel: Current password
+Nouveau mot de passe: New password
+Confirmer mot de passe: Confirm password
+Voulez-vous vraiment désactiver cet utilisateur ?: Are you sure you want to disable this user ?
+Voulez-vous vraiment activer cet utilisateur ?: Are you sure you want to enable this user ?
+employer: Employee
+caissier: Cashier
+medecin: Doctor
+administrateur: Administrator
+proprietaire: Owner
+Paiement du courtier: Payment for broker
+Payer: Pay
+Payer tous: Pay all
+Date d'enregistrement: Registered date
+Informations de l'agence: Agency informations
+Modifier infos: Edit infos
+Caisse existante: Checkout exist
+Retenue en cas de désistement: Retain in case of leave
+Téléphone bureau: Office phone
+Téléphone mobile 1: Mobile phone 1
+Téléphone mobile 2: Mobile phone 2
+Adresse email 1: Email address 1
+Adresse email 2: Email address 2
+Site web: Web site
+Modification infos agence: Edit agency infos
+Modification informations agence: Edit agency informations
+L'agence dispose d'une caisse pour encaissement: Agency has a checkout for cash
+Tous les versements: All payments
+Facturation: Billing
+Nº versement: Payment Nº
+Modifier la chambre: Edit room
+Supprimer la chambre: Delete room
+Occupant: Occupier
+Déloger: Unhost
+Chambre vide: Empty room
+Loger: Host
+lits: Beds
+Choisissez le genre qui doit occuper cette chambre. Attention, ce choix est irreversible.: Choose the gender which will occupe this room. Caution, this choice is irreversible.
+Modifier agence: Edit agency
+Remplissage chambre: Room filling
+Places disponibles: Bed available
+Pèlerin non logé: Unhousing pilgrim
+Pèlerins non logés: Unhousing pilgrims
+Chambre numéro: Room number
+Occupants: Occupier
+Numéro dossier: Folder number
+Modification dépense: Edit expense
+Modification chambre: Room edit
+Numéro chambre: Room number
+Modification compagnie: Edit company
+Modifier la compagnie: Edit company
+Supprimer la compagnie: Delete company
+100 caractères au maximum: 100 characters minimum
+11 chiffres au maximum: 11 digits maximum
+120 caractères au maximum: 120 characters maximum
+2 caractères au minimum: 2 characters minimum
+2 chiffres au minimum: 2 digits minimum
+25 caractères au maximum: 25 characters maximum
+3 caractères au minimum: 3 characters minimum
+3 chiffres au maximum: 3 digits maximum
+3 chiffres au minimum: 3 digits minimum
+30 caractères au maximum: 30 characters maximum
+5 caractères au minimum: 5 characters minimum
+5 chiffres au minimum: 5 digits minimum
+6 chiffres au maximum: 6 digits maximum
+6 chiffres au minimum: 6 digits minimum
+70 caractères au maximum: 70 characters maximum
+9 chiffres au maximum: 9 digits maximum
+Adresse email déjà utilisée: Email address already exist
+Adresse email invalide: Invalid email address
+Attention, ce champ doit contenir uniquement des chiffres: Caution, this field must contain digits only
+Des chiffres uniquement: Only digits
+Format invalide: Invalid format
+Longueur comprise entre 2 et 30 caractères: Lenght between 2 and 30 characters
+Longueur comprise entre 3 et 30 caractères: Lenght between 3 and 30 characters
+Longueur comprise entre 4 et 100 caractères: Lenght between 4 and 100 characters
+Mot de passe non conforme: No compliant password
+Numéro de téléphone incorrect: Incorrect phone number
+Numéro de téléphone obligatoire: Phone number required
+Numéro incorrect: Incorrect number
+Numéro passeport incorrect: Incorrect passport number
+Renseignez la provenance: Inquire the origin
+Renseignez le matricule du bus: Inquire bus plate
+Renseignez le montant: Inquire the amount
+Renseignez le montant de la commission: Inquire commition amount
+Renseignez le motif: Inquire reason
+Renseignez le nom: Inquire last name
+Renseignez le nom de la session: Inquire session name
+Renseignez le nombre de places: Inquire places number
+Renseignez le numéro de téléphone: Inquire phone number
+Renseignez le numéro du bus: Inquire bus number
+Renseignez le prénom: Inquire first name
+Renseignez le quota: Inquire quota
+Sélectionnez l'agence: Select agency
+Sélectionnez le genre: Select gender
+Sélectionnez le nombre de lits: Select number of bed
+Sélectionnez le type de chambre: Select room type
+Sélectionnez le type de compagnie: Select company type
+Sélectionnez le type de versement: Select payment type
+Sélectionnez un hôtel: Select hotel
+Sélectionnez un package: Select package
+Sélectionnez une compagnie: Select company
+Trop court, 6 caractères minimum: Too short, 6 characters minimum
+Vérifiez les caractères saisis: Check characters you entered
+Objet: Subject
+Message: Message
+Envoyer: Send
+Rattrapage: Catching up
+Adresse email inconnue: Unknow email address
+Affectation réussie: Assignment done
+Annulation réussie: Cancellation done
+Bus supprimé: Bus deleted
+Chaine d'activation invalide: Invalid activation string
+Chaine de réinitialisation invalide: Invalid reset string
+Chambre créée: Room created
+Chambres créées: Rooms created
+Chambre modifiée: Room edited
+Chambre supprimée: Room deleted
+Choisir d'abord le vol car les deux pèlerins doivent être dans le même vol: At first choose the flight because both pilgrims must be on the same flight
+Compte activé !!! veuillez  définir votre mot de passe pour la première connexion: Account activated !!! please define your password for the first connection
+Débarquement effectué: Landing done
+Embarquement effectué: Boarding done
+Fonds non disponibles: Funds unavailable
+Hébergement effectué: Housing done
+Hôtel créé: Hotel created
+Opération réussie: Operation done
+Plus d'occupants que de lits. Libérez des lits avant de continuer: More occupant than beds. Freed some beds before continuing
+Profil modifié avec succès: Profile edition done
+Attention quota atteint !!!: Quota reached !!!
+Attention quota par l'agence !!!: Quota reached by agency !!!
+Réinitialisation réussie: Reset done
+Transfert annulé: Funds transfer canceled
+Transfert modifié: Funds transfer edited
+Un message a été envoyé à votre adresse email, veuillez consulter votre boite de réception: A mail is sent to your email address, please look your mail box
+Une autre chambre du même hôtel possède déjà ce numéro: Another room on this hotel already has this number
+Utilisateur créé, un email a été envoyé à son adresse email pour l'activation du compte: User created, a mail is sent to his  email address for activation
+Versement impossible, montant du package atteint: Impossible payment, package amount reached
+Votre mot de passe a été modifié, veuillez vous reconnectez: Password changed, plesae reconnect
+Vous n'avez pas le droit de vous connecter avec ce compte. Veuillez contacter votre administrateur: You can not connect with this account. Please contact your administrator
+Vous n'avez pas le droit d'accéder à cette partie de l'application: You can not access to this part of application
+Vous n'avez pas le droit d'annuler ce versement: You can not cancel this payment
+Versement annulé: Payment canceled
+Vous venez de faire une facturation, en attente d'encaissement: You just did a billing, waiting for checkout
+Page inexistante: Page not found
+Erreur: Error
+Erreur 404: 404 error
+La page que vous tentez d'atteindre n'existe pas, veuillez contacter le concepteur de l'application en lui fournissant le plus de détails possible pour qu'il puisse corriger cette erreur.: The page you want to load does not exit, please contact the apllication's creator and give him more details for correcting this bug.
+Erreur 403: 403 error
+A encaisser: To cash
+Liste des versements: List of payments
+Protégée par: Protected by
+La loi sur les droits d'auteurs: copyright law
+La loi sur la propriété intellectuelle: intellectual property law
+Femmes de moins de 45 ans: Women under 45
+Voir tuteur: See tutor
+Née le: Born the
+Voulez vous confirmer l annulation de ce Mahram: Do you want to confirm the cancellation of this Mahram
+La requête n a pas abouti: The request did not succeed
