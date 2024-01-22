@@ -1,0 +1,102 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Changement package'|trans }} - Hajjalbayt {% endblock %}
+{% block pack %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+{% if app.user.agence.licence == 1 %}
+<div class="col-md-10 offset-md-1 mt-5 fond-7">
+    <h3 class="mt-3 mb-4">
+        <i class="fa fa-sync mr-2"></i>
+        {{ 'Changement package'|trans }}
+    </h3>
+    <table class="table table-success-light table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th class="text-center">{{ 'Numéro'|trans }}</th>
+                <th class="text-center">{{ 'Photo'|trans }}</th>
+                <th>{{ 'Prénom'|trans }}</th>
+                <th>{{ 'Nom'|trans }}</th>
+                <th class="text-center">{{ 'Date de naissance'|trans }}</th>
+                <th>{{ 'Lieu de naissance'|trans }}</th>
+                <th class="text-nowrap">{{ 'Nº Passeport'|trans }}</th>
+                <th class="phone">{{ 'Téléphone'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td data-label="{{ 'Numéro dossier'|trans }}" class="text-center">
+                    {{ pelerin.numdossier }}
+                </td>
+                <td data-label="{{ 'Photo'|trans }}">
+                    {% if pelerin.image is not empty %}
+                    <img src="{{ asset('images/'~ pelerin.image.url)}}" alt="{{ pelerin.image.alt}}" class="rounded-circle">
+                    {% else %}
+                    {% if pelerin.sexe == 'Feminin' %}
+                    <img src="{{ asset('images/avatar-femme.jpg')}}" alt="Photo pèlerin" class="rounded-circle">
+                    {% else %}
+                    <img src="{{ asset('images/avatar.jpg')}}" alt="Photo pèlerin" class="rounded-circle">
+                    {% endif %}
+                    {% endif %}
+                </td>
+                <td data-label="{{ 'Prénom'|trans }}">
+                    {{ pelerin.prenom}}
+                </td>
+                <td data-label="{{ 'Nom'|trans }}">
+                    {{ pelerin.nom}}
+                </td>
+                <td data-label="{{ 'Date de naissance'|trans }}" class="text-center">
+                    {% if pelerin.datenaiss is empty %}
+
+                    {% else %}
+                    {{ pelerin.datenaiss|date('d/m/Y')}}
+                    {% endif %}
+                </td>
+                <td data-label="{{ 'Lieu de naissance'|trans }}">
+                    {{ pelerin.lieunaiss}}
+                </td>
+                <td data-label="{{ 'Nº Passeport'|trans }}" class="passeport">
+                    {{ pelerin.numpassport}}
+                </td>
+                <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                    {{ pelerin.phone}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="row col-md-4 offset-md-4 mt-5 card border-green fond-7">
+    <div class="row card-header bg-success-light bb-green text-green">
+        <h5 class="mt-1 mb-1">
+            <i class="fa fa-gift"></i>
+            {{ 'Selectionner un autre package'|trans }}
+        </h5>
+    </div>
+    <div class="card-body" id="liste">
+        {{form_start(form, {'attr':{'id': 'form'}})}}
+
+        <div class="form-group">
+            {{ form_row(form.pack, {'label':false, attr:{'class':'mt-3'}})}}
+        </div>
+    </div>
+</div>
+<div class="col-md-4 offset-md-4 mt-4 mb-5 pt-3 pb-2 fond-7">
+    <div class="centrer">
+        <div class="row">
+            <button type="button" class="btn btn-shadow btn-normal btn-green mb-2 mr-3" id="send" onclick="envoie()">
+                <i class="fa fa-save"></i>
+                {{ 'Enregistrer'|trans }}
+            </button>
+            <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id } ) }}" class="btn btn-shadow btn-warning btn-normal mb-2 mr-2">
+                <i class="fa fa-undo"></i>
+                {{ 'Annuler'|trans }}
+            </a>
+            {{ form_rest(form) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>
+{% else %}
+{{ include('licence/licence-page.html.twig') }}
+{% endif %}
+
+{% endblock %}

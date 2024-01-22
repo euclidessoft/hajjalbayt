@@ -1,0 +1,117 @@
+{% extends "layout.html.twig" %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+	<div class="row">
+		<div class="col-lg-12">
+                        <h1 class="page-header"><i class="fa fa-user"></i><i class="fa fa-bullhorn"></i> Organisation/ Annuler Affectation Pelerins </h1>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+				<div class="row">
+				<div class="col-lg-10 offset-lg-1">
+				<div class="panel panel-primary">
+				<div class="panel-heading">
+                           <i class="fa fa-codepen"> </i> Imam
+                        </div>
+				<div class="panel-body">
+				<table width="100%" class="table table-bordered table-hover"  id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>Photo</th>
+                                        <th>Prenom</th>
+                                        <th>Nom</th>
+                                        <th>Adresse</th>
+                                        <th>Telephone</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody> 
+									<tr>
+										<td>
+										{% if imam.imam.image is not null %}
+										<img src="{{ asset('images/'~ imam.imam.image.url)}}" alt="{{ imam.imam.image.alt}}" class="rounded-circle" width="75"/>
+										{% else %}
+										<img src="{{ asset('images/avatar.jpg')}}" class="rounded-circle" width="75"/>
+										{% endif %}
+										</td>
+										<td>{{ imam.imam.prenom}}</td>
+										<td>{{ imam.imam.nom}}</td>
+										<td>{{ imam.imam.adresse}}</td>
+										<td>{{ imam.imam.phone}}</td>
+										
+									</tr>
+						
+                                    
+                                </tbody>
+                            </table>
+					</div>
+					</div>
+				
+				<div class="panel panel-info">
+                        <div class="panel-heading">
+                           <i class="fa fa-group"> </i> Pelerin(s) 
+						   
+						   <button class="btn btn-success pull-right" onclick="annulerpelerin({{ imam.id }})"><i class="fa fa-group">
+													</i> Annuler <i class="fa fa-check"></i></button>
+                        </div>
+						
+                        <div class="panel-body">
+                            <p>
+							<table width="100%" class="table table-bordered table-hover"  id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>Tous<input type="checkbox" id="tous" onchange="selectAll()"/></th>
+                                        <th>Photo</th>
+                                        <th>Prenom</th>
+                                        <th>Nom</th>
+                                        <th>Date de naissance</th>
+                                        <th>Lieu de naissance</th>
+                                        <th>Numero passport</th>
+                                        <th>Telephone Pelerin</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody> 
+								{% if pelerins is not empty %}
+									{% for pelerin in pelerins %}
+									<tr id="tr{{ pelerin.id }}">
+									<th><input type="checkbox" id="{{ pelerin.id}}" onchange="trselect({{pelerin.id}})"/></th>
+										<td>
+										{% if pelerin.image is not null %}
+										<img src="{{ asset('images/'~ pelerin.image.url)}}" alt="{{ pelerin.image.alt}}" class="rounded-circle" width="75"/>
+										{% else %}
+										<img src="{{ asset('images/avatar.jpg')}}" class="rounded-circle" width="75"/>
+										{% endif %}
+										</td>
+										<td>{{ pelerin.prenom}}</td>
+										<td>{{ pelerin.nom}}</td>
+									{% if pelerin.datenaiss is not empty%}
+										<td>{{ pelerin.datenaiss|date('d/m/Y')}}</td>
+									{% else %}
+										<td>  </td>
+									{% endif %}
+										<td>{{ pelerin.lieunaiss}}</td>
+										<td>{{ pelerin.numpassport}}</td>
+										<td>{{ pelerin.phone}}</td>
+										
+									</tr>
+									{% endfor %}
+								{% endif %}
+						
+                                    
+                                </tbody>
+                            </table>
+							</p>
+                        </div>
+						<div class="panel-footer">
+						   
+						   <button class="btn btn-success" onclick="annulerpelerin({{ imam.id }})"><i class="fa fa-group">
+													</i> Annuler <i class="fa fa-undo"></i></button>
+                        </div>
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                </div>
+				
+				</div>
+{% endblock %}				

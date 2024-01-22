@@ -1,0 +1,75 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Compagnies de transport'|trans }} - Hajjalbayt {% endblock %}
+{% block transport %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="col-lg-10 offset-lg-1 mt-5 mb-5 fond-7">
+    <h3 class="mt-4 mb-5 text-bold">
+        <i class="fas fa-university fa-lg mr-2"></i>
+        {{ 'Compagnies de transport'|trans }}
+    </h3>
+    <a href="{{ path('Mecque_CompagnieAdd')}}" class="btn btn-shadow btn-green mt-4 mb-5">
+        <i class="fa fa-plus-circle"></i>
+        {{ 'Nouvelle compagnie'|trans }}
+    </a>
+    <table class="table table-success-light table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th> {{ 'Nom compagnie'|trans }} </th>
+                <th> {{ 'Type'|trans }} </th>
+                <th> {{ 'Adresse'|trans }} </th>
+                <th class="phone"> {{ 'Téléphone'|trans }} </th>
+                <th> {{ 'Email'|trans }} </th>
+                <th class="text-center"> {{ 'Modifier'|trans }} </th>
+                <th class="text-center"> {{ 'Supprimer'|trans }} </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% if compagnies is not empty %}
+            {% for company in compagnies %}
+            <tr>
+                <td data-label="{{ 'Nom'|trans }}">
+                    {{ company.nom }}
+                </td>
+                <td data-label="{{ 'Type'|trans }}">
+                    {{ company.type }}
+                </td>
+                <td data-label="{{ 'Adresse'|trans }}">
+                    {{ company.adresse }}
+                </td>
+                <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                    {{ company.phone }}
+                </td>
+                <td data-label="{{ 'Email'|trans }}">
+                    {{ company.email }}
+                </td>
+                <td data-label="{{ 'Modifier'|trans }}">
+                    <a href="{{ path('Mecque_TransportCompanyEdit', {id : company.id}) }}">
+                        <button class="btn btn-shadow btn-td btn-primary" title="{{ 'Modifier la compagnie'|trans }}">
+                            <i class="fa fa-edit fa-lg"></i>
+                        </button>
+                    </a>
+                </td>
+                <td data-label="{{ 'Supprimer'|trans }}">
+                    <a href="#">
+                        <button class="btn btn-shadow btn-td btn-danger" title="{{ 'Supprimer la compagnie'|trans }}">
+                            <i class="fa fa-trash-alt fa-lg"></i>
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td data-label="colspan" colspan="7">
+                    {{ 'Aucune compagnie enregistrée'|trans }}
+                </td>
+            </tr>
+            {% endif %}
+
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

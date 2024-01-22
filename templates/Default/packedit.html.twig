@@ -1,0 +1,584 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Modification package'|trans }} - Hajjalbayt {% endblock %}
+{% block pack %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="col-md-8 offset-md-2 mt-5 fond-7">
+    <h3 class="mt-4 mb-5 text-bold">
+        <i class="fa fa-gift"></i><i class="fa fa-edit fa-sm mr-1"></i>
+        {{ 'Modification package'|trans }}
+    </h3>
+    <div class="col-md-10 offset-md-1 mt-4">
+
+        {{form_start(form, {'attr':{'id': 'form'}})}}
+
+        <div class="form-group mt-4">
+            {{ form_row(form.designation, {'attr':{'placeholder':'Nom du package'}, 'label':false}) }}
+        </div>
+        <div class="form-group mt-4">
+            {{form_errors(form.montant) }}
+            <div class="input-group">
+                {{form_widget(form.montant, {'attr':{'placeholder':'Prix du package'}, 'label':false}) }}
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        F CFA
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group mt-4">
+            {{ form_row(form.limite, {'attr':{'placeholder':'Date limite de paiement'}, 'label':'Date limite de paiement'}) }}
+        </div>
+        <div class="form-group mt-4">
+            {{form_errors(form.taux) }}
+            <div class="input-group">
+                {{form_widget(form.taux, {'attr':{'placeholder':'Taux du Riyal'}, 'label':false}) }}
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        F CFA
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="accordion mt-4 mb-3 radius-10 shadow-black" id="volet">
+        <div class="col-12">
+            <h5 class="mt-3 mb-3" id="headingOne">
+                <a data-toggle="collapse" data-target="#collapseversement" aria-expanded="true" aria-controls="collapseversement" style="cursor: pointer">
+                    <i class="fa fa-gifts mr-1"></i>
+                    {{ 'Composantes du package'|trans }}
+                </a>
+            </h5>
+            <div id="collapseversement" class="collapse hide" aria-labelledby="headingOne" data-parent="#volet">
+                {% if chef is not null%}
+                <div class="form-group mt-4">
+                    {{form_errors(form.exploitation) }}
+                    <div class="input-group">
+                        {{form_widget(form.exploitation, {'attr':{'placeholder':'Montant d\'exploitation'}, 'label':false})}}
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                F CFA
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="card border-green mt-5 mb-3 shadow-black">
+                    <div class="card-header bg-success-light bb-green">
+                        <h5 class="mt-2 mb-2 text-center text-bold">
+                            <i class="fa fa-plane"></i>
+                            {{ 'Compagnies aériennes'|trans }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-success-light table-striped table-bordered mt-3">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{{ 'Compagnie'|trans }}</th>
+                                    <th class="text-right">{{ 'Prix du billet en CFA'|trans }}</th>
+                                    <th class="text-right">{{ 'Prix en Riyal'|trans }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-label="colspan">1</td>
+                                    <td data-label="{{ 'Compagnie'|trans }}">
+                                        Air Sénégal
+                                    </td>
+                                    <td data-label="{{ 'Prix du billet en CFA'|trans }}" class="text-right">
+                                        {{ form_row(form.eriencout1, {'attr':{'placeholder':'Prix du billet en CFA', 'class':'mt-3'}, 'label':false}) }}
+                                    </td>
+                                    <td data-label="{{ 'Prix en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.eriencout1 / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="colspan">2</td>
+                                    <td data-label="{{ 'Compagnie'|trans }}">
+                                        {{form_row(form.aerien2, {'attr':{'placeholder':'Compagnie 2', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Prix du billet en CFA'|trans }}" class="text-right">
+                                        {{form_row(form.eriencout2, {'attr':{'placeholder':'Prix du billet en CFA', 'class':'mt-3'}, 'label':false}) }}
+                                    </td>
+                                    <td data-label="{{ 'Prix en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.eriencout2 / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="colspan">3</td>
+                                    <td data-label="{{ 'Compagnie'|trans }}">
+                                        {{form_row(form.aerien3, {'attr':{'placeholder':'Compagnie 3', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Prix du billet en CFA'|trans }}" class="text-right">
+                                        {{form_row(form.eriencout3, {'attr':{'placeholder':'Prix du billet en CFA', 'class':'mt-3'}, 'label':false}) }}
+                                    </td>
+                                    <td data-label="{{ 'Prix en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.eriencout3 / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card border-green mt-4 mb-3 shadow-black">
+                    <div class="card-header bg-success-light bb-green">
+                        <h5 class="mt-2 mb-2 text-center text-bold">
+                            <i class="fa fa-bed"></i>
+                            {{ 'Hébergement'|trans }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-success-light table-striped table-bordered mt-3">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{{ 'Nom hôtel'|trans }}</th>
+                                    <th class="text-right">{{ 'Coût du lit en CFA'|trans }}</th>
+                                    <th class="text-right">{{ 'Coût en Riyal'|trans }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-label="service">
+                                        <b>{{ 'Médine'|trans }}</b>
+                                    </td>
+                                    <td data-label="{{ 'Nom hôtel'|trans }}">
+                                        {{form_row(form.hebergementmedine, {'attr':{'placeholder':'Nom hôtel', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût du lit en CFA'|trans }}">
+                                        {{form_row(form.hebergementmedinecout, {'attr':{'placeholder':'Coût du lit en CFA', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.hebergementmedinecout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="service">
+                                        <b>{{ 'Mecque'|trans }}</b>
+                                    </td>
+                                    <td data-label="{{ 'Nom hôtel'|trans }}">
+                                        {{form_row(form.hebergementmecque, {'attr':{'placeholder':'Nom hôtel', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût du lit en CFA'|trans }}">
+                                        {{form_row(form.hebergementmecquecout, {'attr':{'placeholder':'Coût du lit en CFA', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.hebergementmecquecout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card border-green mt-4 mb-3 shadow-black">
+                    <div class="card-header bg-success-light bb-green">
+                        <h5 class="mt-2 mb-2 text-center text-bold">
+                            <i class="fa fa-utensils"></i>
+                            {{ 'Pension'|trans }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-success-light table-striped table-bordered mt-3">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{{ 'Formule'|trans }}</th>
+                                    <th class="text-right">{{ 'Coût en CFA'|trans }}</th>
+                                    <th class="text-right">{{ 'Coût en Riyal'|trans }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-label="service">
+                                        <b>{{ 'Médine'|trans }}</b>
+                                    </td>
+                                    <td data-label="{{ 'Formule'|trans }}">
+                                        {{form_row(form.pensionmedine, {'attr':{'placeholder':'Formule', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{form_row(form.pensionmedinecout, {'attr':{'placeholder':'Coût en CFA', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.pensionmedinecout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="service">
+                                        <b>{{ 'Mecque'|trans }}</b></td>
+                                    <td data-label="{{ 'Formule'|trans }}">
+                                        {{form_row(form.pensionmecque, {'attr':{'placeholder':'Formule', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{form_row(form.pensionmecquecout, {'attr':{'placeholder':'Coût en CFA', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.pensionmecquecout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card border-green mt-4 mb-3 shadow-black">
+                    <div class="card-header bg-success-light bb-green">
+                        <h5 class="mt-2 mb-2 text-center text-bold">
+                            <i class="fa fa-bus-alt"></i>
+                            {{ 'Transport terrestre'|trans }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-success-light table-striped table-bordered mt-3">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{{ 'Type'|trans }}</th>
+                                    <th class="text-right">{{ 'Coût en CFA'|trans }}</th>
+                                    <th class="text-right">{{ 'Coût en Riyal'|trans }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-label="service">
+                                        {{ 'Ordinaire'|trans }}
+                                    </td>
+                                    <td data-label="{{ 'Type'|trans }}">
+                                        {{form_row(form.terrestreordinaire, {'attr':{'placeholder':'Transport ordinaire', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{form_row(form.terrestreordinairecout, {'attr':{'placeholder':'Coût en CFA', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.terrestreordinairecout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="service">
+                                        {{ 'VIP'|trans }}
+                                    </td>
+                                    <td data-label="{{ 'Type'|trans }}">
+                                        {{form_row(form.terrestrevip, {'attr':{'placeholder':'Transport VIP', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{form_row(form.terrestrevipcout, {'attr':{'placeholder':'Coût en CFA', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.terrestrevipcout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="service">
+                                        {{ 'Autre'|trans }}
+                                    </td>
+                                    <td data-label="{{ 'Type'|trans }}">
+                                        {{form_row(form.terrestreautre, {'attr':{'placeholder':'Autre transport', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{form_row(form.terrestreautrecout, {'attr':{'placeholder':'Coût en CFA', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.terrestreautrecout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card border-green mt-4 mb-3 shadow-black">
+                    <div class="card-header bg-success-light bb-green">
+                        <h5 class="mt-2 mb-2 text-center text-bold">
+                            <i class="fa fa-user-tie"></i>
+                            {{ 'Autres services VIP'|trans }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-success-light table-striped table-bordered mt-3">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{{ 'Service'|trans }}</th>
+                                    <th class="text-right">{{ 'Coût en CFA'|trans }}</th>
+                                    <th class="text-right">{{ 'Coût en Riyal'|trans }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-label="colspan">1</td>
+                                    <td data-label="{{ 'Service VIP 1'|trans }}">
+                                        {{form_row(form.vipservice1, {'attr':{'placeholder':'Service VIP 1', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{form_row(form.vipservice1cout, {'attr':{'placeholder':'Coût service VIP 1', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.vipservice1cout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="colspan">2</td>
+                                    <td data-label="{{ 'Service VIP 2'|trans }}">
+                                        {{form_row(form.vipservice2, {'attr':{'placeholder':'Service VIP 2', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{form_row(form.vipservice2cout, {'attr':{'placeholder':'Coût service VIP 2', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.vipservice2cout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="colspan">3</td>
+                                    <td data-label="{{ 'Service VIP 3'|trans }}">
+                                        {{form_row(form.vipservice3, {'attr':{'placeholder':'Service VIP 3', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{form_row(form.vipservice3cout, {'attr':{'placeholder':'Coût service VIP 3', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.vipservice3cout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card border-green mt-4 mb-3 shadow-black">
+                    <div class="card-header bg-success-light bb-green">
+                        <h5 class="mt-2 mb-2 text-center text-bold">
+                            <i class="fa fa-gift"></i>
+                            {{ 'Eléments du package commun à la DGP'|trans }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-success-light table-striped table-bordered mt-3">
+                            <thead>
+                                <tr>
+                                    <th>{{ 'Service'|trans }}</th>
+                                    <th class="text-right">{{ 'Coût en CFA'|trans }}</th>
+                                    <th class="text-right">{{ 'Coût en Riyal'|trans }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-label="service">
+                                        {{ 'Taxe saoudienne'|trans }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{ pack.taxecout|number_format(0, '' , ' ') }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.taxecout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="service">
+                                        {{ 'Tentes Mouna et Arafat + matelas Mouna'|trans }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{ pack.mounacout|number_format(0, '' , ' ') }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.mounacout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="service">
+                                        {{ 'Restauration Mouna et Arafat'|trans }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{ pack.restomounacout|number_format(0, '' , ' ') }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.restomounacout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="service">
+                                        {{ 'Assurance'|trans }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{ pack.assurancecout|number_format(0, '' , ' ') }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.assurancecout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="service">
+                                        {{ 'Vaccins'|trans }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{pack.vaccincout|number_format(0, '' , ' ') }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.vaccincout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="service">
+                                        {{ 'Pécule'|trans }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{ pack.peculecout|number_format(0, '' , ' ') }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.peculecout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="service">
+                                        {{ 'Zam zam'|trans }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{ pack.zamzamcout|number_format(0, '' , ' ') }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.zamzamcout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card border-green mt-4 mb-3 shadow-black">
+                    <div class="card-header bg-success-light bb-green">
+                        <h5 class="mt-2 mb-2 text-center text-bold">
+                            <i class="fa fa-chart-bar"></i>
+                            {{ 'Charge de fonctionnement'|trans }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-success-light table-striped table-bordered mt-3">
+                            <thead>
+                                <tr>
+                                    <th>{{ 'Service'|trans }}</th>
+                                    <th class="text-right">{{ 'Coût en CFA'|trans }}</th>
+                                    <th class="text-right">{{ 'Coût en Riyal'|trans }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-label="service">
+                                        {{ 'Guides'|trans }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{form_row(form.guidecout, {'attr':{'placeholder':'Coût guide', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.guidecout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="service">
+                                        {{ 'Médecins'|trans }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{form_row(form.medecincout, {'attr':{'placeholder':'Coût medecin', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.medecincout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="service">
+                                        {{ 'Administratifs'|trans }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{form_row(form.administratifcout, {'attr':{'placeholder':'Coût administratifs', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.administratifcout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="service">
+                                        {{ 'Autres Services'|trans }}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{form_row(form.autreservicecout, {'attr':{'placeholder':'Coût autres services', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.autreservicecout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card border-green mt-4 mb-3 shadow-black">
+                    <div class="card-header bg-success-light bb-green">
+                        <h5 class="mt-2 mb-2 text-center text-bold">
+                            <i class="fa fa-award"></i>
+                            {{ 'Produits de promotion hors package'|trans }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-success-light table-striped table-bordered mt-3">
+                            <thead>
+                                <tr>
+                                    <th>{{ 'Service'|trans }}</th>
+                                    <th class="text-right">{{ 'Coût en CFA'|trans }}</th>
+                                    <th class="text-right">{{ 'Coût en Riyal'|trans }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-label="{{ 'Service 1'|trans }}">
+                                        {{form_row(form.promotion1, {'attr':{'placeholder':'Service 1', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{form_row(form.promotion1cout, {'attr':{'placeholder':'Coût service 1', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.promotion1cout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="{{ 'Service 2'|trans }}">
+                                        {{form_row(form.promotion2, {'attr':{'placeholder':'Service 2', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{form_row(form.promotion2cout, {'attr':{'placeholder':'Coût service 2', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.promotion2cout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td data-label="{{ 'Service 3'|trans }}">
+                                        {{form_row(form.promotion3, {'attr':{'placeholder':'Service 3', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en CFA'|trans }}" class="text-right">
+                                        {{form_row(form.promotion3cout, {'attr':{'placeholder':'Coût service 3', 'class':'mt-3'}, 'label':false})}}
+                                    </td>
+                                    <td data-label="{{ 'Coût en Riyal'|trans }}" class="text-right">
+                                        {{ (pack.promotion3cout / pack.taux)|number_format(2, ',' , ' ') }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-8 offset-md-2 mt-4 mb-5 pt-3 pb-2 fond-7">
+    <div class="centrer">
+        <div class="row">
+            <button type="button" class="btn btn-shadow btn-green btn-normal mb-2 mr-2" id="send" onclick="envoie()">
+                <i class="fa fa-save"></i>
+                {{ 'Enregistrer'|trans }}
+            </button>
+
+            <a href="{{ path('Mecque_PackList') }}" class="btn btn-shadow btn-warning btn-normal mb-2">
+                <i class="fa fa-undo"></i>
+                {{ 'Annuler'|trans }}
+            </a>
+            {{ form_rest(form) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>
+
+{% endblock %}

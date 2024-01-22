@@ -1,0 +1,210 @@
+{% extends "layout.html.twig" %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+	<div class="row">
+		<div class="col-lg-12">
+                        <h1 class="page-header">{{ 'Guides'|trans }}</h1>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+				<div class="row">
+				<div class="col-lg-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+						<div class="row">
+                        <div class="col-lg-6">
+							<a href="{{ path('Mecque_ImamAdd') }}"><button class="btn btn-primary"> <i class="fa fa-user"></i> {{ 'Nouveau Guide Résident'|trans }} </button></a>
+							<button data-toggle="modal" href="#listeimam" class="btn btn-success"><i class="fa fa-list"></i> {{ 'Depuis liste Guides Résidents'|trans }}
+													</button>
+													<div class="modal" id="listeimam">
+														<div class="modal-dialog modal-lg">
+															<div class="modal-content">
+																<div class="modal-header">
+																	<button type="button" class="close" data-dismiss="modal">x</button>
+																	<h4 class="modal-title"> {{ 'Listes des guides résidents'|trans }}</h4>
+																</div>
+																<div class="modal-body">
+																<table width="100%" class="table table-striped table-bordered table-hover">
+																		<thead>
+																		<tr>
+																				<th>{{ 'Photo'|trans }}</th>
+																				<th>{{ 'Prénom'|trans }}</th>
+																				<th>{{ 'Nom'|trans }}</th>
+																				<th>{{ 'Adresse'|trans }}</th>
+																				<th>{{ 'Téléphone Pèlerin'|trans }}</th>
+																				<th>{{ 'Libérer'|trans }}</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																{% if imams is not empty %}
+																	{% for imam in imams %}
+																			<tr>
+																			
+																			<td>
+																				{% if imam.image is not empty %}
+																					<a href="{{ path('Mecque_Imam', { imam : imam.id})}}"><img src="{{ asset('images/'~ imam.image.url)}}" alt="{{ organisateur.image.alt}}" class="rounded-circle" width="75"/></a>
+																				{% else %}
+																					<a href="{{ path('Mecque_Imam', { imam : imam.id})}}"><img src="{{ asset('images/avatar.jpg')}}" alt="User '|trans }}Avatar" class="rounded-circle" width="75"/></a>
+																				{% endif %}
+																			</td>
+																			<td><a href="{{ path('Mecque_Imam', { imam : imam.id})}}">{{ imam.prenom}}</a></td>
+																			<td><a href="{{ path('Mecque_Imam', { imam : imam.id})}}">{{ imam.nom}}</a></td>
+																			<td><a href="{{ path('Mecque_Imam', { imam : imam.id})}}">{{ imam.adresse}}</a></td>
+																			<td><a href="{{ path('Mecque_Imam', { imam : imam.id})}}">{{ imam.phone}}</a></td>
+																			<td><button class="btn btn-success" id="btimam{{imam.id}}" onclick="designimamresident({{imam.id}})"><i class="fa fa-user"></i><span class="glyphicon glyphicon-bullhorn"></span> {{ 'Choisir'|trans }}</button></td>
+																			</tr>
+																	{% endfor %}
+																{% else %}
+																		<tr><td colspan="6"> {{ 'Vide'|trans }} </td></tr>
+																	
+																{% endif %}
+																</tbody>
+																</table>
+																
+															</div>
+														</div>
+													</div>
+													</div>
+					   </div>
+						<div class="col-lg-6">
+							<button data-toggle="modal" href="#listepelerin" class="btn btn-success pull-right"><i class="fa fa-list"></i> {{ 'Depuis liste Pèlerins'|trans }}
+													</button>
+													<div class="modal" id="listepelerin">
+														<div class="modal-dialog modal-lg">
+															<div class="modal-content">
+																<div class="modal-header">
+																	<button type="button" class="close" data-dismiss="modal">x</button>
+																	<h4 class="modal-title"> Listes des pelerins'|trans }}</h4>
+																</div>
+																<div class="modal-body">
+																<table width="100%" class="table table-striped table-bordered table-hover">
+																		<thead>
+																		<tr>
+																				<th>{{ 'Photo'|trans }}</th>
+																				<th>{{ 'Prénom'|trans }}</th>
+																				<th>{{ 'Nom'|trans }}</th>
+																				<th>{{ 'Nº Passeport'|trans }}</th>
+																				<th>{{ 'Téléphone Pèlerin'|trans }}</th>
+																				<th>{{ 'Libérer'|trans }}</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																{% if pelerins is not empty %}
+																	{% for pelerin in pelerins %}
+																		{% if pelerin.type is null %}
+																			<tr id="tr{{pelerin.id}}">
+																			
+																			<td>
+																				{% if pelerin.image is not empty %}
+																					<a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}"><img src="{{ asset('images/'~ pelerin.image.url)}}" alt="{{ pelerin.image.alt}}" class="rounded-circle" width="75"/></a>
+																				{% else %}
+																					<a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}"><img src="{{ asset('images/avatar.jpg')}}" alt="Photo pèlerin" class="rounded-circle" width="75"/></a>
+																				{% endif %}
+																			</td>
+																			<td><a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">{{ pelerin.prenom}}</a></td>
+																			<td><a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">{{ pelerin.nom}}</a></td>
+																			<td><a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">{{ pelerin.numpassport}}</a></td>
+																			<td><a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id})}}">{{ pelerin.phone}}</a></td>
+																			<td><button class="btn btn-success" id="btim{{pelerin.id}}" onclick="designimam({{pelerin.id}})"><i class="fa fa-male"></i> {{ 'choisir'|trans }}</button></td>
+																			</tr>
+																		{% endif %}
+																	{% endfor %}
+																{% else %}
+																		<tr><td colspan="6"> {{ 'Vide'|trans }} </td></tr>
+																	
+																{% endif %}
+																</tbody>
+																</table>
+																
+															</div>
+														</div>
+													</div>
+													</div>
+                        </div>
+                        </div>
+						</div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover">
+                                <thead>
+								<tr>
+                                        <th>{{ 'Photo'|trans }}</th>
+                                        <th>{{ 'Prénom'|trans }}</th>
+                                        <th>{{ 'Nom'|trans }}</th>
+                                        <th>{{ 'Nº Passeport'|trans }}</th>
+										<th>{{ 'Séquence'|trans }}</th>
+                                        <th>{{ 'Téléphone'|trans }}</th>
+                                        <th>{{ 'Pèlerins en Charge'|trans }}</th>
+                                        <th>{{ 'Annuler'|trans }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody> 
+								{% if pelerins is not empty or residents is not empty%}
+									{% if pelerins is not empty%}
+										{% for imam in pelerins %}
+											{% if imam.type == 'Imam' %}
+												{% if imam.sexe == 'Masculin' %}
+												<tr id="tr{{imam.id}}" class="info">
+												{% else %}
+												<tr '|trans }}id="tr{{imam.id}}" class="danger">
+												{% endif %}
+												<td>
+												{% if imam.image is not empty %}
+														<a href="{{ path('Mecque_Pelerin', { pelerin : imam.id})}}"><img src="{{ asset('images/'~ imam.image.url)}}" alt="{{ imam.image.alt}}" class="rounded-circle" width="75"/></a>
+													{% else %}
+														<a href="{{ path('Mecque_Pelerin', { pelerin : imam.id})}}"><img src="{{ asset('images/avatar.jpg')}}" alt="Photo pèlerin" class="rounded-circle" width="75"/></a>
+													{% endif %}
+												</td>
+												<td><a href="{{ path('Mecque_Pelerin', { pelerin : imam.id})}}">{{ imam.prenom}}</a></td>
+												<td><a href="{{ path('Mecque_Pelerin', { pelerin : imam.id})}}">{{ imam.nom}}</a></td>
+												<td><a href="{{ path('Mecque_Pelerin', { pelerin : imam.id})}}">{{ imam.numpassport}}</a></td>
+												<td><a href="{{ path('Mecque_Pelerin', { pelerin : imam.id})}}">{{ imam.numsaoudiantax}}</a></td>
+												<td><a href="{{ path('Mecque_Pelerin', { pelerin : imam.id})}}">{{ imam.phone}}</a></td>
+												<td> </td>
+												<td><button class="btn btn-warning" id="{{imam.id}}" onclick="annulorganisateur({{imam.id}})"><i class="fa fa-user"></i><i class="fa fa-undo"></i> {{ 'Annuler'|trans }}</button></td>
+
+												</tr>
+											{% endif %}
+										{% endfor %}
+									{% endif %}
+									{% if residents is not empty%}
+										{% for imam in residents %}
+											{% if loop.first %}
+											<tr><td colspan="8"> {{ 'Guide(s) Résident(s)'|trans }}</td></tr>
+											<tr><th>{{ 'Photo'|trans }}</th><th>{{ 'Prénom'|trans }}</th><th>{{ 'Nom'|trans }}</th><th colspan="2">{{ 'Adresse'|trans }}</th><th>{{ 'Téléphone'|trans }}</th><th>{{ 'Pèlerins en Charge'|trans }}</th><th>{{ 'Annuler'|trans }}</th></tr>
+											{% endif %}
+												{% if imam.imam.sexe == 'Masculin' %}
+												<tr id="trimam{{imam.id}}" class="info">
+												{% else %}
+												<tr id="trimam{{imam.id}}" class="danger">
+												{% endif %}
+												<td>
+												{% if imam.imam.image is not empty %}
+														<a href="{{ path('Mecque_Imam', { imam : imam.imam.id})}}"><img src="{{ asset('images/'~ imam.imam.image.url)}}" alt="{{ imam.imam.image.alt}}" class="rounded-circle" width="75"/></a>
+													{% else %}
+														<a href="{{ path('Mecque_Imam', { imam : imam.imam.id})}}"><img src="{{ asset('images/avatar.jpg')}}" alt="Photo pèlerin" class="rounded-circle" width="75"/></a>
+													{% endif %}
+												</td>
+												<td><a href="{{ path('Mecque_Imam', { imam : imam.imam.id})}}">{{ imam.imam.prenom}}</a></td>
+												<td><a href="{{ path('Mecque_Imam', { imam : imam.imam.id})}}">{{ imam.imam.nom}}</a></td>
+												<td colspan="2"><a href="{{ path('Mecque_Imam', { imam : imam.imam.id})}}">{{ imam.imam.adresse}}</a></td>
+												<td><a href="{{ path('Mecque_Imam', { imam : imam.imam.id})}}">{{ imam.imam.phone}}</a></td>
+												<td> </td>
+												<td><button class="btn btn-warning" id="supprim{{imam.id}}" onclick="annulimamresident({{imam.id}})"><i class="fa fa-undo"></i> {{ 'Annuler'|trans }}</button></td>
+
+												</tr>
+										{% endfor %}
+									{% endif %}
+								{% else %}
+									<tr><td colspan="8">{{ 'Aucune donnée'|trans }}</td></tr>
+								{% endif %}
+                                    
+                                </tbody>
+                            </table>
+                          </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+				</div>
+{% endblock %}				

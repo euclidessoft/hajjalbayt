@@ -1,0 +1,64 @@
+{% extends "accueil.html.twig" %}
+{% block title %} {{ 'Courtiers actifs'|trans }} - Hajjalbayt {% endblock %}
+{% block courtier %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="col-md-8 offset-md-2 mt-5 mb-5 fond-7">
+            <h3 class="mt-4 mb-5 text-bold">
+                <i class="fa fa-user-tag mr-2"></i>
+                {{ 'Courtiers actifs'|trans }}
+            </h3>
+            <table class="table table-success-light table-striped table-bordered table-hover mt-5">
+                <thead>
+                    <tr>
+                        <th>{{ 'Prénom'|trans }}</th>
+                        <th>{{ 'Nom'|trans }}</th>
+                        <th class="phone">{{ 'Téléphone'|trans }}</th>
+                        <th class="text-center">{{ 'Pèlerins'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if courtiers is not empty %}
+                    {% for courtier in courtiers %}
+                    {% if courtier.courtier is not null%}
+                    <tr>
+                        <td data-label="{{ 'Prénom'|trans }}">
+                            <a href="{{ path('Mecque_EtatCourtier', { id : courtier.courtier.id}) }}">
+                                {{ courtier.courtier.prenom }}
+                            </a>
+
+                        </td>
+                        <td data-label="{{ 'Nom'|trans }}">
+                            <a href="{{ path('Mecque_EtatCourtier', { id : courtier.courtier.id}) }}">
+                                {{ courtier.courtier.nom }}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                            <a href="{{ path('Mecque_EtatCourtier', { id : courtier.courtier.id}) }}">
+                                {{ courtier.courtier.phone }}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Pèlerins'|trans }}" class="text-center">
+                            <a href="{{ path('Mecque_EtatCourtier', { id : courtier.courtier.id}) }}">
+                                {{ courtier.pelerin|length }}
+                            </a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td data-label="colspan" colspan="4">
+                            {{ 'Aucun courtier actif'|trans }}
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

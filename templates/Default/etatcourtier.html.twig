@@ -1,0 +1,62 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Situation courtier'|trans }} - Hajjalbayt {% endblock %}
+{% block courtier %} class="nav-item dropright active" {% endblock %}
+{% block finance %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+{% if app.user.agence.licence == 1 %}
+<div class="col-md-8 offset-md-2 mt-5 mb-5 fond-7">
+    <h3 class="mt-3">
+        <i class="fa fa-user-friends mr-2"></i>
+        {{ 'Pèlerin amené par'|trans }} <b class="text-nowrap">{{ courtier.prenom }} {{ courtier.nom }}</b>
+    </h3>
+    <table class="table table-success-light table-striped table-bordered mt-5">
+        <thead>
+            <tr>
+                <th> {{ 'Prénom'|trans }} </th>
+                <th> {{ 'Nom'|trans }} </th>
+                <th class="phone"> {{ 'Téléphone'|trans }} </th>
+                <th class="text-center"> {{ 'Date d\'enregistrement'|trans }} </th>
+                <th> {{ 'Etat'|trans }} </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if apayers is not empty %}
+            {% for apayer in apayers %}
+            <tr>
+                <td data-label="{{ 'Prénom'|trans }}">
+                    {{ apayer.pelerin.prenom }}
+                </td>
+                <td data-label="{{ 'Nom'|trans }}">
+                    {{ apayer.pelerin.nom }}
+                </td>
+                <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                    {{ apayer.pelerin.phone }}
+                </td>
+                <td data-label="{{ 'Date'|trans }}" class="text-center">
+                    {{ apayer.datesave|date('d/m/Y') }}
+                    <br>
+                    {{ apayer.datesave|date('H:i:s') }}
+                </td>
+                <td data-label="{{ 'Etat'|trans }}">
+                    {% if apayer.payer == 1 %}
+                    {{ 'Payée'|trans }}
+                    {% else %}
+                    {{ 'impayée'|trans }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td data-label="colspan" colspan="5"> {{ 'Aucun pèlerin'|trans }} </td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+{{ include('licence/licence-page.html.twig') }}
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,382 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Transport terrestre'|trans }} - Hajjalbayt {% endblock %}
+{% block transport %} class="nav-item dropright active" {% endblock %}
+{% block facture %} onload="reponse()"{% endblock %}
+{% block body %}
+
+    <div class="col-lg-10 mt-5 mb-5 fond-7">
+        <h3 class="mt-4 mb-5 text-bold">
+            <i class="fas fa-bus mr-2"></i>
+            {{ 'Transport terrestre'|trans }}
+        </h3>
+        {% set homme = 0 %}
+        {% set femme = 0 %}
+
+        <div class="row mb-5">
+            <div class="col-md-4 mt-3">
+                {% if app.user.agence.licence == 1 %}
+                    <a href="{{ path('Mecque_BusAdd') }}" class="btn btn-shadow btn-green">
+                        <i class="fa fa-plus-circle"></i>
+                        {{ 'Nouveau bus'|trans }}
+                    </a>
+                {% else %}
+                    <button data-toggle="modal" data-target="#licence" class="btn btn-shadow btn-green">
+                        <i class="fa fa-plus-circle"></i>
+                        {{ 'Nouveau bus'|trans }}
+                    </button>
+                    {{ include('licence/licence-popup.html.twig') }}
+                {% endif %}
+            </div>
+            <div class="col-md-8 mt-3">
+                {% for pelerin in pelerins %}
+                    {% if pelerin.sexe == 'Feminin' %}
+                        {% set femme = femme + 1 %}
+                    {% else %}
+                        {% set homme = homme + 1 %}
+                    {% endif %}
+                {% endfor %}
+
+                <h5 class="text-danger text-bold float-right mb-4">
+                    {% if femme != 0 %}
+                        {{ femme }}
+                        {% if femme > 1 %}
+                            {{ 'femmes'|trans }}
+                        {% else %}
+                            {{ 'femme'|trans }}
+                        {% endif %}
+                    {% endif %}
+
+                    {% if femme != 0 and homme != 0 %}
+                        {{ 'et'|trans }}
+                    {% endif %}
+
+                    {% if homme != 0 %}
+                        {{ homme }}
+                        {% if homme > 1 %}
+                            {{ 'hommes'|trans }}
+                        {% else %}
+                            {{ 'homme'|trans }}
+                        {% endif %}
+                    {% endif %}
+
+                    {% if homme != 0 %}
+                        {% if homme > 1 %}
+                            {{ 'non embarqués'|trans }}
+                        {% else %}
+                            {% if femme != 0 %}
+                                {{ 'non embarqués'|trans }}
+                            {% else %}
+                                {{ 'non embarqué'|trans }}
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        {% if femme != 0 %}
+                            {% if femme > 1 %}
+                                {{ 'non embarquées'|trans }}
+                            {% else %}
+                                {{ 'non embarquée'|trans }}
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </h5>
+            </div>
+        </div>
+        {% for message in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success alert-dismissible fade show radius-10 shadow-black mt-4 mb-5">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message|trans }}
+            </div>
+        {% endfor %}
+        <table class="table table-success-light table-bordered table-hover table-striped">
+            <thead>
+            <tr class="text-center">
+                <th>{{ 'Modifier'|trans }}</th>
+                <th>{{ 'Supprimer'|trans }}</th>
+                <th class="text-left">{{ 'Compagnie'|trans }}</th>
+                <th>{{ 'Genre'|trans }}</th>
+                <th>{{ 'Matricule'|trans }}</th>
+                <th>{{ 'Numéro'|trans }}</th>
+                <th>{{ 'Places'|trans }}</th>
+                <th>{{ 'Pèlerins à bord'|trans }}</th>
+                <th>{{ 'Monter'|trans }}</th>
+                <th>{{ 'Descendre'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if busses is not empty %}
+                {% for bus in busses %}
+                    <tr class="text-center">
+                        <td data-label="{{ 'Modifier'|trans }}">
+                            <a href="{{ path('Mecque_bus_edit', { id : bus.id }) }}">
+                                <button class="btn btn-shadow btn-td btn-primary" title="{{ 'Modifier le bus'|trans }}">
+                                    <i class="fa fa-edit fa-lg"></i>
+
+                                </button>
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Supprimer'|trans }}">
+                            {% if bus.pelerins|length != 0 %}
+                                <button class="btn btn-shadow btn-td btn-danger disabled">
+                                    <i class="fa fa-trash-alt fa-lg"></i>
+
+                                </button>
+                            {% else %}
+                                <button class="btn btn-shadow btn-td btn-danger" id="" onclick="deletebus({{ bus.id }})"
+                                        title="{{ 'Supprimer le bus'|trans }}">
+                                    <i class="fa fa-trash-alt fa-lg"></i>
+
+                                </button>
+                            {% endif %}
+                        </td>
+                        <td data-label="{{ 'Compagnie'|trans }}" class="text-left">
+                            {{ bus.compagnie.nom }}
+                        </td>
+                        <td data-label="{{ 'Genre'|trans }}">
+                            {% if bus.genre == 'Feminin' %}
+                                {{ 'Femme'|trans }}
+                            {% elseif bus.genre == 'Mixte' %}
+                                {{ 'Mixte'|trans }}
+                            {% else %}
+                                {{ 'Homme'|trans }}
+                            {% endif %}
+                        </td>
+                        <td data-label="{{ 'Matricule'|trans }}">
+                            {{ bus.matricule }}
+                        </td>
+                        <td data-label="{{ 'Numéro'|trans }}">
+                            {{ bus.numero }}
+                        </td>
+                        <td data-label="{{ 'Places'|trans }}">
+                            {{ bus.nbrplace }}
+                        </td>
+                        <td data-label="{{ 'Pèlerins à bord'|trans }}">
+                            <button type="button" data-toggle="modal" data-target="#bus_{{ bus.id }}"
+                                    class="btn btn-shadow btn-normal btn-td btn-info">
+                                <i class="fa fa-user"></i>
+                                {{ bus.pelerins|length }}
+                                {% if bus.pelerins|length > 1 %}
+                                    {{ 'Pèlerins'|trans }}
+                                {% else %}
+                                    {{ 'Pèlerin'|trans }}
+                                {% endif %}
+                            </button>
+                            <div class="modal fade" id="bus_{{ bus.id }}" tabindex="-1" role="dialog"
+                                 aria-labelledby="businfo" aria-hidden="true">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content mt-5">
+                                        <div class="modal-header bb-green">
+                                            <div class="col-12">
+                                                <h4 class="modal-title text-center" id="businfo">
+                                                    {{ bus.matricule }}
+                                                    -
+                                                    <span class="text-nowrap">
+                                                {{ 'Nº bus'|trans }} : {{ bus.numero }}
+                                            </span>
+                                                    -
+                                                    <span class="text-nowrap">
+                                                {{ 'Nombre de places'|trans }} : {{ bus.nbrplace }}
+                                            </span>
+                                                </h4>
+                                            </div>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4 class="mt-4 mb-4 text-left">
+                                                {{ 'Pèlerins à bord'|trans }}
+                                            </h4>
+                                            <table class="table table-success-light table-striped table-bordered table-hover">
+                                                <thead>
+                                                <tr class="text-center">
+                                                    <th>{{ 'Numéro'|trans }}</th>
+                                                    <th>{{ 'Photo'|trans }}</th>
+                                                    <th class="text-left">{{ 'Prénom'|trans }}</th>
+                                                    <th class="text-left">{{ 'Nom'|trans }}</th>
+                                                    <th>{{ 'Date de naissance'|trans }}</th>
+                                                    <th class="text-nowrap">{{ 'Nº Passeport'|trans }}</th>
+                                                    <th>{{ 'Téléphone'|trans }}</th>
+                                                    <th>{{ 'Package'|trans }}</th>
+                                                    <th>{{ 'Descendre'|trans }}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% if bus.pelerins is not empty %}
+                                                    {% for pelerin in bus.pelerins %}
+                                                        <tr>
+                                                            <td data-label="{{ 'Numéro dossier'|trans }}"
+                                                                class="text-center">
+                                                                {{ pelerin.numdossier }}
+                                                            </td>
+                                                            <td data-label="{{ 'Photo'|trans }}">
+                                                                {% if pelerin.image is not empty %}
+
+                                                                    <img src="{{ asset('images/'~ pelerin.image.url) }}"
+                                                                         alt="{{ pelerin.image.alt }}"
+                                                                         class="rounded-circle">
+
+                                                                {% else %}
+
+                                                                    {% if pelerin.sexe == 'Feminin' %}
+                                                                        <img src="{{ asset('images/avatar-femme.jpg') }}"
+                                                                             alt="Photo pèlerin" class="rounded-circle">
+                                                                    {% else %}
+                                                                        <img src="{{ asset('images/avatar.jpg') }}"
+                                                                             alt="Photo pèlerin" class="rounded-circle">
+                                                                    {% endif %}
+
+                                                                {% endif %}
+                                                            </td>
+                                                            <td data-label="{{ 'Prénom'|trans }}">
+                                                                {{ pelerin.prenom }}
+                                                            </td>
+                                                            <td data-label="{{ 'Nom'|trans }}">
+                                                                {{ pelerin.nom }}
+                                                            </td>
+                                                            <td data-label="{{ 'Date de naissance'|trans }}"
+                                                                class="text-center">
+                                                                {{ pelerin.datenaiss|date('d/m/Y') }}
+                                                            </td>
+                                                            <td data-label="{{ 'Nº Passeport'|trans }}"
+                                                                class="passeport">
+                                                                {{ pelerin.numpassport }}
+                                                            </td>
+                                                            <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                                                                {{ pelerin.phone }}
+                                                            </td>
+                                                            <td data-label="{{ 'Package'|trans }}">
+                                                                {{ pelerin.pack.designation }}
+                                                            </td>
+                                                            <td data-label="{{ 'Descendre'|trans }}"
+                                                                id="td{{ pelerin.id }}">
+                                                                <button class="btn btn-shadow btn-normal btn-td btn-danger"
+                                                                        id="{{ pelerin.id }}"
+                                                                        onclick="userdescendre({{ pelerin.id }})"
+                                                                        title="{{ 'Descendre pèlerin'|trans }}">
+                                                                    <i class="fa fa-user fa-lg"></i>
+                                                                    <i class="fa fa-angle-double-left"></i>
+                                                                    <i class="fa fa-bus-alt fa-lg"></i>
+                                                                </button>
+                                                            </td>
+
+                                                        </tr>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <tr>
+                                                        <td data-label="colspan" colspan="9">
+                                                            {{ 'Aucun pèlerin à bord'|trans }}
+                                                        </td>
+                                                    </tr>
+                                                {% endif %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer bt-green">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <button type="button"
+                                                            class="btn btn-shadow btn-normal btn-td btn-warning float-right"
+                                                            data-dismiss="modal">
+                                                        <i class="fa fa-times-circle"></i>
+                                                        {{ 'Fermer'|trans }}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-label="{{ 'Monter'|trans }}">
+                            {% if bus.nbrplace > bus.pelerins|length %}
+                                <a href="{{ path('Mecque_BusEmbarquement', { id : bus.id}) }}">
+                                    <button class="btn btn-shadow btn-normal btn-td btn-green"
+                                            title="{{ 'Monter pèlerin'|trans }}">
+                                        <i class="fa fa-user fa-lg"></i>
+                                        <i class="fa fa-angle-double-right"></i>
+                                        <i class="fa fa-bus-alt fa-lg"></i>
+                                    </button>
+                                </a>
+                            {% else %}
+                                <button class="btn btn-shadow btn-normal btn-td btn-green disabled">
+                                    <i class="fa fa-user fa-lg"></i>
+                                    <i class="fa fa-angle-double-right"></i>
+                                    <i class="fa fa-bus-alt fa-lg"></i>
+                                </button>
+                            {% endif %}
+                        </td>
+                        <td data-label="{{ 'Descendre'|trans }}">
+                            {% if bus.pelerins|length != 0 %}
+                                <a href="{{ path('Mecque_BusDescendre', {id : bus.id}) }}">
+                                    <button class="btn btn-shadow btn-normal btn-td btn-danger"
+                                            title="{{ 'Descendre pèlerin'|trans }}">
+                                        <i class="fa fa-user fa-lg"></i>
+                                        <i class="fa fa-angle-double-left"></i>
+                                        <i class="fa fa-bus-alt fa-lg"></i>
+                                    </button>
+                                </a>
+                            {% else %}
+                                <button class="btn btn-shadow btn-normal btn-td btn-danger disabled">
+                                    <i class="fa fa-user fa-lg"></i>
+                                    <i class="fa fa-angle-double-left"></i>
+                                    <i class="fa fa-bus-alt fa-lg"></i>
+                                </button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td data-label="colspan" colspan="10">
+                        {{ 'Aucun bus créé'|trans }}
+                    </td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    {% block script %}
+        <script>
+            // suppression bus
+            function deletebus(id) {
+                if (confirm("{{ 'Voulez-vous vraiment supprimer ce bus?'|trans }}")) {
+                    $('#btn' + id).html("<div class='ajax-loader'></div>");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('Mecque_bus_delete') }}",
+                        data: "bus=" + id,
+                        success: function (data) {
+                            if (data['id'] != '') {
+                                document.location.href = "{{ path('Mecque_TransportTerrestre') }}";
+                            }
+                        },
+                        error: function () {
+                            alert("{{ 'La requête n a pas abouti'|trans }}");
+                        }
+                    });
+                }
+
+            }
+       
+            //debarquement d'un pelerin dans un bus
+            function userdescendre(pel) {
+                if (confirm("{{ 'Voulez-vous vraiment descendre ce pèlerin de ce bus ?'|trans }}")) {
+                    $('#' + pel).html("<div class='ajax-loader'></div>");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('Mecque_UserDescendre') }}",
+                        data: "pel=" + pel,
+                        success: function (data) {
+                            document.location.href = "{{ path('Mecque_TransportTerrestre') }}";
+                        },
+                        error: function () {
+                            alert("{{ 'La requête n a pas abouti'|trans }}");
+                        }
+                    });
+                }
+            }
+        </script>
+    {% endblock %}
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "accueil.html.twig" %}
+{% block title %} {{ 'Archives'|trans }} - Hajjalbayt {% endblock %}
+{% block session %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="col-md-8 offset-md-2 mt-5 mb-5 fond-7">
+    <h3 class="mt-4 mb-5 text-bold">
+        <i class="fa fa-calendar-alt mr-2"></i>
+        {{ 'Archives'|trans }}
+    </h3>
+    <table class="table table-success-light table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>{{ 'Session'|trans }}</th>
+                <th class="text-center"> {{ 'Quota'|trans }} </th>
+                <th class="text-center"> {{ 'Date de démarrage'|trans }} </th>
+                <th class="text-center"> {{ 'Date de fermeture'|trans }} </th>
+                {% if is_granted('ROLE_CHEF') %}
+                <th class="text-center"> {{ 'Action'|trans }} </th>
+                {% endif%}
+            </tr>
+        </thead>
+        <tbody>
+            {% if sessions is not empty %}
+            {% for session in sessions %}
+            {% if session.current == 1 %}
+            <tr class="bg-green-light">
+                <td data-label="{{ 'Session'|trans }}">
+                    {{ session.designation }}
+                </td>
+                {% else %}
+            <tr>
+                <td data-label="{{ 'Session'|trans }}">
+                    {% if app.user.agence.licence == 1 %}
+                    <a href="{{ path('Mecque_ArchiveSession', { saison : session.designation }) }}">
+                        {{ session.designation }}
+                    </a>
+                    {% else %}
+                    <a href="#licence" data-toggle="modal">
+                        {{ session.designation }}
+                    </a>
+                    {{ include('licence/licence-popup.html.twig') }}
+                    {% endif %}
+                </td>
+                {% endif %}
+                <td data-label="{{ 'Quota'|trans }}" class="text-center">
+                    {{ session.cotat }}
+                </td>
+                <td data-label="{{ 'Date de démarrage'|trans }}" class="text-center">
+                    {{ session.datedebut|date('d/m/Y') }}
+                </td>
+                <td data-label="{{ 'Date de fermeture'|trans }}" class="text-center">
+                    {%if session.datefin is not null %}
+                    {{ session.datefin|date('d/m/Y') }}
+                    {% endif %}
+                </td>
+                {% if is_granted('ROLE_CHEF') %}
+                <td data-label="{{ 'Action'|trans }}">
+                    {% if loop.last and session.datefin is not empty %}
+                    <a href="{{ path('Mecque_Restart') }}">
+                        <button type="button" class="btn btn-shadow btn-td btn-green mb-3">
+                            <i class="fa fa-folder-open"></i>
+                            {{ 'Réouvrir'|trans }}
+                        </button>
+                    </a>
+                    {% endif %}
+                    {% if session.current == 1 %}
+                    <a href="{{ path('Mecque_SessionEdit', {id : session.id}) }}">
+                        <button type="button" class="btn btn-shadow btn-td btn-primary">
+                            <i class="fa fa-edit"></i>
+                            {{ 'Modifier'|trans }}
+                        </button>
+                    </a>
+                </td>
+                {% endif%}
+                {% endif %}
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td data-label="colspan" colspan="5">
+                    {{ 'Aucune Session'|trans }}
+                </td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

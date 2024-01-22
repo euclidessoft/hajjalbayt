@@ -1,0 +1,162 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Modification versement'|trans }} - Hajjalbayt {% endblock %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block finance %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="col-md-10 offset-md-1 mt-5 fond-7">
+    <h3 class="mt-4 mb-5 text-bold">
+        <i class="fa fa-money-bill"></i><i class="fa fa-level-down-alt fa-sm"></i>
+        {{ 'Pèlerins bénéficiaire'|trans }}
+    </h3>
+    <table class="table table-success-light table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th class="text-center">{{ 'Numéro'|trans }}</th>
+                <th class="text-center">{{ 'Photo'|trans }}</th>
+                <th>{{ 'Prénom'|trans }}</th>
+                <th>{{ 'Nom'|trans }}</th>
+                <th class="text-center">{{ 'Date de naissance'|trans }}</th>
+                <th>{{ 'Lieu de naissance'|trans }}</th>
+                <th class="passeport">{{ 'Nº Passeport'|trans }}</th>
+                <th class="text-center">{{ 'Téléphone'|trans }}</th>
+                <th class="text-center">{{ 'Situation'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="text-uppercase">
+                <td data-label="{{ 'Numéro dossier'|trans }}" class="text-center">
+                    {{ pelerin.numdossier }}
+                </td>
+                <td data-label="{{ 'Photo'|trans }}">
+                    {% if pelerin.image is not empty %}
+                    <img src="{{ asset('images/'~ pelerin.image.url)}}" alt="{{ pelerin.image.alt}}" class="rounded-circle">
+                    {% else %}
+                    {% if pelerin.sexe == 'Feminin' %}
+                    <img src="{{ asset('images/avatar-femme.jpg')}}" alt="Photo pèlerin" class="rounded-circle">
+                    {% else %}
+                    <img src="{{ asset('images/avatar.jpg')}}" alt="Photo pèlerin" class="rounded-circle">
+                    {% endif %}
+                    {% endif %}
+                </td>
+                <td data-label="{{ 'Prénom'|trans }}">
+                    {{ pelerin.prenom}}
+                </td>
+                <td data-label="{{ 'Nom'|trans }}">
+                    {{ pelerin.nom}}
+                </td>
+                <td data-label="{{ 'Date de naissance'|trans }}" class="text-center">
+                    {% if pelerin.datenaiss is empty %}
+
+                    {% else %}
+                    {{ pelerin.datenaiss|date('d/m/Y')}}
+                    {% endif %}
+                </td>
+                <td data-label="{{ 'Lieu de naissance'|trans }}">
+                    {{ pelerin.lieunaiss}}
+                </td>
+                <td data-label="{{ 'Nº Passeport'|trans }}" class="passeport">
+                    {{ pelerin.numpassport}}
+                </td>
+                <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                    {{ pelerin.phone}}
+                </td>
+
+                {% set situation = pelerin.situation %}
+                {% if pelerin.compte == situation or pelerin.exonorer == 1 %}
+                <td data-label="{{ 'Situation'|trans }}" class="OK">
+                    {{ 'Soldé'|trans }}
+                    {% if pelerin.surplus == 1 %}
+                    <button type="button" class="btn btn-shadow btn-sm btn-td btn-green no-events mt-2">
+                        <i class="fa fa-plus-circle"></i>
+                        2 000
+                    </button>
+                    {% endif %}
+                </td>
+                {% elseif pelerin.compte > situation or pelerin.exonorer == 1 %}
+                <td data-label="{{ 'Situation'|trans }}" class="OK">
+                    {% set montant = pelerin.compte - situation %}
+                    <span class="montant">+{{ montant|number_format(0, '' , ' ') }}</span>
+                    {% if pelerin.surplus == 1 %}
+                    <button type="button" class="btn btn-shadow btn-sm btn-td btn-green no-events mt-2">
+                        <i class="fa fa-plus-circle"></i>
+                        2 000
+                    </button>
+                    {% endif %}
+                </td>
+                {% else %}
+                {% set montant = pelerin.compte - situation %}
+                <td data-label="{{ 'Situation'|trans }}" class="KO">
+                    <span class="montant">{{ montant|number_format(0, '' , ' ') }}</span>
+                    {% if pelerin.surplus == 1 %}
+                    <button type="button" class="btn btn-shadow btn-sm btn-td btn-danger no-events mt-2 float-right">
+                        <i class="fa fa-plus-circle"></i>
+                        2 000
+                    </button>
+                    {% endif %}
+                </td>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="col-md-4 offset-md-4 mt-4 card border-green fond-7">
+    <div class="row card-header bg-success-light bb-green text-green">
+        <h5 class="text-bold mb-0">
+            {{ 'Modifier versement'|trans }}
+        </h5>
+    </div>
+    <div class="card-body">
+
+        {{form_start(form, {'attr':{'id': 'form'}})}}
+        <div class="form-group mt-2">
+            {{form_errors(form.montant) }}
+            <div class="input-group">
+                {{form_widget(form.montant, {'label':false, 'attr' : {'id' : 'nombre', 'placeholder':'Montant'}})}}
+                <div class="input-group-append">
+                    <span class="input-group-text">F CFA </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group mt-4">
+            {{ form_row(form.type, {'label':false, 'attr' : {'onchange' : 'typeversement()'}})}}
+        </div>
+        <div id="versement">
+            <div class="form-group mt-4">
+                {{ form_row(form.banque, {'label':false, 'attr' : {'placeholder':'Banque'}})}}
+            </div>
+            <div class="form-group mt-4">
+                {{ form_row(form.numero, {'label':false, 'attr' : {'placeholder':'Numéro'}})}}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-4 offset-md-4 mt-4 mb-5 pt-3 pb-2 fond-7">
+    <div class="row">
+        <div class="centrer">
+            <button type="button" class="btn btn-shadow btn-normal btn-green mb-2 mr-3" id="send" onclick="number()">
+                <i class="fa fa-save"></i>
+                {{ 'Enregistrer'|trans }}
+            </button>
+            <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id}) }}" class="btn btn-shadow btn-warning btn-normal mb-2">
+                <i class="fa fa-undo"></i>
+                {{ 'Annuler'|trans }}
+            </a>
+            {{ form_rest(form) }}
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+</div>
+
+    {% block script %}
+        <script>
+
+            {{ include('scripts/typeversement.html.twig') }}
+
+            {{ include('scripts/number.html.twig') }}
+
+        </script>
+    {% endblock %}
+
+{% endblock %}

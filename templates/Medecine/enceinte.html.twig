@@ -1,0 +1,114 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Femmes enceintes'|trans }} - Hajjalbayt {% endblock %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="col-lg-8 offset-lg-2 mt-5 pt-3 pb-2 fond-7">
+    <div class="centrer">
+        <div class="row">
+            <a href="{{ path('Mecque_Medical_Menlist') }}" class="btn btn-shadow btn-normal btn-primary mb-2 mr-2">
+                <i class="fa fa-male fa-lg"></i>
+                {{ 'Hommes'|trans }}
+            </a>
+            <a href="{{ path('Mecque_Medical_Womenlist') }}" class="btn btn-shadow btn-normal btn-pink mb-2 mr-2">
+                <i class="fa fa-female fa-lg"></i>
+                {{ 'Femmes'|trans }}
+            </a>
+            <a href="{{ path('Mecque_Medical_Women45list') }}" class="btn btn-shadow btn-normal btn-pink-light mb-2 mr-2">
+                <i class="fa fa-female fa-lg"></i>
+                {{ 'Femmes -45ans'|trans }}
+            </a>
+            <a href="{{ path('Mecque_Medical_Oldlist')}}" class="btn btn-shadow btn-normal btn-fluo mb-2">
+                <img src="{{ asset('images/old-person.png') }}" alt="Old" height="21">
+                {{ '3ième âge'|trans }}
+            </a>
+        </div>
+    </div>
+</div>
+<div class="col-lg-8 offset-lg-2 mt-4 mb-5 fond-7">
+    <h3 class="mt-4 mb-5 text-bold">
+        <img src="{{ asset('images/pregnant-title.png')}}" alt="Femme enceinte" style="vertical-align: baseline;">
+        {{ 'Femmes enceintes'|trans }}
+    </h3>
+    <table class="table table-success-light table-bordered table-hover table-striped" id="list">
+        <thead>
+            <tr class="text-center">
+                <th>{{ 'Numéro'|trans }}</th>
+                <th>{{ 'Photo'|trans }}</th>
+                <th class="text-left">{{ 'Prénom'|trans }}</th>
+                <th class="text-left">{{ 'Nom'|trans }}</th>
+                <th>{{ 'Age'|trans }}</th>
+                <th>{{ 'Age de la grossesse'|trans }}</th>
+                <th class="text-left">{{ 'Profession'|trans }}</th>
+                <th>{{ 'Téléphone'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if pelerins is not empty %}
+            {% for pelerin in pelerins %}
+            {% set medical = pelerin.medical %}
+            {% if medical.enceinte ==1  %}
+            <tr class="text-center">
+                <td data-label="{{ 'Numéro dossier'|trans }}">
+                    {{ pelerin.numdossier}}
+                </td>
+                <td data-label="{{ 'Photo'|trans }}">
+                    {% if pelerin.image is not empty %}
+                    <a href="{{ path('Mecque_Medical_Pelerin', { pelerin : pelerin.id})}}">
+                        <img src="{{ asset('images/'~ pelerin.image.url)}}" alt="{{ pelerin.image.alt}}" class="rounded-circle">
+                    </a>
+                    {% else %}
+                    <a href="{{ path('Mecque_Medical_Pelerin', { pelerin : pelerin.id})}}">
+                        <img src="{{ asset('images/avatar-femme.jpg')}}" alt="Photo pèlerin" class="rounded-circle">
+                    </a>
+                    {% endif %}
+                </td>
+                <td data-label="{{ 'Prénom'|trans }}" class="text-left">
+                    <a href="{{ path('Mecque_Medical_Pelerin', { pelerin : pelerin.id})}}">
+                        {{ pelerin.prenom}}
+                    </a>
+                </td>
+                <td data-label="{{ 'Nom'|trans }}" class="text-left">
+                    <a href="{{ path('Mecque_Medical_Pelerin', { pelerin : pelerin.id})}}">
+                        {{ pelerin.nom}}
+                    </a>
+                </td>
+                <td data-label="{{ 'Age'|trans }}">
+                    <a href="{{ path('Mecque_Medical_Pelerin', { pelerin : pelerin.id})}}">
+                        {% if pelerin.datenaiss is not null %}
+                        <span class="text-nowrap">{{ pelerin.age }} {{ 'ans'|trans }}</span>
+                        {% else %}
+                        -
+                        {% endif %}
+                    </a>
+                </td>
+                <td data-label="{{ 'Age de la grossesse'|trans }}">
+                    <a href="{{ path('Mecque_Medical_Pelerin', { pelerin : pelerin.id})}}">
+                        <span class="text-nowrap"> </span>
+                    </a>
+                </td>
+                <td data-label="{{ 'Profession'|trans }}" class="text-left">
+                    <a href="{{ path('Mecque_Medical_Pelerin', { pelerin : pelerin.id})}}">
+                        {{ pelerin.profession }}
+                    </a>
+                </td>
+                <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                    <a href="{{ path('Mecque_Medical_Pelerin', { pelerin : pelerin.id})}}">
+                        {{ pelerin.phone }}
+                    </a>
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td data-label="colspan" colspan="8">
+                    {{ 'Aucun pèlerin'|trans }}
+                </td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

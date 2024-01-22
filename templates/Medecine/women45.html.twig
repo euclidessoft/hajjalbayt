@@ -1,0 +1,187 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Femmes -45ans'|trans }} - Hajjalbayt {% endblock %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="container-fluid mt-5 pt-3 pb-2 fond-7">
+    <div class="centrer">
+        <div class="row">
+            <a href="{{ path('Mecque_Medical_list') }}" class="btn btn-shadow btn-normal btn-green mb-2 mr-2">
+                <i class="fa fa-users"></i>
+                {{ 'Tous les pèlerins'|trans }}
+            </a>
+            <a href="{{ path('Mecque_Medical_Menlist') }}" class="btn btn-shadow btn-normal btn-primary mb-2 mr-2">
+                <i class="fa fa-male fa-lg"></i>
+                {{ 'Hommes'|trans }}
+            </a>
+            <a href="{{ path('Mecque_Medical_Womenlist') }}" class="btn btn-shadow btn-normal btn-pink mb-2 mr-2">
+                <i class="fa fa-female fa-lg"></i>
+                {{ 'Femmes'|trans }}
+            </a>
+            <a href="{{ path('Mecque_Medical_Oldlist')}}" class="btn btn-shadow btn-normal btn-fluo mb-2">
+                <img src="{{ asset('images/old-person.png') }}" alt="Old" height="21">
+                {{ '3ième âge'|trans }}
+            </a>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt-4 mb-5 fond-7">
+    <h3 class="mt-4 mb-5 text-bold">
+        <i class="fa fa-female"></i>
+        {{ 'Femmes -45ans'|trans }}
+    </h3>
+    <table class="table table-success-light table-bordered table-hover table-striped" id="list">
+        <thead>
+            <tr>
+                <th class="text-center">{{ 'Numéro'|trans }}</th>
+                <th class="text-center">{{ 'Photo'|trans }}</th>
+                <th>{{ 'Prénom'|trans }}</th>
+                <th>{{ 'Nom'|trans }}</th>
+                <th class="text-center">{{ 'Age'|trans }}</th>
+                <th>{{ 'Résumé'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if pelerins is not empty %}
+            {% for pelerin in pelerins %}
+            <tr>
+                <td data-label="{{ 'Numéro dossier'|trans }}" class="text-center">
+                    {{ pelerin.numdossier}}
+                </td>
+                <td data-label="{{ 'Photo'|trans }}" class="text-center">
+                    {% if pelerin.image is not empty %}
+                    <a href="{{ path('Mecque_Medical_Pelerin', { pelerin : pelerin.id})}}">
+                        <img src="{{ asset('images/'~ pelerin.image.url)}}" alt="{{ pelerin.image.alt}}" class="rounded-circle">
+                    </a>
+                    {% else %}
+                    <a href="{{ path('Mecque_Medical_Pelerin', { pelerin : pelerin.id})}}">
+                        <img src="{{ asset('images/avatar-femme.jpg')}}" alt="Photo pèlerin" class="rounded-circle">
+                    </a>
+                    {% endif %}
+                </td>
+                <td data-label="{{ 'Prénom'|trans }}">
+                    <a href="{{ path('Mecque_Medical_Pelerin', { pelerin : pelerin.id})}}">
+                        {{ pelerin.prenom}}
+                    </a>
+                </td>
+                <td data-label="{{ 'Nom'|trans }}">
+                    <a href="{{ path('Mecque_Medical_Pelerin', { pelerin : pelerin.id})}}">
+                        {{ pelerin.nom}}
+                    </a>
+                </td>
+                <td data-label="{{ 'Age'|trans }}" class="text-center">
+                    <a href="{{ path('Mecque_Medical_Pelerin', { pelerin : pelerin.id})}}">
+                        {% if pelerin.datenaiss is not null %}
+                        <span class="text-nowrap">{{ pelerin.age }} {{ 'ans'|trans }}</span>
+                        {% else %}
+                        -
+                        {% endif %}
+                    </a>
+                </td>
+                <td data-label="{{ 'Résumé'|trans }}">
+                    {% if pelerin.medical is null %}
+                    <a href="{{ path('Mecque_Medical',{pelerin : pelerin.id})}}">
+                        <button class="btn btn-shadow btn-td btn-danger">
+                            {{ 'Définir etat médical'|trans }}
+                        </button>
+                    </a>
+                    {% else %}
+                    {% set medical = pelerin.medical %}
+
+                    {% if medical.charriot == 1 %}
+                    <i class="fa fa-wheelchair fa-5x float-right text-danger"></i>
+                    {% endif %}
+
+                    <h6 class="text-bold">{{ 'Antécédents médicaux'|trans }}</h6>
+
+                    {% if medical.hta != 0 or medical.asthme != 0 or medical.drepano != 0 or medical.tuberculose != 0 or medical.arthrose != 0 %}
+                    {% if medical.hta != 0 %} {{ 'HTA'|trans }}, {% endif %}
+                    {% if medical.diabete != 0 %} {{ 'Diabete'|trans }}, {% endif %}
+                    {% if medical.asthme != 0 %} {{ 'Asthme'|trans }}, {% endif %}
+                    {% if medical.drepano != 0 %} {{ 'Drepano'|trans }}, {% endif %}
+                    {% if medical.tuberculose != 0 %} {{ 'Tuberculose'|trans }}, {% endif %}
+                    {% if medical.arthrose != 0 %} {{ 'Arthrose'|trans }} {% endif %}
+                    {% else %}
+                    <b>{{ 'Néant'|trans }}</b>
+                    {% endif %}
+
+                    <h6 class="text-bold mt-3">{{ 'Antécédents chirurgicaux'|trans }}</h6>
+                    {% if medical.chabdo is not null or medical.chpulmo is not null or medical.chortho is not null or medical.cesarienne is not null or medical.autres is not null  %}
+
+                    {% if medical.chabdo is not null %}
+                    <b>{{ 'Abdominal'|trans }}</b> : {{ medical.chabdo }}
+                    {% endif %}
+
+                    {% if medical.chpulmo is not null %}
+                    <br>
+                    <b>{{ 'Pelvienne'|trans }}</b> : {{ medical.chpulmo }}
+                    {% endif %}
+
+                    {% if medical.chortho is not null %}
+                    <br>
+                    <b>{{ 'Orthopédique'|trans }}</b> : {{ medical.chortho }}
+                    {% endif %}
+
+                    {% if medical.autres is not null %}
+                    <br>
+                    <b>{{ 'Autres'|trans }} : </b> {{ medical.autres }}
+                    {% endif %}
+
+                    {% if medical.cesarienne is not null %}
+                    <br>
+                    <b>Cesarienne : </b> {{ medical.cesarienne }}
+                    {% endif %}
+                    {% if pelerin.sexe == 'Feminin' %}
+                    <br>
+                    <b>{{ 'Gyneco obstétricaux'|trans }}</b>
+                    <br>
+                    <b>{{ medical.obsteg}}G</b>
+                    <br>
+                    <b>{{ medical.obstep}}P</b>
+                    {% else %}
+                    <b>{{ 'Néant'|trans }}</b>
+                    {% endif %}
+                    {% else %}
+                    <b>{{ 'Néant'|trans }}</b>
+                    {% endif %}
+
+                    <br>
+                    <h6 class="text-bold mt-3">{{ 'Antécédents psychiatriques'|trans }}</h6>
+                    {% if medical.psychiatrique is not null %}
+
+                    {{ medical.psychiatrique }}
+                    {% else %}
+                    <b>{{ 'Néant'|trans }}</b>
+                    {% endif %}
+                    <br>
+                    <h6 class="text-bold mt-3">{{ 'Diagnostic'|trans }}</h6>
+                    {% if medical.diagnostic is not null %}
+
+                    {{ medical.diagnostic }}
+                    {% else %}
+                    <b>{{ 'Néant'|trans }}</b>
+                    {% endif %}
+                    <br>
+                    <b>{{ 'Enceinte'|trans }}</b> :
+                    {% if medical.enceinte == 0 %}
+                    {{ 'NON'|trans }}
+                    {% else %}
+                    {{ 'OUI'|trans }}
+                    {% endif %}
+                    {% endif %}
+
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td data-label="colspan" colspan="6">
+                    {{ 'Aucun pèlerin'|trans }}
+                </td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

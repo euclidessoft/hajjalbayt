@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    {{ include('head.html.twig') }}
+
+    <title> {% block title %} Hajjalbayt - {{ 'Le pèlerinage facile'|trans }} {% endblock %} </title>
+
+    {% block stylesheets %}
+        <link href="{{ asset('DataTables/datatables.css') }}" rel="stylesheet">
+        <link href="{{ asset('fontawesome/css/all.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/bootstrap-4plus.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/layout.css') }}" rel="stylesheet">
+        {% if app.user.agence.licence == 1 %}
+            <link href="{{ asset('css/hajjalbayt.css') }}" rel="stylesheet">
+        {% else %}
+            <link href="{{ asset('css/hajjalbayt-demo.css') }}" rel="stylesheet">
+        {% endif %}
+    {% endblock %}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+    <!--[if lt IE 9]>
+    <script src="{{ asset('js/html5shiv.js') }}"></script>
+    <script src="{{ asset('js/respond.min.js') }}"></script>
+    <![endif]-->
+
+</head>
+
+<body {% block facture %} {% endblock %}>
+
+{{ include('body.html.twig') }}
+
+<div id="main" class="container-fluid main">
+    {% block body %}
+
+    {% endblock %}
+</div>
+
+{{ include('javascript.html.twig') }}
+
+</body>
+
+</html>

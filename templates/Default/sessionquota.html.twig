@@ -1,0 +1,54 @@
+{% extends "accueil.html.twig" %}
+{% block title %} {{ 'Définition quota'|trans }} - Hajjalbayt {% endblock %}
+{% block session %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="col-md-4 offset-md-4 fond-7">
+            <h3 class="mt-4 mb-5 text-bold">
+                <i class="fa fa-calendar-day mr-2"></i>
+                {{ 'Définition quota'|trans }}
+            </h3>
+            <div class="row">
+                <div class="col-10 offset-1 pb-5">
+
+                    {{form_start(form, {'attr':{'id': 'form'}}) }}
+
+                    <div class="form-group mt-5">
+                        {{ form_row(form.cotat, {'label':false, attr: {'placeholder':'Quota', 'autofocus':'autofocus'}}) }}
+                    </div>
+                </div>
+            </div>
+            {% if group == 'no' %}
+            <a href="{{ path('Mecque_SessionConfig') }}" class="btn btn-shadow btn-secondary btn-normal mt-5 mb-3 mr-2">
+                <i class="fa fa-backward"></i>
+                {{ 'Précédent'|trans }}
+            </a>
+            {% else %}
+            <a href="{{ path('Mecque_SessionGroupCreate') }}" class="btn btn-shadow btn-secondary btn-normal mt-5 mb-3 mr-2">
+                <i class="fa fa-backward"></i>
+                {{ 'Précédent'|trans }}
+            </a>
+            {% endif %}
+        </div>
+        <div class="col-md-4 offset-md-4 mt-4 mb-5 pt-3 pb-2 fond-7">
+            <div class="centrer">
+                <div class="row">
+                    <button type="submit" class="btn btn-shadow btn-normal btn-green mb-2 mr-3">
+                        <i class="fa fa-save"></i>
+                        {{ 'Enregistrer'|trans }}
+                    </button>
+                    <button type="reset" class="btn btn-shadow btn-normal btn-danger mb-2">
+                        <i class="fa fa-save"></i>
+                        {{ 'Effacer'|trans }}
+                    </button>
+                </div>
+            </div>
+            {{ form_rest(form) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+{% endblock %}

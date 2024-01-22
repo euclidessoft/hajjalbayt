@@ -1,0 +1,111 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Tous les courtiers'|trans }} - Hajjalbayt {% endblock %}
+{% block courtier %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+
+{% if is_granted('ROLE_CHEF') %}
+<div class="col-md-8 offset-md-2 mt-5 mb-5 fond-7">
+{% else %}
+<div class="col-md-6 offset-md-3 mt-5 mb-5 fond-7">
+{% endif %}
+        <h3 class="mt-4 mb-5 text-bold">
+            <i class="fa fa-user-friends mr-2"></i>
+            {{ 'Tous les courtiers'|trans }}
+        </h3>
+        {% if is_granted('ROLE_CHEF') %}
+        <a href="{{ path('Mecque_CourtierAdd') }}" class="btn btn-shadow btn-green mb-5">
+            <i class="fa fa-plus-circle"></i>
+            {{ 'Nouveau courtier'|trans }}
+        </a>
+        {% endif %}
+        <table class="table table-success-light table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>{{ 'Prénom'|trans }}</th>
+                    <th>{{ 'Nom'|trans }}</th>
+                    <th class="text-center">{{ 'Téléphone'|trans }}</th>
+                    {% if is_granted('ROLE_CHEF') %}
+                    <th class="text-center">{{ 'Commission'|trans }}</th>
+                    <th class="text-center">{{ 'Modification'|trans }}</th>
+                    <th class="text-center">{{ 'Suppression'|trans }}</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% if courtiers is not empty %}
+                {% for courtier in courtiers %}
+                <tr>
+                    <td data-label="{{ 'Prénom'|trans }}">
+                        {{ courtier.prenom }}
+                    </td>
+                    <td data-label="{{ 'Nom'|trans }}">
+                        {{ courtier.nom }}
+                    </td>
+                    <td data-label="{{ 'Téléphone'|trans }}" class="text-center">
+                        {{ courtier.phone }}
+                    </td>
+                    {% if is_granted('ROLE_CHEF') %}
+                    <td data-label="{{ 'Commission'|trans }}" class="text-center">
+                        {{ courtier.commition|number_format(0, '' , ' ') }} F CFA
+                    </td>
+                    <td data-label="{{ 'Modification'|trans }}">
+                        <a href="{{ path('Mecque_CourtierEdit', {id : courtier.id}) }}">
+                           <button class="btn btn-shadow btn-td btn-primary">
+                            <i class="fa fa-user-edit"></i>
+                            {{ 'Modifier'|trans }}
+                            </button>
+                        </a>
+                    </td>
+                    <td data-label="{{ 'Suppression'|trans }}">
+                        {%if courtier.pelerins is empty %}
+                        <button class="btn btn-shadow btn-danger btn-td" onclick="deletecourtier({{ courtier.id }})">
+                            <i class="fa fa-user-times"></i>
+                            {{ 'Supprimer'|trans }}
+                        </button>
+                        {% else %}
+                        <button class="btn btn-shadow btn-danger btn-td disabled">
+                            <i class="fa fa-user-times"></i>
+                            {{ 'Supprimer'|trans }}
+                        </button>
+                        {% endif %}
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td data-label="colspan" colspan="6"> {{ 'Aucun courtier'|trans }} </td>
+                </tr>
+                {% endif %}
+
+            </tbody>
+        </table>
+    </div>
+
+    {% block script %}
+        <script>
+            // suppression courtier
+            function deletecourtier(id) {
+                if (confirm("{{'Voulez-vous vraiment supprimer ce courtier ?'|trans}}")) {
+                    $('#btn' + id).html("<div class='ajax-loader'></div>");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{path('Mecque_CourtierDelete')}}",
+                        data: "plr=" + id,
+                        success: function(data) {
+                            if (data['id'] != '') {
+                                document.location.href = "{{ path('Mecque_CourtierList') }}";
+                            }
+                        },
+                        error: function() {
+                            alert("{{'La requête n a pas abouti'|trans }}");
+                        }
+                    });
+                }
+
+            }
+        </script>
+    {% endblock %}
+
+{% endblock %}

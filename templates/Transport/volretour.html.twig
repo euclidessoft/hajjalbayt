@@ -1,0 +1,78 @@
+{% extends "accueil.html.twig" %}
+{% block title %} {{ 'Nouveau vol'|trans }} - Hajjalbayt {% endblock %}
+{% block transport %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+    {% if app.user.agence.licence == 1 %}
+        <div class="row">
+            <div class="col-12">
+                <div class="col-lg-6 offset-lg-3 mt-5 fond-7">
+                    <h4 class="mt-4 mb-5 text-bold">
+                        <i class="fa fa-plane-arrival fa-flip-horizontal fa-lg"></i>
+                        <i class="fa fa-plus-square fa-sm ml-n1"></i>
+                        {{ 'Nouveau vol'|trans }}
+                    </h4>
+                    <div class="col-lg-8 offset-lg-2">
+
+                        {{ form_start(form, {'attr':{'id': 'form'}}) }}
+                        <div class="form-group mt-4">
+                            {{ form_row(form.compagnie, {'label':false}) }}
+                        </div>
+                        <div class="form-group mt-4">
+                            {{ form_row(form.numero, {'attr':{'placeholder':'Nº vol'}, 'label':false}) }}
+                        </div>
+                        <div class="form-group mt-4">
+                            {{ form_row(form.lieudepart, {'attr':{'placeholder':'Provenance'}, 'label':false}) }}
+                        </div>
+                        <div class="form-group mt-4">
+                            {{ form_row(form.datedepart, {'label':false}) }}
+                        </div>
+                        <div class="form-group mt-4 mb-5">
+                            {{ form_row(form.heuredepart, {'label':false}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 offset-lg-3 mt-4 mb-5 pt-3 pb-2 fond-7">
+                    <div class="centrer">
+                        <div class="row">
+                            <button type="button" class="btn btn-shadow btn-normal btn-green mb-2 mr-3" id="send"
+                                    onclick="derniervol()">
+                                <i class="fa fa-save"></i>
+                                {{ 'Enregistrer'|trans }}
+                            </button>
+                            <a href="{{ path('Mecque_TransportAerienRetour') }}"
+                               class="btn btn-shadow btn-normal btn-warning mb-2">
+                                <i class="fa fa-undo"></i>
+                                {{ 'Annuler'|trans }}
+                            </a>
+                            {{ form_rest(form) }}
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        {{ include('licence/licence-page.html.twig') }}
+    {% endif %}
+
+    {% block script %}
+        <script>
+            //definir le dernier vol
+            function derniervol() {
+                if ($('#mecquebundle_vol_numero').val() == '' || $('#mecquebundle_vol_lieudepart').val() == '' || $('#mecquebundle_vol_datedepart').val() == '' || $('#mecquebundle_vol_heuredepart').val() == '') {
+                    if (confirm("{{ 'Designer comme dernier vol ?'|trans }}")) {
+                        $('#send').html("<div class='ajax-loader'></div>");
+                        $('#form').submit();
+                    } else {
+                        alert("{{ 'Renseigner tous les champs alors'|trans }}");
+                    }
+                } else {
+                    $('#send').html("<div class='ajax-loader'></div>");
+                    $('#form').submit();
+                }
+            }
+        </script>
+    {% endblock %}
+
+{% endblock %}

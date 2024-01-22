@@ -1,0 +1,119 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Liste des hommes'|trans }} - Hajjalbayt {% endblock %}
+{% block facture %} onload="window.print()" onafterprint="window.history.back()" {% endblock %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+{% if app.user.agence.licence == 1 %}
+<div class="container-fluid mt-4 mb-5 fond-7">
+    <h3 class="mt-4 mb-5 text-bold">
+        <i class="fa fa-male fa-lg"></i>
+        {{ 'Liste des hommes'|trans }}
+    </h3>
+    <table class="table table-success-light table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th class="text-center">{{ 'Numéro'|trans }}</th>
+                <th class="text-center">{{ 'Photo'|trans }}</th>
+                <th>{{ 'Prénom'|trans }}</th>
+                <th>{{ 'Nom'|trans }}</th>
+                <th class="text-center">{{ 'Date de naissance'|trans }}</th>
+                <th>{{ 'Lieu de naissance'|trans }}</th>
+                <th class="passeport">{{ 'Nº Passeport'|trans }}</th>
+                <th class="phone">{{ 'Téléphone'|trans }}</th>
+                <th>{{ 'Package'|trans }}</th>
+                <th class="text-center">{{ 'Situation'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if pelerins is not empty %}
+            {% for pelerin in pelerins %}
+            <tr>
+                <td data-label="{{ 'Numéro dossier'|trans }}" class="text-center">
+                    {{ pelerin.numdossier }}
+                </td>
+                <td data-label="{{ 'Photo'|trans }}">
+                    {% if pelerin.image is not empty %}
+                    <img src="{{ asset('images/'~ pelerin.image.url)}}" alt="{{ pelerin.image.alt}}" class="rounded-circle">
+                    {% else %}
+                    <img src="{{ asset('images/avatar.jpg')}}" alt="Photo pèlerin" class="rounded-circle">
+                    {% endif %}
+                </td>
+                <td data-label="{{ 'Prénom'|trans }}">
+                    {{ pelerin.prenom}}
+                </td>
+                <td data-label="{{ 'Nom'|trans }}">
+                    {{ pelerin.nom}}
+                </td>
+                <td data-label="{{ 'Date de naissance'|trans }}" class="text-center">
+                    {% if pelerin.datenaiss is empty %}
+
+                    {% else %}
+                    {{ pelerin.datenaiss|date('d/m/Y')}}
+                    {% endif %}
+                </td>
+                <td data-label="{{ 'Lieu de naissance'|trans }}">
+                    {{ pelerin.lieunaiss}}
+                </td>
+                <td data-label="{{ 'Nº Passeport'|trans }}" class="passeport">
+                    {{ pelerin.numpassport}}
+                </td>
+                <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                    {{ pelerin.phone}}
+                </td>
+                <td data-label="{{ 'Package'|trans }}">
+                    {{ pelerin.pack.designation }}
+                </td>
+
+                {% set situation = pelerin.situation %}
+                {% if pelerin.compte == situation or pelerin.exonorer == 1 %}
+                <td data-label="{{ 'Situation'|trans }}" class="OK">
+                    {{ 'Soldé'|trans }}
+                    {% if pelerin.surplus == 1 %}
+                    <button type="button" class="btn btn-shadow btn-sm btn-td btn-green no-events mt-2">
+                        <i class="fa fa-plus-circle"></i>
+                        2 000
+                    </button>
+                    {% endif %}
+                </td>
+                {% elseif pelerin.compte > situation or pelerin.exonorer == 1 %}
+                <td data-label="{{ 'Situation'|trans }}" class="OK">
+                    {% set montant = pelerin.compte - situation %}
+                    <span class="montant">+{{ montant|number_format(0, '' , ' ') }}</span>
+                    {% if pelerin.surplus == 1 %}
+                    <button type="button" class="btn btn-shadow btn-sm btn-td btn-green no-events mt-2">
+                        <i class="fa fa-plus-circle"></i>
+                        2 000
+                    </button>
+                    {% endif %}
+                </td>
+                {% else %}
+                {% set montant = pelerin.compte - situation %}
+                <td data-label="{{ 'Situation'|trans }}" class="KO">
+                    <span class="montant">{{ montant|number_format(0, '' , ' ') }}</span>
+                    {% if pelerin.surplus == 1 %}
+                    <button type="button" class="btn btn-shadow btn-sm btn-td btn-danger no-events mt-2 float-right">
+                        <i class="fa fa-plus-circle"></i>
+                        2 000
+                    </button>
+                    {% endif %}
+                </td>
+                {% endif %}
+
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td data-label="colspan" colspan="10">
+                    {{ 'Aucun pèlerin'|trans }}
+                </td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+{{ include('licence/licence-page.html.twig') }}
+{% endif %}
+
+{% endblock %}

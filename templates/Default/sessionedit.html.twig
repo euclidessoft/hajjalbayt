@@ -1,0 +1,47 @@
+{% extends "accueil.html.twig" %}
+{% block title %} {{ 'Modification Session'|trans }} - Hajjalbayt {% endblock %}
+{% block session %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="col-md-4 offset-md-4 mt-5 fond-7">
+            <h3 class="mt-4 mb-5 text-bold">
+                <i class="fa fa-calendar-day mr-2"></i>
+                {{ 'Modification Session'|trans }}
+            </h3>
+            <div class="row">
+                <div class="col-10 offset-1 pb-5">
+
+                    {{form_start(form, {'attr':{'id': 'form'}}) }}
+
+                    <div class="form-group mt-4">
+                        {{ form_row(form.designation, {'label':false, attr: {'placeholder':'Nom Session'}}) }}
+                    </div>
+                    <div class="form-group mt-5">
+                        {{ form_row(form.cotat, {'label':false, attr: {'placeholder':'Quota'}}) }}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 offset-md-4 mt-4 mb-5 pt-3 pb-2 fond-7">
+            <div class="centrer">
+                <div class="row">
+                    <button type="button" class="btn btn-shadow btn-normal btn-green mb-2 mr-3" id="send" onclick="envoie()">
+                        <i class="fa fa-save"></i>
+                        {{ 'Enregistrer'|trans }}
+                    </button>
+                    <a href="{{ path('Mecque_SessionList') }}" class="btn btn-shadow btn-normal btn-warning mb-2">
+                        <i class="fa fa-undo"></i>
+                        {{ 'Annuler'|trans }}
+                    </a>
+                </div>
+            </div>
+            {{ form_rest(form) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+{% endblock %}

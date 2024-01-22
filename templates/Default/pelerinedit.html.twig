@@ -1,0 +1,243 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Modification pèlerin'|trans }} - Hajjalbayt {% endblock %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="container-fluid mt-3 fond-7">
+    <h3 class="mt-4 mb-5 text-bold">
+        <i class="fa fa-user-plus mr-2"></i>
+        {{ 'Modification pèlerin'|trans }}
+    </h3>
+    <h6 class="mt-4 text-danger">
+        {{ 'Les champs marqués par * sont obligatoires'|trans }}
+    </h6>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card border-green mt-3 mb-3">
+                <div class="card-header bg-success-light bb-green text-green">
+                    <i class="fa fa-id-card mr-2"></i>
+                    {{ 'Identité'|trans }}
+                </div>
+                <div class="card-body">
+                    {{form_start(form, {'attr':{'id': 'form'}}) }}
+
+                    {% if is_granted('ROLE_CHEF') %}
+                    <div class="form-group">
+                        {{ form_row(form.prenom, {'attr':{'placeholder':'Prénom *'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.nom, {'attr':{'placeholder':'Nom *'}, 'label':false}) }}
+                    </div>
+                    {% else %}
+                    <div class="form-group">
+                        <b> {{ 'Prénom'|trans }} </b> : {{ pelerin.prenom}}
+                    </div>
+                    <div class="form-group">
+                        <b> {{ 'Nom'|trans }} </b> : {{ pelerin.nom}}
+                    </div>
+                    {% endif %}
+                    <div class="form-group">
+                        {{ form_row(form.datenaiss, {'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.lieunaiss, {'attr':{'placeholder':'Lieu de naissance'}, 'label':false}) }}
+                    </div>
+                    {% if is_granted('ROLE_CHEF') %}
+                    <div class="form-group">
+                        {{ form_row(form.sexe, {'label':false}) }}
+                    </div>
+                    {% else %}
+                    <div class="form-group">
+                        <b> {{ 'Sexe'|trans }} </b> :
+                        {{ pelerin.sexe}}
+                    </div>
+                    {% endif %}
+                    <div class="form-group">
+                        {{ form_row(form.phone, {'attr':{'placeholder':'Téléphone *'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.email, {'attr':{'placeholder':'Adresse email'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.cin, {'attr':{'placeholder':'Nº carte nationale d\'identité (sans espace)'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.numpassport, {'attr' : {'placeholder':'Nº Passeport', 'onkeyup' : 'Passeport()'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group" id="Passeport">
+                        {{ form_row(form.expiredate, {'label':'Date d\'expiration'}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.numsaoudiantax, {'attr':{'placeholder':'Séquence'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.profession, {'attr':{'placeholder':'Profession'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.adresse, {'attr':{'placeholder':'Adresse'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.region, {'label':false}) }}
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border-warning mt-3 mb-3">
+                <div class="card-header bg-warning-light bb-warning text-warning">
+                    <i class="fa fa-info-circle mr-2"></i>
+                    {{ 'Informations complémentaires'|trans }}
+                </div>
+                <div class="card-body">
+                    {% if is_granted('ROLE_EMPLOYER')%}
+                    <div class="form-group">
+                        <b> {{ 'Package'|trans }} : </b>
+                        {{ pelerin.pack.designation}}
+                    </div>
+                    {% endif %}
+
+                    <div class="alert bg-warning radius-10">
+                        <p class="text-bold">
+                            {{ 'Le pèlerin a t-il effectué un pèlerinage durant ces 5 dermières années'|trans }} ?
+                        </p>
+                        <div class="row text-center">
+                            {% if mecque == 1 %}
+                            <div class="col-6">
+                                <input type="radio" name="surplus" id="oui" onchange="surplu('oui')" value="oui" checked="true" />
+                                <label for="oui">{{ 'OUI'|trans }}</label>
+                            </div>
+                            <div class="col-6">
+                                <input type="radio" name="surplus" id="non" value="non" onchange="surplu('non')" />
+                                <label for="non">{{ 'NON'|trans }}</label>
+                            </div>
+                            {% else %}
+                            <div class="col-6">
+                                <input type="radio" name="surplus" id="oui" onchange="surplu('oui')" value="oui" />
+                                <label for="oui">{{ 'OUI'|trans }}</label>
+                            </div>
+                            <div class="col-6">
+                                <input type="radio" name="surplus" id="non" value="non" onchange="surplu('non')" checked="true" />
+                                <label for="non">{{ 'NON'|trans }}</label>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            {{ form_row(form.photo, {'label' : 'Photo déposée'}) }}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border-danger mt-3 mb-3 focus-shadow-danger">
+                <div class="card-header bg-danger-light bb-danger text-danger">
+                    <i class="fa fa-info-circle mr-2"></i>
+                    {{ 'Informations sensibles'|trans }}
+                </div>
+                <div class="card-body">
+                    <div class="col-12 form-group">
+                        {{ form_row(form.visite, {'label':'Visite médicale obtenue', 'attr':{'class':'border-danger focus-shadow-danger'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.ethnie, {'attr':{'placeholder':'Ethnie', 'class':'border-danger focus-shadow-danger'}, 'label':false}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.bloodgroup, {'attr':{'class':'border-danger focus-shadow-danger'}, 'label':false}) }}
+                    </div>
+                    <div class="alert bg-danger-light border-danger mt-4 pt-4 radius-10">
+                        <div class="row">
+                            <div class="col-6 mt-1 mb-1">
+                                {{ form_widget(form.diabete, {'attr':{'class':'focus-shadow-danger'}, 'label':'Diabète'})}}
+                            </div>
+                            <div class="col-6 mt-1 mb-1">
+                                {{ form_widget(form.handicap, {'attr':{'class':'focus-shadow-danger'}, 'label':'Handicape'})}}
+                            </div>
+                            <div class="col-6 mt-1 mb-1">
+                                {{ form_widget(form.hypo, {'attr':{'class':'focus-shadow-danger'}, 'label':'Hypotension'})}}
+                            </div>
+                            <div class="col-6 mt-1 mb-1">
+                                {{ form_widget(form.hyper, {'attr':{'class':'focus-shadow-danger'}, 'label':'Hypertension'})}}
+                            </div>
+                            <div class="col-6 mt-1 mb-1">
+                                {{ form_widget(form.nonvoyant, {'attr':{'class':'focus-shadow-danger'}, 'label':'Non voyant'})}}
+                            </div>
+                            <div class="col-6 mt-1">
+                                <input class="focus-shadow-danger" type="checkbox" id="autre" value="autre" onclick="autretext()">
+                                <label for="autre"> {{ 'Autre'|trans }} </label>
+                            </div>
+                            <div class="col-12 mb-1">
+                                {{ form_widget(form.remark, {'attr':{'class':'border-danger focus-shadow-danger', 'placeholder':'Autre remarque à noter'}, 'label':false})}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card border-danger mt-4 mb-3">
+                        <div class="card-header bg-danger-light bb-danger text-danger">
+                            {{ 'Personne à contacter'|trans }}
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                {{ form_row(form.famillyname, {'attr':{'placeholder':'Prénom(s) et nom', 'class':'border-danger focus-shadow-danger'}, 'label':false}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_row(form.famillylink, {'label':false, 'attr' : {'class':'border-danger focus-shadow-danger'}}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_row(form.famillyphone, {'attr':{'placeholder':'Téléphone', 'class':'border-danger focus-shadow-danger'}, 'label':false}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt-4 mb-5 pt-3 pb-2 fond-7">
+    <div class="centrer">
+        <div class="row">
+            <button type="button" class="btn btn-shadow btn-green btn-normal mb-2 mr-3" id="send" onclick="editPelerin()">
+                <i class="fa fa-save"></i>
+                {{ 'Enregistrer'|trans }}
+            </button>
+            <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id } ) }}" class="btn btn-shadow btn-normal btn-warning mb-2">
+                <i class="fa fa-undo"></i>
+                {{ 'Annuler'|trans }}
+            </a>
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+    {% block script %}
+        <script>
+
+            //valider la modification d'un pelerin
+            function editPelerin() {
+                if (($('#mecquebundle_pelerin_numpassport').val() != '' && $('#mecquebundle_pelerin_expiredate').val() != '') || ($('#mecquebundle_pelerin_numpassport').val() == '' && $('#mecquebundle_pelerin_expiredate').val() == '')) {
+                    $('#send').addClass("disabled");
+                    $('#send').html("<div class='ajax-loader'></div>");
+                    $('#form').submit();
+                } else alert("{{'Vérifiez le numéro du passeport ou la date d expiration'|trans }}");
+            }
+
+            //ajouter une remarque
+            function autretext() {
+                if ($('#autre').is(':checked')) {
+                    $('#mecquebundle_pelerin_remark').show();
+                    $('#mecquebundle_pelerin_remark').val();
+                } else {
+                    $('#mecquebundle_pelerin_remark').hide();
+                    $('#mecquebundle_pelerin_remark').val();
+                }
+
+            }
+
+        </script>
+    {% endblock %}
+
+{% endblock %}

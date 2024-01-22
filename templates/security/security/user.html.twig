@@ -1,0 +1,85 @@
+{% extends 'accueil.html.twig' %}
+{% block title %} {{ 'Informations utilisateur'|trans }} - Hajjalbayt {% endblock %}
+{% block body %}
+
+<div class="row">
+    <div class="col-12">
+        {{ include('security/security/boutons.html.twig') }}
+
+        {% for message in app.flashes('notice')%}
+        <div class="col-lg-8 offset-lg-2 mt-4 alert alert-success alert-dismissible fade show radius-10 shadow-black" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ message|trans }}
+        </div>
+        {% endfor%}
+        <div class="col-lg-8 offset-lg-2 mt-4 mb-5 fond-7">
+            <h3 class="mt-4 text-bold">
+                <i class="fa fa-user-circle"></i>
+                {{ 'Informations utilisateur'|trans }}
+            </h3>
+            <div class="row mt-1 mb-5">
+                <div class="col-md-8 mt-5">
+                    <div class="row">
+                        <div class="col-4 text-right text-bold mb-4">
+                            {{ 'Identifiant'|trans }} :
+                        </div>
+                        <div class="col-8 ml-n4 mb-4">
+                            {{ user.username|upper }}
+                        </div>
+                        <div class="col-4 text-right text-bold mb-4">
+                            {{ 'Email'|trans }} :
+                        </div>
+                        <div class="col-8 ml-n4 mb-4">
+                            {{ user.email }}
+                        </div>
+                        <div class="col-4 text-right text-bold mb-4">
+                            {{ 'Prénom'|trans }} :
+                        </div>
+                        <div class="col-8 ml-n4 mb-4">
+                            {% if user.prenom is empty %}
+                            -
+                            {% else %}
+                            {{ user.prenom }}
+                            {% endif %}
+                        </div>
+                        <div class="col-4 text-right text-bold mb-4">
+                            {{ 'Nom'|trans }} :
+                        </div>
+                        <div class="col-8 ml-n4 mb-4">
+                            {% if user.nom is empty %}
+                            -
+                            {% else %}
+                            {{ user.nom|upper }}
+                            {% endif %}
+                        </div>
+                        <div class="col-4 text-right text-bold mb-4">
+                            {{ 'Adresse'|trans }} :
+                        </div>
+                        <div class="col-8 ml-n4 mb-4">
+                            {% if user.adresse is empty %}
+                            -
+                            {% else %}
+                            {{ user.adresse }}
+                            {% endif %}
+                        </div>
+                        <div class="col-4 text-right text-bold mb-4">
+                            {{ 'Téléphone'|trans }} :
+                        </div>
+                        <div class="col-8 ml-n4 mb-4">
+                            {% if user.phone is empty %}
+                            -
+                            {% else %}
+                            {{ user.phone }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-4 text-center">
+                    <img src="{{asset('images/avatar.jpg') }}" alt="Photo" class="rounded-circle" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

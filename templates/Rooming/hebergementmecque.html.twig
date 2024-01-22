@@ -1,0 +1,705 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Hébergement Mecque'|trans }} - Hajjalbayt {% endblock %}
+{% block hebergement %} class="nav-item dropright active" {% endblock %}
+{% block facture %} onkeyup="validchambremecque()" {% endblock %}
+{% block body %}
+
+    <div class="col-lg-10 mt-5 fond-7">
+        <h3 class="mt-4 mb-5 text-bold">
+            <i class="fa fa-bed fa-lg"></i>
+            <i class="fa fa-kaaba"></i>
+            {{ 'Hébergement Mecque'|trans }}
+        </h3>
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" href="#hotel" data-toggle="tab" id="hotel-tab" role="tab" aria-controls="hotel"
+                   aria-selected="false">
+                    {{ 'Hôtel'|trans }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#chambre" data-toggle="tab" id="chambre-tab" role="tab"
+                   aria-controls="chambre" aria-selected="true">
+                    {{ 'Chambre'|trans }}
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade" id="hotel" role="tabpanel" aria-labelledby="hotel-tab">
+                {% if app.user.agence.licence == 1 %}
+                    <a href="{{ path('Mecque_HotelMecque') }}" class="btn btn-shadow btn-green mt-5 mb-4">
+                        <i class="fa fa-plus-circle"></i>
+                        {{ 'Nouvel hôtel'|trans }}
+                    </a>
+                {% else %}
+                    <button data-toggle="modal" data-target="#licence" class="btn btn-shadow btn-green mt-5 mb-4">
+                        <i class="fa fa-plus-circle"></i>
+                        {{ 'Nouvel hôtel'|trans }}
+                    </button>
+                    {{ include('licence/licence-popup.html.twig') }}
+                {% endif %}
+                <table class="table table-success-light table-bordered table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th class="text-center">
+                            {{ 'Modifier'|trans }}
+                        </th>
+                        <th class="text-center">
+                            {{ 'Supprimer'|trans }}
+                        </th>
+                        <th>
+                            {{ 'Nom hôtel'|trans }}
+                        </th>
+                        <th>
+                            {{ 'Adresse'|trans }}
+                        </th>
+                        <th class="text-center">
+                            {{ 'Téléphone'|trans }}
+                        </th>
+                        <th>
+                            {{ 'Email'|trans }}
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% if hotels is not empty %}
+                        {% for hotel in hotels %}
+                            <tr>
+                                <td data-label="{{ 'Modifier'|trans }}">
+                                    <a href="#">
+                                        <button type="button" class="btn btn-shadow btn-td btn-primary">
+                                            <i class="fa fa-edit fa-lg"></i>
+
+                                        </button>
+                                    </a>
+                                </td>
+                                <td data-label="{{ 'Supprimer'|trans }}">
+                                    <button type="button" class="btn btn-shadow btn-td btn-danger disabled">
+                                        <i class="fa fa-trash-alt fa-lg"></i>
+
+                                    </button>
+                                </td>
+                                <td data-label="{{ 'Nom'|trans }}">
+                                    {{ hotel.nom }}
+                                </td>
+                                <td data-label="{{ 'Adresse'|trans }}">
+                                    {{ hotel.adresse }}
+                                </td>
+                                <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                                    {{ hotel.phone }}
+                                </td>
+                                <td data-label="{{ 'Email'|trans }}" class="text-nowrap">
+                                    {{ hotel.email }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td data-label="colspan" colspan="6">
+                                {{ 'Aucun hôtel créé'|trans }}
+                            </td>
+                        </tr>
+                    {% endif %}
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade show active" id="chambre" role="tabpanel" aria-labelledby="chambre-tab">
+
+                {% set homme = 0 %}
+                {% set femme = 0 %}
+                {% if pelerins is not empty %}
+                    <div class="row mt-5">
+                        <div class="col-md-4">
+                            {% if app.user.agence.licence == 1 %}
+                                <a href="{{ path('Mecque_ChambreMecque') }}" class="btn btn-shadow btn-green mb-4">
+                                    <i class="fa fa-plus-circle"></i>
+                                    {{ 'Créer chambre'|trans }}
+                                </a>
+                            {% else %}
+                                <button data-toggle="modal" data-target="#licence1"
+                                        class="btn btn-shadow btn-green mb-4">
+                                    <i class="fa fa-plus-circle"></i>
+                                    {{ 'Créer chambre'|trans }}
+                                </button>
+                                {{ include('licence/licence-popup1.html.twig') }}
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+
+                            {% for pelerin in pelerins %}
+                                {% if pelerin.sexe == 'Feminin' %}
+                                    {% set femme = femme + 1 %}
+                                {% else %}
+                                    {% set homme = homme + 1 %}
+                                {% endif %}
+                            {% endfor %}
+
+                            <h5 class="text-danger text-bold float-right mb-4">
+                                {% if femme != 0 %}
+                                    {{ femme }}
+                                    {% if femme > 1 %}
+                                        {{ 'femmes'|trans }}
+                                    {% else %}
+                                        {{ 'femme'|trans }}
+                                    {% endif %}
+                                {% endif %}
+
+                                {% if femme != 0 and homme != 0 %}
+                                    {{ 'et'|trans }}
+                                {% endif %}
+
+                                {% if homme != 0 %}
+                                    {{ homme }}
+                                    {% if homme > 1 %}
+                                        {{ 'hommes'|trans }}
+                                    {% else %}
+                                        {{ 'homme'|trans }}
+                                    {% endif %}
+                                {% endif %}
+
+                                {% if homme != 0 %}
+                                    {% if homme > 1 %}
+                                        {{ 'non logés'|trans }}
+                                    {% else %}
+                                        {% if femme != 0 %}
+                                            {{ 'non logés'|trans }}
+                                        {% else %}
+                                            {{ 'non logé'|trans }}
+                                        {% endif %}
+                                    {% endif %}
+                                {% else %}
+                                    {% if femme > 1 %}
+                                        {{ 'non logées'|trans }}
+                                    {% else %}
+                                        {{ 'non logée'|trans }}
+                                    {% endif %}
+                                {% endif %}
+                            </h5>
+
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-lg-12">
+                        {% for message in app.session.flashbag.get('notice') %}
+                            <div class="alert alert-success alert-dismissible fade show radius-10 shadow-black mt-4 mb-5">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                                </button>
+                                {{ message|trans }}
+                            </div>
+                        {% endfor %}
+                        {% for message in app.session.flashbag.get('sup') %}
+                            <div class="alert alert-danger alert-dismissible fade show radius-10 shadow-black mt-4 mb-5">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                                </button>
+                                {{ message|trans }}
+                            </div>
+                        {% endfor %}
+                        {% if femme == 0 and homme == 0 %}
+                            <h3 class="mb-5">
+                                &nbsp;
+                            </h3>
+                        {% endif %}
+                        <table class="table table-success-light table-bordered table-hover table-striped" id="list">
+                            <thead>
+                            <tr class="text-center">
+                                <th>{{ 'Modifier'|trans }}</th>
+                                <th>{{ 'Supprimer'|trans }}</th>
+                                <th>{{ 'Groupe'|trans }}</th>
+                                <th>{{ 'Hôtel'|trans }}</th>
+                                <th>{{ 'Nº chambre'|trans }}</th>
+                                <th>{{ 'Type'|trans }}</th>
+                                <th>{{ 'Nombre de lits'|trans }}</th>
+                                <th>{{ 'Nombre d\'occupants'|trans }}</th>
+                                <th>{{ 'Logement'|trans }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if chambres is not empty %}
+                                {% for chambre in chambres %}
+                                    <tr>
+                                        <td data-label="{{ 'Modifier'|trans }}">
+                                            <a href="{{ path('Mecque_ChambreMecqueEdit', { id : chambre.id }) }}">
+                                                <button class="btn btn-shadow btn-td btn-primary"
+                                                        title="{{ 'Modifier la chambre'|trans }}">
+                                                    <i class="fa fa-edit fa-lg"></i>
+
+                                                </button>
+                                            </a>
+                                        </td>
+                                        <td data-label="{{ 'Supprimer'|trans }}">
+                                            {% if chambre.pelerins|length != 0 %}
+                                                <button class="btn btn-shadow btn-td btn-danger disabled"
+                                                        title="{{ 'Supprimer la chambre'|trans }}">
+                                                    <i class="fa fa-trash-alt fa-lg"></i>
+
+                                                </button>
+                                            {% else %}
+                                                <button class="btn btn-shadow btn-td btn-danger"
+                                                        onclick="supprimerchambremecque({{ chambre.id }})"
+                                                        id="sup{{ chambre.id }}"
+                                                        title="{{ 'Supprimer la chambre'|trans }}">
+                                                    <i class="fa fa-trash-alt fa-lg"></i>
+
+                                                </button>
+                                            {% endif %}
+                                        </td>
+                                        <td data-label="{{ 'Groupe'|trans }}" class="text-center">
+                                            {{ chambre.numero }}
+                                        </td>
+                                        <td data-label="{{ 'Hôtel'|trans }}" class="text-center">
+                                            {{ chambre.hotel.nom }}
+                                        </td>
+                                        <td data-label="{{ 'Nº chambre'|trans }}" class="text-center"
+                                            id="tdnumch{{ chambre.id }}">
+                                            {% if chambre.numeroreel is not null %}
+                                                {{ chambre.numeroreel }}
+                                            {% else %}
+                                                <div class="input-group align-center" style="width:100px">
+                                                    <input type="text" id="text{{ chambre.id }}" class="form-control"
+                                                           onfocus="focu({{ chambre.id }})" onblur="nofocu()"
+                                                           style="padding:0 10px">
+                                                    <div class="input-group-append">
+                                            <span class="input-group-text bg-green text-light"
+                                                  onclick="numerochambremecque({{ chambre.id }})"
+                                                  id="bt{{ chambre.id }}">
+                                                <i class="fa fa-save"></i>
+                                            </span>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        </td>
+                                        <td data-label="{{ 'Type'|trans }}" class="text-center">
+                                            {{ chambre.type }}
+                                        </td>
+                                        <td data-label="{{ 'Nombre de lits'|trans }}" class="text-center">
+                                            {{ chambre.place }}
+                                        </td>
+                                        <td data-label="{{ 'Nombre d\'occupants'|trans }}">
+                                            <button data-toggle="modal" data-target="#ch{{ chambre.id }}"
+                                                    class="btn btn-shadow btn-normal btn-td btn-info">
+
+                                                {% if chambre.pelerins|length == 0 %}
+                                                    <i class="fa fa-user"></i>
+                                                    {{ chambre.pelerins|length }}
+                                                    {{ 'Pèlerin'|trans }}
+                                                {% else %}
+                                                    {% for peler in chambre.pelerins %}
+                                                        {% if loop.last %}
+                                                            {% if peler.sexe == 'Feminin' %}
+                                                                <i class="fa fa-female fa-lg"></i>
+                                                                {{ chambre.pelerins|length }}
+                                                                {% if chambre.pelerins|length > 1 %}
+                                                                    {{ 'Pèlerins'|trans }}
+                                                                {% else %}
+                                                                    {{ 'Pèlerin'|trans }}
+                                                                {% endif %}
+                                                            {% else %}
+                                                                <i class="fa fa-male fa-lg"></i>
+                                                                {{ chambre.pelerins|length }}
+                                                                {% if chambre.pelerins|length > 1 %}
+                                                                    {{ 'Pèlerins'|trans }}
+                                                                {% else %}
+                                                                    {{ 'Pèlerin'|trans }}
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+
+                                            </button>
+                                            <div class="modal fade" id="ch{{ chambre.id }}" tabindex="-1" role="dialog"
+                                                 aria-labelledby="chambretitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-xl" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bb-green">
+                                                            <div class="col-12">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <h4 class="modal-title text-center"
+                                                                            id="chambretitle">
+
+                                                                            {{ chambre.numero }} -
+                                                                            {{ chambre.hotel.nom }}
+                                                                            {% if chambre.numeroreel is not empty %}
+                                                                                ||
+                                                                                <span class="text-nowrap">
+                                                                        {{ 'Chambre numéro'|trans }} :
+                                                                        {{ chambre.numeroreel }}
+                                                                    </span>
+                                                                            {% endif %}
+                                                                            ||
+                                                                            <span class="text-nowrap">
+                                                                        {{ 'Nombre de lits'|trans }} :
+                                                                        {{ chambre.place }}
+                                                                    </span>
+                                                                        </h4>
+                                                                    </div>
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+
+                                                                    <div id="actu{{ chambre.id }}" class="col-12">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h4 class="mb-4 text-left text-bold">
+                                                                {% if chambre.pelerins|length > 1 %}
+                                                                    {{ 'Occupants'|trans }}
+                                                                {% else %}
+                                                                    {{ 'Occupant'|trans }}
+                                                                {% endif %}
+                                                            </h4>
+                                                            <table class="table table-success-light table-bordered table-hover table-striped">
+                                                                <thead>
+                                                                <tr class="text-center">
+                                                                    <th>{{ 'Numéro'|trans }}</th>
+                                                                    <th>{{ 'Photo'|trans }}</th>
+                                                                    <th class="text-left">{{ 'Prénom'|trans }}</th>
+                                                                    <th class="text-left">{{ 'Nom'|trans }}</th>
+                                                                    <th>{{ 'Date de naissance'|trans }}</th>
+                                                                    <th>{{ 'Nº Passeport'|trans }}</th>
+                                                                    <th>{{ 'Téléphone'|trans }}</th>
+                                                                    <th>{{ 'Déloger'|trans }}</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                {% if chambre.pelerins is not empty %}
+                                                                    {% for pelerin in chambre.pelerins %}
+                                                                        <tr id="tr{{ pelerin.id }}" class="text-center">
+                                                                            <td data-label="{{ 'Numéro dossier'|trans }}">
+                                                                                {{ pelerin.numdossier }}
+                                                                            </td>
+                                                                            <td data-label="{{ 'Photo'|trans }}">
+                                                                                {% if pelerin.image is not empty %}
+
+                                                                                    <img src="{{ asset('images/'~ pelerin.image.url) }}"
+                                                                                         alt="{{ pelerin.image.alt }}"
+                                                                                         class="rounded-circle">
+
+                                                                                {% else %}
+
+                                                                                    {% if pelerin.sexe == 'Feminin' %}
+                                                                                        <img src="{{ asset('images/avatar-femme.jpg') }}"
+                                                                                             alt="Photo pèlerin"
+                                                                                             class="rounded-circle">
+                                                                                    {% else %}
+                                                                                        <img src="{{ asset('images/avatar.jpg') }}"
+                                                                                             alt="Photo pèlerin"
+                                                                                             class="rounded-circle">
+                                                                                    {% endif %}
+
+                                                                                {% endif %}
+                                                                            </td>
+                                                                            <td data-label="{{ 'Prénom'|trans }}"
+                                                                                class="text-left">
+                                                                                {{ pelerin.prenom }}
+                                                                            </td>
+                                                                            <td data-label="{{ 'Nom'|trans }}"
+                                                                                class="text-left">
+                                                                                {{ pelerin.nom }}
+                                                                            </td>
+                                                                            <td data-label="{{ 'Date de naissance'|trans }}">
+                                                                                {{ pelerin.datenaiss|date('d/m/Y') }}
+                                                                            </td>
+                                                                            <td data-label="{{ 'Nº Passeport'|trans }}"
+                                                                                class="passeport">
+                                                                                {{ pelerin.numpassport }}
+                                                                            </td>
+                                                                            <td data-label="{{ 'Téléphone'|trans }}"
+                                                                                class="phone">
+                                                                                {{ pelerin.phone }}
+                                                                            </td>
+                                                                            <td data-label="{{ 'Déloger'|trans }}">
+                                                                                <button class="btn btn-shadow btn-td btn-normal btn-danger"
+                                                                                        id="{{ pelerin.id }}"
+                                                                                        onclick="userliberemecquech({{ pelerin.id }},{{ chambre.id }})">
+                                                                                    <i class="fa fa-user"></i>
+                                                                                    <i class="fa fa-sign-out-alt ml-n1 fa-flip-horizontal"></i>
+                                                                                    {{ 'Déloger'|trans }}
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                {% else %}
+                                                                    <tr>
+                                                                        <td data-label="colspan" colspan="8">
+                                                                            {{ 'Chambre vide'|trans }}
+                                                                        </td>
+                                                                    </tr>
+
+                                                                {% endif %}
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="modal-footer bt-green">
+                                                            <button type="button"
+                                                                    class="btn btn-shadow btn-normal btn-warning"
+                                                                    data-dismiss="modal">
+                                                                <i class="fa fa-times-circle"></i>
+                                                                {{ 'Fermer' }}
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                        <td data-label="{{ 'Logement'|trans }}">
+
+                                            {% if chambre.place > chambre.pelerins|length %}
+                                                {% set feminin = 'Feminin' %}
+                                                {% set masculin = 'Masculin' %}
+                                                {% if chambre.pelerins|length == 0 %}
+                                                    <button data-toggle="modal" data-target="#oc{{ chambre.id }}"
+                                                            class="btn btn-shadow btn-normal btn-td btn-green">
+                                                        <i class="fa fa-user"></i>
+                                                        <i class="fa fa-sign-in-alt ml-n1"></i>
+                                                        {{ 'Loger'|trans }}
+                                                    </button>
+                                                    <div class="modal fade mt-5" id="oc{{ chambre.id }}" role="dialog">
+                                                        <div class="modal-dialog modal-md" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header bb-green">
+                                                                    <h6 class="mt-3 text-center text-bold">
+                                                                        {{ chambre.numero }} -
+                                                                        <span class="text-nowrap">
+                                                            {{ 'Hôtel'|trans }} : {{ chambre.hotel.nom }}
+                                                        </span>
+                                                                        <span class="text-nowrap">
+                                                            {% if chambre.numeroreel is not empty %}
+                                                            ||
+                                                            {{ 'Chambre numéro'|trans }} : {{ chambre.numeroreel }}
+                                                        </span>
+                                                                        {% endif %}
+                                                                        ||
+                                                                        <span class="text-nowrap">
+                                                            {{ 'Nombre de lits'|trans }} : {{ chambre.place }}
+                                                        </span>
+                                                                    </h6>
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+
+                                                                <div class="modal-body">
+                                                                    <p class="text-center text-bold">
+                                                                        {{ 'Choisissez le genre qui doit occuper cette chambre. Attention, ce choix est irreversible.'|trans }}
+                                                                    </p>
+                                                                    <div class="col-12 mt-4 mb-4">
+                                                                        <div class="centrer">
+                                                                            <div class="row">
+                                                                                <a href="{{ path('Mecque_OccuperChambreMecque', { id : chambre.id, type : feminin }) }}">
+                                                                                    <button type="button"
+                                                                                            class="btn btn-shadow btn-normal btn-pink mr-3">
+                                                                                        <i class="fa fa-female fa-lg"></i>
+                                                                                        {{ 'Femme'|trans }}
+                                                                                    </button>
+                                                                                </a>
+                                                                                <a href="{{ path('Mecque_OccuperChambreMecque', { id : chambre.id, type : masculin }) }}">
+                                                                                    <button type="button"
+                                                                                            class="btn btn-shadow btn-normal btn-primary">
+                                                                                        <i class="fa fa-male fa-lg"></i>
+                                                                                        {{ 'Homme'|trans }}
+                                                                                    </button>
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    {% for peler in chambre.pelerins %}
+                                                        {% if loop.last %}
+                                                            {% if peler.sexe == 'Feminin' %}
+                                                                <a href="{{ path('Mecque_OccuperChambreMecque', { id : chambre.id, type : feminin }) }}">
+                                                                    <button class="btn btn-shadow btn-normal btn-td btn-green">
+                                                                        <i class="fa fa-user"></i>
+                                                                        <i class="fa fa-sign-in-alt ml-n1"></i>
+                                                                        {{ 'Loger'|trans }}
+                                                                    </button>
+                                                                </a>
+                                                            {% else %}
+                                                                <a href="{{ path('Mecque_OccuperChambreMecque', { id : chambre.id, type : masculin }) }}">
+                                                                    <button class="btn btn-shadow btn-normal btn-td btn-green">
+                                                                        <i class="fa fa-user"></i>
+                                                                        <i class="fa fa-sign-in-alt ml-n1"></i>
+                                                                        {{ 'Loger'|trans }}
+                                                                    </button>
+                                                                </a>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            {% else %}
+                                                <button class="btn btn-shadow btn-normal btn-td btn-green disabled">
+                                                    <i class="fa fa-user"></i>
+                                                    <i class="fa fa-sign-in-alt ml-n1"></i>
+                                                    {{ 'Loger'|trans }}
+                                                </button>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td data-label="colspan" colspan="9">
+                                        {{ 'Aucune chambre créée'|trans }}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                        <input type="text" id="tampon"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-10 mt-4 mb-5 pt-3 pb-1 fond-7">
+        <div class="centrer">
+            <div class="row">
+                {% if app.user.agence.licence == 1 %}
+                    <a href="{{ path('Mecque_ListChambreMecque') }}"{# target="_blank"#}
+                       class="btn btn-shadow btn-bas btn-success-light mb-2 mr-3">
+                        <i class="fa fa-print"></i>
+                        {{ 'Imprimer'|trans }}
+                    </a>
+                    {#
+                        <a href="{{ path('Mecque_allMecque_Excel') }}" class="btn btn-shadow btn-bas btn-green mb-2">
+                            <i class="fa fa-file-excel fa-lg"></i>
+                            {{ 'Exporter vers Excel'|trans }}
+                        </a>
+                    #}
+                {% else %}
+                    <button data-toggle="modal" data-target="#licence2"
+                            class="btn btn-shadow btn-bas btn-success-light mb-2 mr-3">
+                        <i class="fa fa-print"></i>
+                        {{ 'Imprimer'|trans }}
+                    </button>
+                    {#
+                        <button data-toggle="modal" data-target="#licence2" class="btn btn-shadow btn-bas btn-green mb-2">
+                            <i class="fa fa-file-excel fa-lg"></i>
+                            {{ 'Exporter vers Excel'|trans }}
+                        </button>
+                    #}
+                    {{ include('licence/licence-popup2.html.twig') }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% block script %}
+        <script>
+            //hebergement
+            function focu(id) {
+                $('#tampon').val(id);
+            }
+
+            //hebergement
+            function nofocu(id) {
+                $('#tampon').val('');
+            }
+
+            //controle du numero de chambre à la mecque
+            function validchambremecque() {
+                var id = $('#tampon').val();
+                if (id != '' && window.event.keyCode == 13) {
+                    var reg = new RegExp("^[0-9]+$");
+                    if (reg.test($('#text' + id).val())) {
+                        $('#bt' + id).html("<div class='ajax-loader'></div>");
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ path('Mecque_HebergementMecque') }}",
+                            data: "elv=" + id + "&numero=" + $('#text' + id).val(),
+                            success: function(data) {
+                                if (data['id'] == 'ok') {
+                                    $('#tdnumch' + id).html($('#text' + id).val());
+                                } else {
+                                    alert("{{'Une autre chambre du même hôtel possède déjà ce numéro'|trans }}");
+                                    $('#bt' + id).html("<i class='fa fa-save'></i>");
+                                }
+                            },
+                            error: function() {
+                                alert("{{'La requête n a pas abouti'|trans }}");
+                            }
+                        });
+                    } else alert("{{'invalide'|trans }}");
+                }
+            }
+
+            //enregistrement du numero de chambre à la mecque
+            function numerochambremecque(id) {
+                var reg = new RegExp("^[0-9]+$");
+                if (reg.test($('#text' + id).val())) {
+                    $('#bt' + id).html("<div class='ajax-loader'></div>");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('Mecque_HebergementMecque') }}",
+                        data: "elv=" + id + "&numero=" + $('#text' + id).val(),
+                        success: function(data) {
+                            if (data['id'] == 'ok') {
+                                $('#tdnumch' + id).html($('#text' + id).val());
+                            } else {
+                                alert("{{'Une autre chambre du même hôtel possède déjà ce numéro'|trans }}");
+                                $('#bt' + id).html("<i class='fa fa-save'></i>");
+                            }
+                        },
+                        error: function() {
+                            alert("{{'La requête n a pas abouti'|trans }}");
+                        }
+                    });
+                } else alert("{{'invalide'|trans }}");
+
+            }
+
+            //deloger pèlerins dans une chambre à la mecque
+            function userliberemecquech(pel, id) {
+                if (confirm("{{'Vouler-vous vraiment déloger ce pèlerin ?'|trans}}")) {
+                    $('#' + pel).html("<div class='ajax-loader'></div>");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('Mecque_UserLibereMecque')}}",
+                        data: "pel=" + pel,
+                        success: function(data) {
+                            $('#tr' + pel).remove();
+                            $('#actu' + id).html("<a href='{{ path('Mecque_HebergementMecque') }}' class='btn btn-shadow btn-green mt-4 mr-n3 float-right'><i class='fa fa-sync'></i> Actualiser </a>");
+                        },
+                        error: function() {
+                            alert("{{'La requête n a pas abouti'|trans }}");
+                        }
+                    });
+                }
+            }
+
+            //supprimer une chambre à la mecque
+            function supprimerchambremecque(id) {
+                if (confirm("{{'Voulez-vous vraiment supprimer la chambre?'|trans}}")) {
+                    $('#sup' + id).html("<div class='ajax-loader'></div>");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('Mecque_ChambreMecqueDelete') }}",
+                        data: "chr=" + id,
+                        success: function(data) {
+                            document.location.href = "{{ path('Mecque_HebergementMecque') }}";
+                        },
+                        error: function() {
+                            alert("{{'La requête n a pas abouti'|trans}}");
+                        }
+                    });
+                }
+            }
+
+        </script>
+    {% endblock %}
+
+{% endblock %}

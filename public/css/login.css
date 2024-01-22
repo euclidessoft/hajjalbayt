@@ -1,0 +1,116 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+body:after {
+    content: "";
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: -1;
+    background-image: url(../images/background.jpg);
+    background-position: center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.fond {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    box-shadow: 0 0 20px 10px rgb(0 0 0 / 0.4);
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 90%;
+    padding: 15px;
+    margin: auto;
+}
+
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+.input-group,
+.form-control {
+    border-radius: 10px;
+    border: 1px solid #039c4f;
+}
+
+.input-group > .form-control:not(:last-child),
+.input-group > .custom-select:not(:last-child) {
+    border: 1px solid transparent !important;
+}
+
+.input-group > .form-control:not(:first-child),
+.input-group > .custom-select:not(:first-child) {
+    border: 1px solid transparent !important;
+}
+
+.input-group-text {
+    border-radius: 9px;
+}
+
+.form-control {
+    padding: 0.3rem;
+}
+
+.form-control:focus,
+select:focus {
+    border: 1px solid #039c4f;
+    box-shadow: 0 0 10px rgba(3, 156, 79, 0.9);
+}
+
+.btn {
+    border-radius: 10px;
+}
+
+a {
+    color: #039c4f;
+}
+
+a:hover {
+    color: #039c4f;
+    text-decoration: none;
+    text-shadow: 0 0 1px #036f38;
+}
+
+#install_button {
+    background: transparent;
+    border: none;
+}
+
+@media screen and (max-width: 768px) {
+
+    body {
+        font-size: 12px;
+        margin-left: 0;
+    }
+
+    body:after {
+        background-image: url(../images/background-small.jpg);
+    }
+
+    .form-signin {
+        max-width: 100%;
+    }
+}

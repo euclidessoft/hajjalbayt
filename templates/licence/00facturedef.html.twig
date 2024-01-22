@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Facture définitive</title>
+</head>
+
+<body style="font-family: arial, sans-serif;padding: 10px">
+    <table width="100%" style="width: 100%; color: #007bff; text-align: center">
+        <tr>
+            <td rowspan="5" width="20%">
+                <img src="euclides.jpg" alt="Logo" height="135">
+            </td>
+            <td style="font-weight: 900;font-size: 20px" width="80%">
+                EUCLIDES
+            </td>
+        </tr>
+        <tr>
+            <td>S 198 HAMO 4 Guédiawaye Dakar Sénégal</td>
+        </tr>
+        <tr>
+            <td> Tel : 77 449 97 85 / 77 542 35 00 </td>
+        </tr>
+        <tr>
+            <td> Email : hajjalbayt@euclideservices.com / hajjalbayt@gmail.com </td>
+        </tr>
+        <tr>
+            <td> Site web : www.euclideservices.com </td>
+        </tr>
+    </table>
+    <h3 style="font-weight: 900;text-align: center;margin: 50px 0;text-decoration: underline">
+        FACTURE
+    </h3>
+    <table width="100%" style="width: 100%;border-collapse: collapse">
+        <tr>
+            <th style="text-align: right;border: 1px solid #007bff; padding: 10px">
+                Agence
+            </th>
+            <td style="border: 1px solid #007bff; padding: 10px">
+                {{ app.user.agence.nom }}
+            </td>
+            <td style="width: 20%"></td>
+            <th style="text-align: right;border: 1px solid #007bff; padding: 10px">
+                Ref facture
+            </th>
+            <td style="border: 1px solid #007bff; padding: 10px">
+                {% if nombre <= 50 %}
+                ST{{"now"|date("ymd")}}{{numero}}
+                {% elseif nombre > 50  and nombre <= 100 %}
+                SV{{"now"|date("ymd")}}{{numero}}
+                {% elseif nombre > 100 and nombre <= 150 %}
+                GD{{"now"|date("ymd")}}{{numero}}
+                {% elseif nombre >  150 %}
+                PT{{"now"|date("ymd")}}{{numero}}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th style="text-align: right;border: 1px solid #007bff; padding: 10px">
+                Responsable
+            </th>
+            <td style="border: 1px solid #007bff; padding: 10px">
+                {{ app.user.agence.responsable }}
+            </td>
+            <td style="width: 20%">
+
+            </td>
+            <th style="text-align: right;border: 1px solid #007bff; padding: 10px">
+                Date
+            </th>
+            <td style="border: 1px solid #007bff; padding: 10px">
+                {{"now"|date("d/m/Y")}}
+            </td>
+        </tr>
+        <tr>
+            <th style="text-align: right;border: 1px solid #007bff; padding: 10px">
+                Téléphone
+            </th>
+            <td style="border: 1px solid #007bff; padding: 10px">
+                {{ app.user.agence.phone }}
+            </td>
+
+        </tr>
+        <tr>
+            <th style="text-align: right;border: 1px solid #007bff; padding: 10px">
+                Email
+            </th>
+            <td style="border: 1px solid #007bff; padding: 10px">
+                {{ app.user.agence.email }}
+            </td>
+
+        </tr>
+        <tr>
+            <th style="text-align: right;border: 1px solid #007bff; padding: 10px">
+                Pack
+            </th>
+            <td style="border: 1px solid #007bff; padding: 10px">
+                {% if nombre <= 50 %}
+                STARTER
+                {% elseif nombre > 50  and nombre <= 100 %}
+                SILVER
+                {% elseif nombre > 100 and nombre <= 150 %}
+                GOLDER
+                {% elseif nombre > 150 %}
+                PLATINUM
+                {% endif %}
+            </td>
+
+        </tr>
+    </table>
+    <table width="100%" style="width: 100%;border-collapse: collapse;margin-top: 100px">
+        <tr>
+            <th style="text-align: center;border: 1px solid #007bff; padding: 10px;width:10%">
+                Nombre
+            </th>
+            <th style="text-align: left;border: 1px solid #007bff; padding: 10px;width:45%">
+                Désignation
+            </th>
+            <th style="text-align: center;border: 1px solid #007bff; padding: 10px;width:20%">
+                Prix unitaire
+            </th>
+            <th style="text-align: center;border: 1px solid #007bff; padding: 10px;width:25%">
+                Prix total
+            </th>
+
+        </tr>
+        <tr>
+            <td style="text-align: center;border: 1px solid #007bff; padding: 10px;height:150px;vertical-align:top">
+                {{ nombre|number_format(0, '' , ' ') }}
+            </td>
+            <td style="text-align: left;border: 1px solid #007bff; padding: 10px;height:150px;vertical-align:top">
+                Licence annuelle
+            </td>
+            <td style="text-align: center;border: 1px solid #007bff; padding: 10px;height:150px;vertical-align:top">
+                {% if nombre <= 50 %}
+                {% set prix = 3000 %}
+                {{ prix|number_format(0, '' , ' ') }}
+                {% elseif nombre > 50  and nombre <= 100%}
+                {% set prix = 2500 %}
+                {{ prix|number_format(0, '' , ' ') }}
+                {% elseif nombre > 100 and nombre <= 150%}
+                {% set prix = 2000 %}
+                {{ prix|number_format(0, '' , ' ') }}
+                {% elseif nombre >  150 %}
+                {% set prix = 1500 %}
+                {{ prix|number_format(0, '' , ' ') }}
+                {% endif %}
+            </td>
+            <td style="text-align: center;border: 1px solid #007bff; padding: 10px;height:150px;vertical-align:top">
+                {{ (nombre * prix)|number_format(0, '' , ' ') }}
+            </td>
+
+        </tr>
+        <tr>
+            <th colspan="2" style="text-align: center;border: 1px solid transparent; padding: 10px;border-right: 1px solid #007bff">
+
+            </th>
+            <th style="text-align: center;border: 1px solid #007bff; padding: 10px">
+                Total HT
+            </th>
+            <th style="text-align: center;border: 1px solid #007bff; padding: 10px">
+                {{ (nombre * prix)|number_format(0, '' , ' ') }}
+            </th>
+
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center;border: 1px solid transparent; padding: 10px">
+
+            </td>
+            <td colspan="2" style="text-align: center;border: 1px solid transparent; padding: 10px;border-bottom: 1px solid #007bff;height:20px">
+
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2" style="text-align: center;border: 1px solid transparent; padding: 10px;border-right: 1px solid #007bff">
+
+            </th>
+            <th style="text-align: center;border: 1px solid #007bff; padding: 10px">
+                TVA (18%)
+            </th>
+            <th style="text-align: center;border: 1px solid #007bff; padding: 10px">
+                {{ (nombre * prix * 0.18)|number_format(0, '' , ' ') }}
+            </th>
+
+        </tr>
+        <tr>
+            <th colspan="2" style="text-align: center;border: 1px solid transparent; padding: 10px;border-right: 1px solid #007bff">
+
+            </th>
+            <th style="text-align: center;border: 1px solid #007bff; padding: 10px">
+                Total TTC
+            </th>
+            <th style="text-align: center;border: 1px solid #007bff; padding: 10px">
+                {{ ((nombre * prix * 0.18) + (nombre * prix))|number_format(0, '' , ' ') }}
+            </th>
+
+        </tr>
+    </table>
+    <p style="padding-top:30px">
+        <b> Cette présente facture est valable pour 7 jours à compter de la date d'émission.</b>
+    </p>
+    <p style="padding-top:20px">
+        Operation effectuée par : {{ app.user.username}} ({{ app.user.email}})
+    </p>
+    <h2 style="text-align: center;margin-top: 70px">
+        Mode de paiement
+    </h2>
+    <table width="100%">
+        <tr>
+            <th style="border-right: 2px solid #007bff">
+                <h3>Virement</h3>
+            </th>
+            <th>
+                <h3>Chèque</h3>
+            </th>
+        </tr>
+        <tr>
+            <td width="50%" style="padding:10px;border-right: 2px solid #007bff">
+                <table width="100%">
+                    <tr>
+                        <th style="text-align:right">Banque :</th>
+                        <td>ECOBANK</td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:right">Nom du compte :</th>
+                        <td>EUCLIDES</td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:right">Code IBAN :</th>
+                        <td>SN094 01012 451039550401 59</td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:right">Code SWIFT :</th>
+                        <td>ECOCSNDA</td>
+                    </tr>
+                </table>
+            </td>
+            <td width="50%" style="padding:10px">
+                <p>
+                    A mettre au nom de <b>EUCLIDES</b> et l'envoyer au S 198 HAMO 4 Guédiawaye Dakar.
+                </p>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

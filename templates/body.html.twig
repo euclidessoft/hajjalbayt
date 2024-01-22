@@ -1,0 +1,463 @@
+{% block nav %}
+    <nav id="navmenu" class="navmenu">
+        <div class="session">
+            <a id="session" class="navbar-brand text-white m-2" href="{{ path('Mecque_homepage') }}">
+                {% if session is defined %}
+                    {{ session }}
+                {% else %}
+                    Hajjalbayt
+                {% endif %}
+            </a>
+        </div>
+        <div class="closebtn" id="closebtn" onclick="closeNav()">
+        </div>
+
+        <div id="sidenav" class="sidenav" onclick="openNav()">
+            <ul class="navbar-nav">
+                <li {% block home %} class="nav-item" {% endblock %} title="{{ 'Accueil'|trans }}">
+                    <a class="nav-link" href="{{ path('Mecque_homepage') }}">
+                        <div class="icone">
+                            <i class="fas fa-home fa-lg"></i>
+                        </div>
+                        <div class="title">
+                            {{ 'Accueil'|trans }}
+                        </div>
+                    </a>
+                </li>
+                {% if is_granted('ROLE_MEDECIN') %}
+                    <li {% block medical %} class="nav-item dropright" {% endblock %} title="{{ 'Pèlerin'|trans }}">
+                        <a class="nav-link dropdown-toggle" href="#" id="pelerin" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            <div class="icone">
+                                <i class="fas fa-user fa-lg"></i>
+                            </div>
+                            <div class="title">
+                                {{ 'Pèlerin'|trans }}
+                            </div>
+                        </a>
+                        <ul class=" dropdown-menu" aria-labelledby="pelerin">
+                            <li class="dropdown-item">
+                                <a class="nav-link" href="{{ path('Mecque_Medical_list') }}">
+                                    <i class="fas fa-users mr-2"></i>
+                                    {{ 'Tous les pèlerins'|trans }}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                {% elseif is_granted('ROLE_EMPLOYER') %}
+                    {% if app.user.caisse == 0 %}
+                        <li {% block pelerin %} class="nav-item dropright" {% endblock %} title="{{ 'Pèlerin'|trans }}">
+                            <a class="nav-link dropdown-toggle" href="#" id="pelerin" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                <div class="icone">
+                                    <i class="fas fa-user fa-lg"></i>
+                                </div>
+                                <div class="title">
+                                    {{ 'Pèlerin'|trans }}
+                                </div>
+                            </a>
+                            <ul class=" dropdown-menu" aria-labelledby="pelerin">
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_PelerinAdd') }}">
+                                        <i class="fas fa-user-plus mr-2"></i>
+                                        {{ 'Ajouter nouveau'|trans }}
+                                    </a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_PelerinList') }}">
+                                        <i class="fas fa-users mr-2"></i>
+                                        {{ 'Tous les pèlerins'|trans }}
+                                    </a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_AllView') }}">
+                                        <i class="fas fa-list mr-2"></i>
+                                        {{ 'Liste définitive'|trans }}
+                                    </a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_PelerinWating') }}">
+                                        <i class="fas fa-user-clock mr-1"></i>
+                                        {{ 'Réservation'|trans }}
+                                    </a>
+                                </li>
+                                {# if is_granted('ROLE_CHEF') %}
+                                <li class="dropdown-item submenu">
+                                    <a class="nav-link dropdown-toggle" href="#" id="staff" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-users mr-2"></i>
+                                        {{ 'Staff'|trans }}
+                                    </a>
+                                    <ul class="dropdown-submenu" aria-labelledby="staff">
+                                        <li class="dropdown-item">
+                                            <a class="nav-link" href="{{ path('Mecque_OrganisateurList') }}">
+                                                <i class="fas fa-user mr-2"></i>
+                                                {{ 'Administratif'|trans }}
+                                            </a>
+                                        </li>
+                                        <li class="dropdown-item">
+                                            <a class="nav-link" href="{{ path('Mecque_MedecinList') }}">
+                                                <i class="fas fa-user-md mr-2"></i>
+                                                {{ 'Médecin'|trans }}
+                                            </a>
+                                        </li>
+                                        <li class="dropdown-item">
+                                            <a class="nav-link" href="{{ path('Mecque_ImamList') }}">
+                                                <i class="fas fa-bullhorn mr-2"></i>
+                                                {{ 'Guide religieux'|trans }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                {% endif #}
+                            </ul>
+                        </li>
+                        <li {% block transport %} class="nav-item dropright" {% endblock %}
+                                title="{{ 'Transport'|trans }}">
+                            <a class="nav-link dropdown-toggle" href="#" id="Transport" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                <div class="icone">
+                                    <i class="fas fa-plane fa-lg"></i>
+                                </div>
+                                <div class="title">
+                                    {{ 'Transport'|trans }}
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="Transport">
+                                <li class="dropdown-item submenu">
+                                    <a class="nav-link dropdown-toggle" href="#" id="Aerien" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-plane mr-2"></i>
+                                        {{ 'Aérien'|trans }}
+                                    </a>
+                                    <ul id="submenu" class="dropdown-submenu" aria-labelledby="Aerien">
+                                        <li class="dropdown-item">
+                                            <a class="nav-link" href="{{ path('Mecque_TransportAerien') }}">
+                                                <i class="fas fa-plane-departure mr-2"></i>
+                                                {{ 'Vol allée'|trans }}
+                                            </a>
+                                        </li>
+                                        <li class="dropdown-item">
+                                            <a class="nav-link" href="{{ path('Mecque_TransportAerienRetour') }}">
+                                                <i class="fas fa-plane-arrival fa-flip-horizontal mr-2"></i>
+                                                {{ 'Vol retour'|trans }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_TransportTerrestre') }}">
+                                        <i class="fas fa-bus mr-2"></i>
+                                        {{ 'Terrestre'|trans }}
+                                    </a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_TransportCompanies') }}">
+                                        <i class="fas fa-university mr-2"></i>
+                                        {{ 'Compagnies'|trans }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li {% block hebergement %} class="nav-item dropright" {% endblock %}
+                                title="{{ 'Hébergement'|trans }}">
+                            <a class="nav-link dropdown-toggle" href="#" id="Hébergement" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                <div class="icone">
+                                    <i class="fas fa-bed fa-lg"></i>
+                                </div>
+                                <div class="title">
+                                    {{ 'Hébergement'|trans }}
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="Hébergement">
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_Hebergement') }}">
+                                        <i class="fas fa-mosque fa-lg mr-2"></i>
+                                        {{ 'Médine'|trans }}
+                                    </a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_HebergementMecque') }}">
+                                        <i class="fas fa-kaaba fa-lg mr-2"></i>
+                                        {{ 'Mecque'|trans }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li {% block courtier %} class="nav-item dropright" {% endblock %}
+                                title="{{ 'Courtier'|trans }}">
+                            <a class="nav-link dropdown-toggle" href="#" id="Courtier" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                <div class="icone">
+                                    <i class="fas fa-user-friends fa-lg"></i>
+                                </div>
+                                <div class="title">
+                                    {{ 'Courtier'|trans }}
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="Courtier">
+                                {% if is_granted('ROLE_CHEF') %}
+                                    <li class="dropdown-item">
+                                        <a class="nav-link" href="{{ path('Mecque_CourtierAdd') }}">
+                                            <i class="fas fa-user-plus mr-1"></i>
+                                            {{ 'Ajouter nouveau'|trans }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_Courtiers') }}">
+                                        <i class="fas fa-user-tag mr-2"></i>
+                                        {{ 'Courtiers actifs'|trans }}
+                                    </a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_CourtierList') }}">
+                                        <i class="fas fa-users mr-2"></i>
+                                        {{ 'Tous les courtiers'|trans }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li {% block package %} class="nav-item dropright" {% endblock %} title="{{ 'Package'|trans }}">
+                            <a class="nav-link dropdown-toggle" href="#" id="Package" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                <div class="icone">
+                                    <i class="fas fa-gift fa-lg"></i>
+                                </div>
+                                <div class="title">
+                                    {{ 'Package'|trans }}
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="Package">
+                                {% if is_granted('ROLE_CHEF') %}
+                                    {% if app.user.agence.licence == 1 %}
+                                        <li class="dropdown-item">
+                                            <a class="nav-link" href="{{ path('Mecque_PackAdd') }}">
+                                                <i class="fas fa-gift fa-lg"></i><i class="fas fa-plus-circle mr-2"></i>
+                                                {{ 'Ajouter nouveau'|trans }}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                {% endif %}
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_PackList') }}">
+                                        <i class="fas fa-gift fa-lg"></i><i class="fas fa-list mr-2"></i>
+                                        {{ 'Tous les packages'|trans }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li {% block session %} class="nav-item dropright" {% endblock %} title="{{ 'Session'|trans }}">
+                            <a class="nav-link dropdown-toggle" href="#" id="Session" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                <div class="icone">
+                                    <i class="fas fa-calendar-day fa-lg"></i>
+                                </div>
+                                <div class="title">
+                                    {{ 'Session'|trans }}
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="Session">
+                                {% if is_granted('ROLE_CHEF') %}
+                                    <li class="dropdown-item">
+                                        <a class="nav-link" href="{{ path('Mecque_PreClose') }}">
+                                            <i class="fas fa-calendar-times mr-2"></i>
+                                            {{ 'Clôturer actuelle'|trans }}
+                                        </a>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        <a class="nav-link" href="{{ path('Mecque_Group') }}">
+                                            <i class="fas fa-users"></i>
+                                            {{ 'Regroupement'|trans }}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_SessionList') }}">
+                                        <i class="fas fa-calendar-alt mr-2"></i>
+                                        {{ 'Archives'|trans }}
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                    {% endif %}
+                {% endif %}
+                {% if is_granted('ROLE_CHEF') or app.user.caisse == 1 %}
+                    <li {% block finance %} class="nav-item dropright" {% endblock %} title="{{ 'Finance'|trans }}">
+                        <a class="nav-link dropdown-toggle" href="#" id="Finance" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            <div class="icone">
+                                <i class="fas fa-money-bill fa-lg"></i>
+                            </div>
+                            <div class="title">
+                                {{ 'Finance'|trans }}
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="Finance">
+                            {% if app.user.agence.caisse == 1 %}
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_Billing') }}">
+                                        <i class="fas fa-money-bill fa-lg"></i><i
+                                                class="fas fa-sign-in-alt ml-n1 mr-2"></i>
+                                        {{ 'A encaisser'|trans }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_CHEF') %}
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_SelCourtier') }}">
+                                        <i class="fas fa-money-bill fa-lg"></i><i class="fas fa-user-friends"></i>
+                                        {{ 'Paiement courtier'|trans }}
+                                    </a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Finance_versement_list') }}">
+                                        <i class="fas fa-money-bill fa-lg"></i><i
+                                                class="fas fa-sign-in-alt ml-n1 mr-2"></i>
+                                        {{ 'Liste des versements'|trans }}
+                                    </a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_GainList') }}">
+                                        <i class="fas fa-money-bill fa-lg"></i><i
+                                                class="fas fa-sign-in-alt ml-n1 mr-2"></i>
+                                        {{ 'Financements'|trans }}
+                                    </a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_finance_transfert_list') }}">
+                                        <i class="fas fa-money-bill fa-lg"></i><i
+                                                class="fas fa-angle-double-right mr-2"></i>
+                                        {{ 'Transfert de fonds'|trans }}
+                                    </a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_SpendList') }}">
+                                        <i class="fas fa-money-bill fa-lg"></i><i class="fas fa-sign-out-alt mr-1"></i>
+                                        {{ 'Dépenses'|trans }}
+                                    </a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="{{ path('Mecque_Account') }}">
+                                        <i class="fas fa-money-bill fa-lg"></i><i
+                                                class="fas fa-hourglass-half fa-sm mr-2"></i>
+                                        {{ 'Compte'|trans }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                {% endif %}
+                <li {% block aide %} class="nav-item dropright" {% endblock %} title="{{ 'Aide'|trans }}">
+                    <a class="nav-link dropdown-toggle" href="#" id="Aide" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
+                        <div class="icone">
+                            <i class="fas fa-question-circle fa-lg"></i>
+                        </div>
+                        <div class="title">
+                            {{ 'Aide'|trans }}
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="Aide">
+                        <li class="dropdown-item">
+                            <a class="nav-link" href="{{ path('Mecque_AgenceInfo') }}">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                {{ 'Informations agence'|trans }}
+                            </a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-book mr-2"></i>
+                                {{ 'Manuel'|trans }}
+                            </a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a class="nav-link" href="{{ path('Mecque_Feedback') }}">
+                                <i class="fas fa-comments mr-2"></i>
+                                {{ 'Commentaire'|trans }}
+                            </a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-receipt mr-2"></i>
+                                {{ 'Rapport'|trans }}
+                            </a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#about">
+                                <i class="fas fa-check-circle mr-2"></i>
+                                {{ 'A propos de'|trans }} HAJJALBAYT
+                            </a>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="copyright">
+            <span>
+                <a href="#" class="text-green" data-toggle="modal" data-target="#about">
+                <img class="mr-1" src="{{ asset('images/Hajjalbayt.png') }}" alt="Hajjalbayt" width="45">
+                <span class="version">HAJJALBAYT v{{ include('Hajjalbayt/version.html.twig') }} <br> &copy; 2017 - {{ 'now'|date('Y') }}</span>
+                </a>
+            </span>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block topbar %}
+    <div class="container-fluid topbar">
+        <div class="row">
+            <div class="topbar-menu">
+                <div id="navbtn" class="navbtn" onclick="openNav()">
+                    <i class="fas fa-align-justify fa-2x"></i>
+                </div>
+            </div>
+            <div class="topbar-item">
+                <div class="row">
+                    <div class="col-lg-6 col-md-3 col-6 text-nowrap">
+                        <span class="history-box">
+                            <i class="fa fa-arrow-circle-left history-btn" title="Page précédente" onclick="window.history.back()"></i>
+                            <i class="fa fa-arrow-circle-right history-btn ml-3" title="Page suivante" onclick="window.history.forward()"></i>
+                            <i class="fa fa-redo-alt fa-rotate-270 history-btn ml-3" title="Actualiser la page" onclick="window.location.reload()"></i>
+                        </span>
+                        {{ 'Bienvenue'|trans }}
+                        <strong> {{ app.user.username }} </strong>
+                        <button type="button" id="install_button" onclick="installApp()" hidden></button>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-6 text-nowrap">
+                        <div class="float-right">
+                            <label for="langue">
+                                <i class="fa fa-globe"></i>
+                            </label>
+                            <select name="langue" id="langue" onchange="choixlangue()">
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-6 text-nowrap">
+                        <a href="{{ path('security_profile') }}" {% block admin %}{% endblock %}>
+                            <i class="fas fa-user-cog"></i>
+                            {{ 'Administration'|trans }}
+                        </a>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-6 text-nowrap">
+                        <div class="float-right">
+                            <a href="{{ path('security_logout') }}">
+                                <i class="fas fa-sign-out-alt"></i>
+                                {{ 'Déconnexion'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if app.user.agence.licence == 0 %}
+        {{ include('licence/add-pelerin.html.twig') }}
+    {% endif %}
+
+{% endblock %}
+{{ include('Default/about.html.twig') }}

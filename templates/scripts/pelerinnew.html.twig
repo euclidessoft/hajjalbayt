@@ -1,0 +1,237 @@
+//valider l'enregistrement d'un pelerin
+function envoieadd() {
+    if ($('#tamp').val() != '') {
+        if (($('#mecquebundle_pelerin_numpassport').val() != '' && $('#mecquebundle_pelerin_expiredate').val() != '') || ($('#mecquebundle_pelerin_numpassport').val() == '' && $('#mecquebundle_pelerin_expiredate').val() == '')) {
+            $('#send').addClass("disabled");
+            $('#send').html("<div class='ajax-loader'></div>");
+            $('#form').submit();
+        } else alert("{{ 'Vérifiez le numéro du passeport ou la date d expiration'|trans }}");
+    } else alert("{{ 'Selectionnez une agence pour le pèlerin !'|trans }}");
+}
+
+//affichage liste courtiers à l'enregistrement du pèlerin
+function courtage() {
+    if ($('#courtier').is(':checked')) {
+        $('#courtierlist').show();
+    } else {
+        $('#courtierlist').hide();
+        $('#choisi').hide();
+        $('#choisi').html("<img src='{{ asset('images/ajax-loader.gif') }}' class='checkbox-center' />");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_PelerinAdd') }}",
+            data: "elv=-1",
+            success: function (data) {
+                if (data['id'] != '') {
+
+                } else alert("{{ 'Impossible de choisir une agence'|trans }}");
+            },
+            error: function () {
+                alert("{{ 'La requête n a pas abouti'|trans }}");
+            }
+        });
+    }
+}
+
+//choix courtier
+function choicecourtier(elv) {
+
+    if (elv == 0) {
+
+        $('#choisi').html("<img src='{{ asset('images/ajax-loader.gif') }}' class='checkbox-center' />");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_PelerinAdd') }}",
+            data: "elv=" + elv,
+            success: function (data) {
+                if (data['id'] != '') {
+                    $('#courtierlist').show();
+                    $('#choisi').hide();
+                } else alert("{{ 'Impossible de choisir un courtier'|trans }}");
+            },
+            error: function () {
+                alert("{{ 'La requête n a pas abouti'|trans }}");
+            }
+        });
+    } else {
+        $('#courtierlist').hide();
+        $('#choisi').show();
+        $('#choisi').html("<img src='{{ asset('images/ajax-loader.gif') }}' class='checkbox-center' />");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_PelerinAdd') }}",
+            data: "elv=" + elv,
+            success: function (data) {
+                if (data['id'] != '') {
+                    $('#courtierlist').hide();
+                    $('#choisi').html("<table class='table table-success-light table-striped table-bordered table-hover'><tbody><tr><td data-label='Courtier'>" + data['prenom'] + " " + data['nom'] + "</td><td data-label='Action'><button type='button' class='btn btn-shadow btn-td btn-warning' onclick='choicecourtier(0)'><i class='fa fa-undo'></i>  Annuler</button></td></tr></tbody></table>");
+                } else alert("{{ 'Impossible de choisir un courtier.'|trans }}");
+            },
+            error: function () {
+                alert("{{ 'La requête n a pas abouti'|trans }}");
+            }
+        });
+    }
+}
+
+//affichage de la réduction à l'enregistrement du pèlerin
+function reduit() {
+    if ($('#reduction').is(':checked')) {
+        $('#espreduct').show();
+    } else {
+        $('#espreduct').hide();
+        $('#mecquebundle_pelerin_reduction_montant').val('');
+    }
+}
+
+//enregistrement d'un pelerin pour une agence du regroupement
+function agences() {
+    if ($('input[type=radio][name=distingo]:checked').val() == 'groupement') {
+        $('#agencelist').show();
+        $('#courtier').hide();
+        $('#courtierlist').hide();
+        $('#reduction').hide();
+        $('#espreduct').hide();
+        $('#mecquebundle_pelerin_reduction_montant').val('');
+        $('#choisi').hide();
+        $('#choisi').html("");
+
+    } else {
+        $('#agencelist').hide();
+        $('#agencechoisi').hide();
+        $('#agencechoisi').html("<img src='{{ asset('images/ajax-loader.gif') }}' class='checkbox-center' />");
+        $('#courtier').show();
+        $('#tamp').val('agence');
+        if ($('#courtier').is(':checked')) $('#courtierlist').show();
+        $('#reduction').show();
+        if ($('#reduction').is(':checked')) $('#espreduct').show();
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_PelerinAdd') }}",
+            data: "agence=-1",
+            success: function (data) {
+                if (data['id'] != '') {
+
+                } else alert("{{ 'Impossible de satisfaire la demande'|trans }}");
+            },
+            error: function () {
+                alert("{{ 'La requête n a pas abouti'|trans }}");
+            }
+        });
+    }
+}
+
+//choisir une agence pour le pelerin à lènregistrement
+function choiceagence(elv) {
+
+    if (elv == 0) {
+
+        $('#agencechoisi').html("<img src='{{ asset('images/ajax-loader.gif') }}' class='checkbox-center' />");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_PelerinAdd') }}",
+            data: "agence=" + elv,
+            success: function (data) {
+                if (data['id'] != '') {
+                    $('#agencelist').show();
+                    $('#agencechoisi').hide();
+                } else alert("{{ 'Impossible de choisir une agence.'|trans }}");
+            },
+            error: function () {
+                alert("{{ 'La requête n a pas abouti'|trans }}");
+            }
+        });
+    } else {
+        $('#agencelist').hide();
+        $('#agencechoisi').show();
+        $('#agencechoisi').html("<img src='{{ asset('images/ajax-loader.gif') }}' class='checkbox-center' />");
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_PelerinAdd') }}",
+            data: "agence=" + elv,
+            success: function (data) {
+                if (data['id'] != '') {
+                    $('#agencelist').hide();
+                    $('#agencechoisi').html("<table class='table table-success-light table-striped table-bordered table-hover'><tbody><tr><td data-label='Agence'>" + data['nom'] + "</td><td data-label='Action'><button type='button' class='btn btn-shadow btn-td btn-warning' onclick='choiceagence(0)'><i class='fa fa-undo'></i>  Annuler</button></td></tr></tbody></table>");
+                    $('#tamp').val('groupement');
+                } else alert("{{ 'Impossible de choisir une agence.'|trans }}");
+            },
+            error: function () {
+                alert("{{ 'La requête n a pas abouti'|trans }}");
+            }
+        });
+    }
+}
+
+//ajouter une remarque
+function autretext() {
+    if ($('#autre').is(':checked')) {
+        $('#mecquebundle_pelerin_remark').show();
+        $('#mecquebundle_pelerin_remark').val();
+    } else {
+        $('#mecquebundle_pelerin_remark').hide();
+        $('#mecquebundle_pelerin_remark').val();
+    }
+
+}
+
+//exonerer un pelerin à l'enregistrement
+function exonorer() {
+    if ($('#exonore').is(':checked')) {
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_PelerinAdd') }}",
+            data: "exonore=1",
+            success: function (data) {
+                if (data['id'] != '') {
+                    alert("{{ 'Pélerin exonéré !'|trans }}");
+                } else alert("{{ 'Impossible d exonérer ce pèlerin.'|trans }}");
+            },
+            error: function () {
+                alert("{{ 'La requête n a pas abouti'|trans }}");
+            }
+        });
+
+    } else {
+        $.ajax({
+            type: "POST",
+            url: "{{ path('Mecque_PelerinAdd') }}",
+            data: "exonore=2",
+            success: function (data) {
+                if (data['id'] != '') {
+                    alert("{{ 'Exonération annulé !'|trans }}")
+                } else alert("{{ 'Impossible d annuler l exonération de ce pèlerin'|trans }}");
+            },
+            error: function () {
+                alert("{{ 'La requête n a pas abouti'|trans }}");
+            }
+        });
+
+    }
+}
+
+//enregistrer numero passeport
+function Passeport() {
+    if ($('#mecquebundle_pelerin_numpassport').val() != "") {
+        $('#Passeport').show();
+    } else {
+        $('#Passeport').hide();
+        $('#mecquebundle_pelerin_numpassport').val('');
+    }
+}
+
+//gestion du surplus le cas echeant
+function surplu(val) {
+    $.ajax({
+        type: "POST",
+        url: "{{ path('Mecque_Surplus') }}",
+        data: "surplus=" + val,
+        success: function (data) {
+
+
+        },
+        error: function () {
+            alert("{{'La requête n a pas abouti'|trans }}");
+        }
+    });
+}

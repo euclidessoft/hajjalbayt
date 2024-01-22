@@ -1,0 +1,64 @@
+<div class="container-fluid mt-4 pt-3 pb-2 fond-7">
+    <div class="row centrer">
+        {% if tous is not defined %}
+            <a href="{{ path('Mecque_PelerinList') }}" class="btn btn-normal btn-shadow btn-green mb-2 mr-2">
+                <i class="fa fa-users"></i>
+                {{ 'Tous les pèlerins'|trans }}
+            </a>
+        {% endif %}
+        {% if male is not defined %}
+            <a href="{{ path('Mecque_PelerinListMale') }}" class="btn btn-normal btn-shadow btn-primary mb-2 mr-2">
+                <i class="fa fa-male fa-lg"></i>
+                {{ 'Hommes'|trans }}
+            </a>
+        {% endif %}
+        {% if female is not defined %}
+            <a href="{{ path('Mecque_PelerinListFemale') }}"
+               class="btn btn-normal btn-shadow btn-pink-light mb-2 mr-2">
+                <i class="fa fa-female fa-lg"></i>
+                {{ 'Femmes'|trans }}
+            </a>
+        {% endif %}
+        {% if femaleless is not defined %}
+            <a href="{{ path('Mecque_PelerinListFemaleless45') }}"
+               class="btn btn-normal btn-shadow btn-pink mb-2 mr-2">
+                <i class="fa fa-female fa-lg"></i>
+                {{ 'Femmes -45 ans'|trans }}
+            </a>
+        {% endif %}
+        {% if courtier is not defined %}
+            <a href="{{ path('Mecque_PelerinCourtierList') }}" class="btn btn-normal btn-shadow btn-info mb-2 mr-2">
+                <i class="fa fa-user-friends"></i>
+                {{ 'Via courtier'|trans }}
+            </a>
+        {% endif %}
+        {% if old is not defined %}
+            <a href="{{ path('Mecque_OldPeople') }}" class="btn btn-normal btn-shadow btn-fluo mb-2 mr-2">
+                <img src="{{ asset('images/old-person.png') }}" alt="User Avatar" height="21">
+                {{ '3ième âge'|trans }}
+            </a>
+        {% endif %}
+        {% if is_granted('ROLE_CHEF') %}
+            {% if reductions is not defined %}
+                <a href="{{ path('Mecque_ReductionList') }}"
+                   class="btn btn-normal btn-shadow btn-warning mb-2 mr-2">
+                    <i class="fa fa-money-bill fa-lg"></i><i class="fa fa-level-down-alt"></i>
+                    {{ 'Réductions'|trans }}
+                </a>
+            {% endif %}
+            {% if exoneres is not defined %}
+                <a href="{{ path('Mecque_Pelerin_Exonerer') }}"
+                   class="btn btn-normal btn-shadow btn-secondary mb-2 mr-2">
+                    <i class="fa fa-money-bill fa-lg"></i><i class="fa fa-times-circle fa-sm ml-n1"></i>
+                    {{ 'Exonérés'|trans }}
+                </a>
+            {% endif %}
+        {% endif %}
+        {% if abandons is not defined %}
+            <a href="{{ path('Mecque_PelerinOldList') }}" class="btn btn-normal btn-shadow btn-danger mb-2 mr-2">
+                <i class="fa fa-user-times"></i>
+                {{ 'Abandons'|trans }}
+            </a>
+        {% endif %}
+    </div>
+</div>

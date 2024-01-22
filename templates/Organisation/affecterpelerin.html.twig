@@ -1,0 +1,164 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Affectation pèlerins'|trans }} - Hajjalbayt {% endblock %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="col-lg-10 mt-5 fond-7">
+    <h3 class="mt-4 mb-5 text-bold">
+        <i class="fa fa-user"></i>
+        <i class="fa fa-bullhorn"></i>
+        {{ 'Affectation pèlerins'|trans }}
+    </h3>
+    <div class="col-lg-12 mt-5 fond-5">
+        <h4 class="mt-4 mb-5">
+            <i class="fa fa-quran"></i>
+            {{ 'Guide religieux'|trans }}
+        </h4>
+        <table class="table table-success-light table-bordered table-hover table-striped">
+            <thead>
+                <tr class="text-center">
+                    <th>
+                        {{ 'Photo'|trans }}
+                    </th>
+                    <th>
+                        {{ 'Prénom'|trans }}
+                    </th>
+                    <th>
+                        {{ 'Nom'|trans }}
+                    </th>
+                    <th>
+                        {{ 'Adresse'|trans }}
+                    </th>
+                    <th>
+                        {{ 'Téléphone'|trans }}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center">
+                    <td data-label="{{ 'Photo'|trans }}">
+                        {% if imam.imam.image is not null %}
+                        <img src="{{ asset('images/'~ imam.imam.image.url)}}" alt="{{ imam.imam.image.alt}}" class="rounded-circle" width="75" />
+                        {% else %}
+                        <img src="{{ asset('images/avatar.jpg')}}" class="rounded-circle" />
+                        {% endif %}
+                    </td>
+                    <td data-label="{{ 'Prénom'|trans }}">
+                        {{ imam.imam.prenom}}
+                    </td>
+                    <td data-label="{{ 'Nom'|trans }}">
+                        {{ imam.imam.nom}}
+                    </td>
+                    <td data-label="{{ 'Adresse'|trans }}">
+                        {{ imam.imam.adresse}}
+                    </td>
+                    <td data-label="{{ 'Téléphone'|trans }}">
+                        {{ imam.imam.phone}}
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-12 mt-5 mb-3 fond-5">
+        <h4 class="mt-4 mb-5">
+            <i class="fa fa-users"> </i>
+            {{ 'Pèlerins'|trans }}
+        </h4>
+        <button class="btn btn-shadow btn-normal btn-green mb-4" onclick="affecterpelerin({{ imam.id }})">
+            <i class="fa fa-users"></i>
+            <i class="fa fa-angle-double-right"></i>
+            {{ 'Affecter'|trans }}
+        </button>
+        <table class="table table-success-light table-bordered table-hover table-striped" id="list">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="tous" onchange="selectAll()" />
+                    </th>
+                    <th class="text-center">{{ 'Numéro'|trans }}</th>
+                    <th class="text-center">{{ 'Photo'|trans }}</th>
+                    <th>{{ 'Prénom'|trans }}</th>
+                    <th>{{ 'Nom'|trans }}</th>
+                    <th class="text-center">{{ 'Date de naissance'|trans }}</th>
+                    <th>{{ 'Lieu de naissance'|trans }}</th>
+                    <th class="passeport">{{ 'Nº Passeport'|trans }}</th>
+                    <th class="phone">{{ 'Téléphone'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if pelerins is not empty %}
+                {% for pelerin in pelerins %}
+                <tr id="tr{{ pelerin.id }}">
+                    <td data-label="{{ 'Choisir'|trans }}">
+                        <input type="checkbox" id="{{ pelerin.id}}" onchange="trselect({{pelerin.id}})" class="checkbox-center" />
+                    </td>
+                    <td data-label="{{ 'Numéro dossier'|trans }}" class="text-center">
+                        {{ pelerin.numdossier}}
+                    </td>
+                    <td data-label="{{ 'Photo'|trans }}">
+                        {% if pelerin.image is not empty %}
+                        <img src="{{ asset('images/'~ pelerin.image.url)}}" alt="{{ pelerin.image.alt}}" class="rounded-circle">
+                        {% else %}
+                        {% if pelerin.sexe == 'Feminin' %}
+                        <img src="{{ asset('images/avatar-femme.jpg')}}" alt="Photo pèlerin" class="rounded-circle">
+                        {% else %}
+                        <img src="{{ asset('images/avatar.jpg')}}" alt="Photo pèlerin" class="rounded-circle">
+                        {% endif %}
+                        {% endif %}
+                    </td>
+                    <td data-label="{{ 'Prénom'|trans }}">
+                        {{ pelerin.prenom}}
+                    </td>
+                    <td data-label="{{ 'Nom'|trans }}">
+                        {{ pelerin.nom}}
+                    </td>
+                    <td data-label="{{ 'Date de naissance'|trans }}" class="text-center">
+                        {% if pelerin.datenaiss is not empty %}
+                        {{ pelerin.datenaiss|date('d/m/Y')}}
+                        {% else %}
+
+                        {% endif %}
+                    </td>
+                    <td data-label="{{ 'Lieu de naissance'|trans }}">
+                        {{ pelerin.lieunaiss}}
+                    </td>
+                    <td data-label="{{ 'Nº Passeport'|trans }}" class="passeport">
+                        {{ pelerin.numpassport}}
+                    </td>
+                    <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                        {{ pelerin.phone}}
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td data-label="colspan" colspan="9">
+                        {{ 'Aucun pèlerin'|trans }}
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<div class="col-lg-10 mt-4 mb-5 pt-3 pb-2 fond-7">
+    <div class="col-12">
+        <div class="centrer">
+            <div class="row">
+                <button class="btn btn-shadow btn-normal btn-green mb-2 mr-3" onclick="affecterpelerin({{ imam.id }})">
+                    <i class="fa fa-users"></i>
+                    <i class="fa fa-angle-double-right"></i>
+                    {{ 'Affecter'|trans }}
+                </button>
+                <a href="{{ path('Mecque_ImamList') }}" class="btn btn-shadow btn-normal btn-warning mb-2">
+                    <i class="fa fa-undo"></i>
+                    {{ 'Annuler'|trans }}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

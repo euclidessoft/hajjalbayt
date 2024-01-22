@@ -1,0 +1,300 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Femmes -45 ans'|trans }} - Hajjalbayt {% endblock %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+    {{ include('Default/boutons.html.twig') }}
+
+    {% for message in app.session.flashbag.get('mahram') %}
+        <div class="container-fluid mt-4">
+            <div class="row alert alert-success alert-dismissible radius-10 shadow-black fade show">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message|trans }}
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="container-fluid mt-4 fond-7">
+        <h3 class="mt-4 mb-5 text-bold">
+            <i class="fa fa-female fa-lg"></i>
+            {{ 'Femmes de moins de 45 ans'|trans }}
+        </h3>
+        <table class="table table-success-light table-bordered table-hover table-striped" id="list">
+            <thead>
+            <tr>
+                <th class="text-center">{{ 'Numéro'|trans }}</th>
+                <th class="text-center">{{ 'Photo'|trans }}</th>
+                <th>{{ 'Prénom'|trans }}</th>
+                <th>{{ 'Nom'|trans }}</th>
+                <th class="text-center">{{ 'Date de naissance'|trans }}</th>
+                <th class="text-center">{{ 'Age'|trans }}</th>
+                <th class="passeport">{{ 'Nº Passeport'|trans }}</th>
+                <th class="phone">{{ 'Téléphone'|trans }}</th>
+                <th class="text-center">{{ 'Tuteur'|trans }}</th>
+                <th class="text-center">{{ 'Annulation'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if pelerins is not empty %}
+                {% for pelerin in pelerins %}
+                    <tr>
+                        <td data-label="{{ 'Numéro dossier'|trans }}" class="text-center">
+                            <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id}) }}">
+                                {{ pelerin.numdossier }}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Photo'|trans }}">
+                            {% if pelerin.image is not empty %}
+                                <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id}) }}">
+                                    <img src="{{ asset('images/'~ pelerin.image.url) }}" alt="{{ pelerin.image.alt }}"
+                                         class="rounded-circle">
+                                </a>
+                            {% else %}
+                                <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id}) }}">
+                                    <img src="{{ asset('images/avatar-femme.jpg') }}" alt="Photo pèlerin"
+                                         class="rounded-circle">
+                                </a>
+                            {% endif %}
+                        </td>
+                        <td data-label="{{ 'Prénom'|trans }}">
+                            <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id}) }}">
+                                {{ pelerin.prenom }}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Nom'|trans }}">
+                            <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id}) }}">
+                                {{ pelerin.nom }}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Date de naissance'|trans }}" class="text-center">
+                            <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id}) }}">
+                                {% if pelerin.datenaiss is empty %}
+                                    -
+                                {% else %}
+                                    {{ pelerin.datenaiss|date('d/m/Y') }}
+                                {% endif %}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Age'|trans }}" class="phone">
+                            <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id}) }}">
+                                {% if pelerin.datenaiss is not null %}
+                                    {{ pelerin.age }}
+                                    {{ 'ans'|trans }}
+                                {% else %}
+
+                                {% endif %}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Nº Passeport'|trans }}" class="passeport">
+                            <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id}) }}">
+                                {{ pelerin.numpassport }}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                            <a href="{{ path('Mecque_Pelerin', { pelerin : pelerin.id}) }}">
+                                {{ pelerin.phone }}
+                            </a>
+                        </td>
+                        <td data-label="{{ 'Tuteur'|trans }}" id="femme{{ pelerin.id }}">
+                            {% if pelerin.parrain is null %}
+                                <a href="{{ path('Mecque_Tutor', {id : pelerin.id}) }}">
+                                    <button class="btn btn-shadow btn-td btn-normal btn-primary">
+                                        <i class="fa fa-female fa-lg"></i>
+                                        <i class="fa fa-arrows-alt-h"></i>
+                                        <i class="fa fa-male fa-lg"></i>
+                                        {{ 'Assigner'|trans }}
+                                    </button>
+                                </a>
+                            {% else %}
+                                <button type="button" class="btn btn-shadow btn-green btn btn-td btn-normal"
+                                        data-toggle="modal" data-target="#ass{{ pelerin.id }}">
+                                    <i class="fa fa-user-circle fa-lg"></i>
+                                    {{ 'Voir tuteur'|trans }}
+                                </button>
+                                <div class="modal fade about" id="ass{{ pelerin.id }}" tabindex="-1" role="dialog"
+                                     aria-labelledby="mahram" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content radius-10 shadow-black">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <div class="row w-100">
+                                                    <div class="col-8">
+                                                        <h5 class="modal-title text-left text-bold mt-3" id="mahram">
+                                                            {{ pelerin.prenom }} {{ pelerin.nom }}
+                                                        </h5>
+                                                        <p class="text-left">
+                                                            {{ 'Née le'|trans }} {{ pelerin.datenaiss|date('d/m/Y') }}
+                                                            {% if pelerin.lieunaiss is not empty %}
+                                                                à {{ pelerin.lieunaiss }}
+                                                            {% endif %}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        {% if pelerin.image is not empty %}
+                                                            <img src="{{ asset('images/'~ pelerin.image.url) }}"
+                                                                 alt="{{ pelerin.image.alt }}"
+                                                                 class="rounded-circle float-right">
+                                                        {% else %}
+                                                            <img src="{{ asset('images/avatar-femme.jpg') }}"
+                                                                 alt="Photo pèlerin"
+                                                                 class="rounded-circle float-right">
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row mt-4">
+                                                    <div class="col-8">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <h4 class="text-left text-bold mt-n3 mb-4">
+                                                                    {{ 'Tuteur'|trans }}
+                                                                </h4>
+                                                            </div>
+                                                            <div class="col-sm-6 col-7 text-right text-bold mb-3">
+                                                                {{ 'Civilité'|trans }} :
+                                                            </div>
+                                                            <div class="col-sm-6 col-5 ml-n4 text-left mb-3">
+                                                                {{ 'Monsieur'|trans }}
+                                                            </div>
+                                                            <div class="col-sm-6 col-7 text-right text-bold mb-3">
+                                                                {{ 'Prénom'|trans }} :
+                                                            </div>
+                                                            <div class="col-sm-6 col-5 ml-n4 text-left mb-3">
+                                                                {{ pelerin.parrain.prenom }}
+                                                            </div>
+                                                            <div class="col-sm-6 col-7 text-right text-bold mb-3">
+                                                                {{ 'Nom'|trans }} :
+                                                            </div>
+                                                            <div class="col-sm-6 col-5 ml-n4 text-left text-nowrap mb-3">
+                                                                {{ pelerin.parrain.nom }}
+                                                            </div>
+                                                            <div class="col-sm-6 col-7 text-right text-bold mb-3">
+                                                                {{ 'Date de naissance'|trans }} :
+                                                            </div>
+                                                            <div class="col-sm-6 col-5 ml-n4 text-left text-nowrap mb-3">
+                                                                {% if pelerin.parrain.datenaiss is empty %}
+                                                                    -
+                                                                {% else %}
+                                                                    {{ pelerin.parrain.datenaiss|date('d/m/Y') }}
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="col-sm-6 col-7 text-right text-bold mb-3">
+                                                                {{ 'Lieu de naissance'|trans }} :
+                                                            </div>
+                                                            <div class="col-sm-6 col-5 ml-n4 text-lefttext-nowrap mb-3">
+                                                                {% if pelerin.parrain.lieunaiss is empty %}
+                                                                    -
+                                                                {% else %}
+                                                                    {{ pelerin.parrain.lieunaiss }}
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="col-sm-6 col-7 text-right text-bold mb-5">
+                                                                {{ 'Téléphone'|trans }} :
+                                                            </div>
+                                                            <div class="col-sm-6 col-5 ml-n4 text-left text-nowrap mb-5">
+                                                                {% if pelerin.parrain.phone is empty %}
+                                                                    -
+                                                                {% else %}
+                                                                    {{ pelerin.parrain.phone }}
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4 text-center">
+                                                        {% if pelerin.parrain.image is not empty %}
+                                                            <img src="{{ asset('images/'~ pelerin.parrain.image.url) }}"
+                                                                 alt="{{ pelerin.parrain.image.alt }}"
+                                                                 class="rounded-circle" style="width:100%">
+                                                        {% else %}
+                                                            <img src="{{ asset('images/avatar.jpg') }}"
+                                                                 alt="Photo pèlerin" class="rounded-circle"
+                                                                 style="width:100%">
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% endif %}
+                        </td>
+                        <td data-label="{{ 'Annulation'|trans }}">
+                            {% if pelerin.parrain is not null %}
+                                <button type="button" class="btn btn-shadow btn-td btn-normal btn-warning"
+                                        id="annule{{ pelerin.id }}" onclick="annulmahram({{ pelerin.id }})">
+                                    <i class="fa fa-undo"></i>
+                                    {{ 'Annuler'|trans }}
+                                </button>
+                            {% else %}
+                                <button type="button" class="btn btn-shadow btn-td btn-normal btn-warning disabled">
+                                    <i class="fa fa-undo"></i>
+                                    {{ 'Annuler'|trans }}
+                                </button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td data-label="colspan" colspan="10">
+                        {{ 'Aucun pèlerin'|trans }}
+                    </td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+    <div class="container-fluid mt-4 mb-5 pt-3 pb-2 fond-7">
+        <div class="centrer">
+            <div class="row">
+                {% if app.user.agence.licence == 1 %}
+                    <a href="{{ path('Mecque_PelerinListFemalelesstemp') }}"
+                       class="btn btn-shadow btn-bas btn-success-light mb-2 mr-2">
+                        <i class="fa fa-print"></i>
+                        {{ 'Imprimer'|trans }}
+                    </a>
+                    <span id="exportexcel" class="btn-bas mb-2 mr-2"></span>
+                {% else %}
+                    <button data-toggle="modal" data-target="#licence"
+                            class="btn btn-shadow btn-bas btn-success-light mb-2 mr-2">
+                        <i class="fa fa-print"></i>
+                        {{ 'Imprimer'|trans }}
+                    </button>
+                    <button data-toggle="modal" data-target="#licence"
+                            class="btn btn-shadow btn-bas btn-green mb-2 mr-2">
+                        <i class="fa fa-file-excel fa-lg"></i>
+                        {{ 'Exporter vers Excel'|trans }}
+                    </button>
+                    {{ include('licence/licence-popup.html.twig') }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% block script %}
+        <script>
+            //annuler assignation Mahram d'une femme agée de moins de 45 ans
+            function annulmahram(femme) {
+                if (confirm("{{'Voulez vous confirmer l annulation de ce Mahram'|trans}}")) {
+                    $('#annule' + femme).html("<div class='ajax-loader'></div>");
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('Mecque_MahramCancel') }}",
+                        data: "femme=" + femme,
+                        success: function(data) {
+                            document.location.href = "{{ path('Mecque_PelerinListFemaleless45') }}";
+                        },
+                        error: function() {
+                            alert("{{'La requête n a pas abouti'|trans }}");
+                        }
+                    });
+                }
+            }
+        </script>
+    {% endblock %}
+
+{% endblock %}

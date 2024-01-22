@@ -1,0 +1,102 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Versement agence'|trans }} - Hajjalbayt {% endblock %}
+{% block pelerin %} class="nav-item dropright active" {% endblock %}
+{% block finance %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+<div class="col-md-10 offset-md-1 mt-5 fond-7">
+    <h3 class="mt-3 mb-5">
+        <i class="fa fa-money-bill fa-lg"></i><i class="fa fa-level-down-alt fa-sm"></i>
+        {{ 'Agence bénéficiaire'|trans }}
+    </h3>
+    <div class="container-fluid">
+        <div class="row">
+            <table class="table table-success-light table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>{{ 'Agence'|trans }}</th>
+                        <th>{{ 'Adresse'|trans }}</th>
+                        <th class="phone">{{ 'Téléphone'|trans }}</th>
+                        <th>{{ 'Email'|trans }}</th>
+                        <th class="text-center">{{ 'Quota'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="{{ 'Agence'|trans }}">
+                            {{ agence.nom}}
+                        </td>
+                        <td data-label="{{ 'Adresse'|trans }}">
+                            {{ agence.adresse}}
+                        </td>
+                        <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                            {{ agence.phone}}
+                        </td>
+                        <td data-label="{{ 'Email'|trans }}">
+                            {{ agence.email}}
+                        </td>
+                        <td data-label="{{ 'Quota'|trans }}" class="text-center">
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="col-md-4 offset-md-4 mt-4 card border-green fond-7">
+    <div class="row card-header bg-success-light bb-green text-green">
+        <h5 class="text-bold mb-0">
+            {{ 'Versement'|trans }}
+        </h5>
+    </div>
+    <div class="card-body">
+
+        {{form_start(form, {'attr':{'id': 'form'}})}}
+        <div class="form-group mt-2">
+            {{form_errors(form.montant) }}
+            <div class="input-group">
+                {{form_widget(form.montant, {'label':false, 'attr' : {'id' : 'nombre', 'placeholder':'Montant'}})}}
+                <div class="input-group-append">
+                    <span class="input-group-text">F CFA </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group mt-4">
+            {{ form_row(form.type, {'label':false, 'attr' : {'onchange':'typeversement()'}})}}
+        </div>
+        <div id="versement">
+            <div class="form-group mt-4">
+                {{ form_row(form.banque, {'label':false, 'attr' : {'placeholder':'Banque'}})}}
+            </div>
+            <div class="form-group mt-4">
+                {{ form_row(form.numero, {'label':false, 'attr' : {'placeholder':'Numéro'}})}}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-4 offset-md-4 mt-4 mb-5 pt-3 pb-3 fond-7">
+    <div class="centrer">
+        <div class="row">
+            <button type="button" class="btn btn-shadow btn-normal btn-green mr-3" id="send" onclick="envoie()">
+                <i class="fa fa-save"></i>
+                {{ 'Enregistrer'|trans }}
+            </button>
+            <a href="{{ path('Mecque_Group_Agency', { agency : agence.id }) }}" class="btn btn-shadow btn-warning btn-normal">
+                <i class="fa fa-undo"></i>
+                {{ 'Annuler'|trans }}
+            </a>
+            {{ form_rest(form) }}
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+</div>
+
+    {% block script %}
+        <script>
+            {{ include('scripts/typeversement.html.twig') }}
+        </script>
+    {% endblock %}
+
+{% endblock %}

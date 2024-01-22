@@ -1,0 +1,83 @@
+{% extends "licence.html.twig" %}
+{% block title %} Achat licence - Hajjalbayt {% endblock %}
+{% block body %}
+
+<div class="container-fluid banner">
+    <div class="row">
+        <img src="images/market/Banner.jpg" alt="Banner" class="img-fluid w-100">
+    </div>
+</div>
+<div class="container-fluid bg-success-light">
+    <div class="container mb-5">
+        <p class="mt-5 text-center text-bold">
+            En tant que chef de groupe, le nombre que vous achetez est équivalent au nombre total de pèlerins que vous gérez c’est-à-dire votre quota plus celui des agences membre de votre regroupement, dans le cas d'une gestion collective.
+        </p>
+        <div class="row">
+            <div class="col-lg-3 mt-5">
+                <div class="card shadow-black mt-3 bg-green-light radius-10 text-center">
+                    <div class="card-header bb-green text-bold">
+                        STARTER
+                    </div>
+                    <div class="card-body pt-4 pb-5">
+                        <p>De 1 à 50 pèlerins</p>
+                        <h2 class="text-bold">3 000 FCFA*</h2>
+                        <p>par pèlerin / an</p>
+                        <a href="{{path('order')}}" class="btn btn-shadow btn-normal btn-green radius-20 mt-4">
+                            Acheter
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mt-5">
+                <div class="card shadow-black mt-3 bg-silver-light border-silver radius-10 text-center">
+                    <div class="card-header bg-silver text-bold">
+                        SILVER
+                    </div>
+                    <div class="card-body pt-4 pb-5">
+                        <p>De 51 à 100 pèlerins</p>
+                        <h2 class="text-bold">2 500 FCFA*</h2>
+                        <p>par pèlerin / an</p>
+                        <a href="{{path('order')}}" class="btn btn-shadow btn-normal btn-green radius-20 mt-4">
+                            Acheter
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mt-5">
+                <div class="card shadow-black border-gold mt-3 bg-warning-light radius-10 text-center">
+                    <div class="card-header bg-gold text-bold">
+                        GOLD
+                    </div>
+                    <div class="card-body pt-4 pb-5">
+                        <p>De 101 à 150 pèlerins</p>
+                        <h2 class="text-bold">2 000 FCFA*</h2>
+                        <p>par pèlerin / an</p>
+                        <a href="{{path('order')}}" class="btn btn-shadow btn-normal btn-green radius-20 mt-4">
+                            Acheter
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mt-5">
+                <div class="card shadow-black mt-3 bg-platinum-light border-platinum radius-10 text-center">
+                    <div class="card-header bg-platinum text-bold">
+                        PLATINUM
+                    </div>
+                    <div class="card-body pt-4 pb-5">
+                        <p>Plus de 150 pèlerins</p>
+                        <h2 class="text-bold">1 500 FCFA*</h2>
+                        <p>par pèlerin / an</p>
+                        <a href="{{path('order')}}" class="btn btn-shadow btn-normal btn-green radius-20 mt-4">
+                            Acheter
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="mt-4 mb-5 text-bold">
+            * Ces prix sont valables uniquement la première année de la souscription.
+        </p>
+    </div>
+</div>
+
+{% endblock %}

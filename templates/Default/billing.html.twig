@@ -1,0 +1,101 @@
+{% extends "layout.html.twig" %}
+{% block title %} {{ 'Encaissement'|trans }} - Hajjalbayt {% endblock %}
+{% block finance %} class="nav-item dropright active" {% endblock %}
+{% block body %}
+
+    {% if app.user.agence.licence == 1 %}
+        <div class="col-md-10 offset-md-1 mt-5 mb-5 fond-7">
+            <h3 class="mt-4 mb-5 text-bold">
+                <i class="fa fa-money-bill"></i><i class="fa fa-sign-in-alt ml-n2"></i>
+                {{ 'File d\'attente encaissement'|trans }}
+            </h3>
+
+            {% if versements is not empty %}
+                {% for versement in versements %}
+                    <div class="alert alert-success radius-10 shadow-black">
+                        <table class="w-100">
+                            <tr class="mt-2 mb-2">
+                                <td data-label="{{ 'Photo'|trans }}" class="w-10">
+                                    {% if versement.pelerin.image is not empty %}
+                                        <img src="{{ asset('images/'~ versement.pelerin.image.url) }}"
+                                             alt="{{ versement.pelerin.image.alt }}" class="rounded-circle">
+                                    {% else %}
+                                        {% if versement.pelerin.sexe == 'Feminin' %}
+                                            <img src="{{ asset('images/avatar-femme.jpg') }}" alt="Photo pèlerin"
+                                                 class="rounded-circle">
+                                        {% else %}
+                                            <img src="{{ asset('images/avatar.jpg') }}" alt="Photo pèlerin"
+                                                 class="rounded-circle">
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                <td data-label="{{ 'Prénom'|trans }}" class="w-25">
+                                    {{ versement.pelerin.prenom }}
+                                </td>
+                                <td data-label="{{ 'Nom'|trans }}" class="w-15">
+                                    {{ versement.pelerin.nom }}
+                                </td>
+                                <td data-label="{{ 'Téléphone'|trans }}" class="w-15 phone">
+                                    {{ versement.pelerin.phone }}
+                                </td>
+                                <td data-label="{{ 'Montant'|trans }}" class="w-20 text-center">
+                                    <b> {{ versement.montant|number_format(0, '' , ' ') }} F CFA </b>
+                                </td>
+                                <td data-label="{{ 'Action'|trans }}" class="w-15">
+                                    <button class="btn btn-shadow btn-td btn-green" id="{{ versement.id }}"
+                                            onclick="caisse({{ versement.id }})">
+                                        <i class="fa fa-money-bill"></i><i class="fa fa-sign-in-alt ml-n1"></i>
+                                        {{ 'Encaisser'|trans }}
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-success radius-10 shadow-black">
+                    <table class="w-100">
+                        <tr data-label="billingless" class="mt-2 mb-2">
+                            <td data-label="colspan" colspan="6" class="pt-3 pb-3">
+                                {{ 'Aucun versement à encaisser'|trans }}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+        {% block scripts %}
+            <script>
+                {#
+                function timedRefresh(timeoutPeriod) {
+                    setTimeout("location.reload(true);", timeoutPeriod);
+                }
+                window.onload = timedRefresh(15000);
+                #}
+
+                //encaisser le versement d'un pèlerin
+                function caisse(id) {
+                    if (confirm("{{ 'Voulez-vous vraiment encaisser le versement de ce pèlerin ?'|trans }}")) {
+                        $('#' + id).html("<div class='ajax-loader'></div>");
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ path('Mecque_Encaisser') }}",
+                            data: "vsm=" + id,
+                            success: function (data) {
+                                window.open(data['id'], '_self');
+                                // window.location.reload();
+                            },
+                            error: function () {
+                                alert("{{ 'La requête n a pas abouti'|trans }}");
+                            }
+                        });
+                    }
+                }
+
+            </script>
+        {% endblock %}
+    {% else %}
+        {{ include('licence/licence-page.html.twig') }}
+    {% endif %}
+
+{% endblock %}

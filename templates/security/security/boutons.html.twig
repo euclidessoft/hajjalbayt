@@ -1,0 +1,34 @@
+<div class="col-lg-8 offset-lg-2 mt-5 pt-3 pb-2 fond-7">
+    <div class="centrer">
+        <div class="row">
+            <a href="{{ path('security_profile_edit') }}" class="btn btn-shadow btn-normal btn-primary mb-2 mr-2 l-5">
+                <i class="fa fa-user-edit"></i>
+                {{ 'Modifier mon profil'|trans }}
+            </a>
+            <a href="{{ path('security_change_password') }}"
+               class="btn btn-shadow btn-normal btn-warning mb-2 mr-2 l-5">
+                <i class="fa fa-lock"></i>
+                {{ 'Changer mot de passe'|trans }}
+            </a>
+            {% if is_granted("ROLE_CHEF") %}
+                <a href="{{ path('security_users') }}" class="btn btn-shadow btn-normal btn-info mb-2 mr-2 l-5">
+                    <i class="fa fa-users fa-lg"></i>
+                    {{ 'Tous les utilisateurs'|trans }}
+                </a>
+                {% if app.user.agence.licence == 1 %}
+                    <a href="{{ path('security_register') }}" class="btn btn-shadow btn-normal btn-green mb-2 mr-2">
+                        <i class="fa fa-user-plus"></i>
+                        {{ 'Nouvel utilisateur'|trans }}
+                    </a>
+                {% else %}
+                    <button data-toggle="modal" data-target="#licence"
+                            class="btn btn-shadow btn-normal btn-green mb-2 mr-2">
+                        <i class="fa fa-user-plus"></i>
+                        {{ 'Nouvel utilisateur'|trans }}
+                    </button>
+                    {{ include('licence/licence-popup.html.twig') }}
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
