@@ -1,5 +1,5 @@
 {% extends "layout.html.twig" %}
-{% block facture %} onload="window.print()" onafterprint="window.history.back()" {% endblock %}
+{% block facture %} onload="window.print()" onafterprint="window.history.go(-2)" {% endblock %}
 {% block title %} {{ 'Reçu de versement'|trans }} - Hajjalbayt {% endblock %}
 {% block body %}
 

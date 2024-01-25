@@ -75,7 +75,7 @@ class securityController extends AbstractController
                  $message = (new \Swift_Message('Activation compte utilisateur'))
                  ->setFrom('support@hajjalbayt.com')
                  ->setTo($user->getEmail())
-                 ->setBody($this->renderView('hajjalbayt/active.html.twig', [ 'url' => $url ]), 'text/html');
+                 ->setBody($this->renderView('Hajjalbayt/active.html.twig', [ 'url' => $url ]), 'text/html');
 //                 ->setBody("Cliquez sur le lien suivant pour activer votre compte utilisasateur ".$url, 'text/html');
 //                $message = (new \Swift_Message('Activation compte utilisateur'))
 //                 ->setFrom('support@euclideservices.com')
@@ -285,7 +285,7 @@ class securityController extends AbstractController
           $message = (new \Swift_Message('Réinitialisation mot de passe'))
           ->setFrom('support@hajjalbayt.com')
           ->setTo($user->getEmail())
-          ->setBody($this->renderView('hajjalbayt/forget.html.twig', [ 'url' => $url ]), 'text/html');
+          ->setBody($this->renderView('Hajjalbayt/forget.html.twig', [ 'url' => $url ]), 'text/html');
 //          ->setBody("Cliquez sur le lien suivant pour réinitialiser votre mot de passe ".$url, 'text/html');
           
           $mail->send($message);

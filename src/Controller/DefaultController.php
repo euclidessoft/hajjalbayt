@@ -1040,7 +1040,10 @@ class DefaultController extends AbstractController
 			{
 				$pelerin = $em->getRepository(Pelerin::class)->Find($plr);
 				$versement = $em->getRepository(Versement::class)->findOneBy(array('id' => $vsm, 'pelerin' => $pelerin->getId(), 'session' => $session->getId()));
-				$response = $this->render('Default/confirm.html.twig', array('pelerin' => $pelerin, 'versement' => $versement, 'session' => $session->getDesignation()));
+				$response = $this->render('Default/confirm.html.twig', array(
+				    'pelerin' => $pelerin,
+                    'versement' => $versement,
+                    'session' => $session->getDesignation()));
 				$response->setSharedMaxAge(0);
 				$response->headers->addCacheControlDirective('no-cache', true);
 				$response->headers->addCacheControlDirective('no-store', true);
@@ -2935,16 +2938,19 @@ class DefaultController extends AbstractController
 
     public function versementDelete(Request $request)
         {
-    		if($this->get('security.authorization_checker')->isGranted('ROLE_EMPLOYER') && $this->getUser()->getCaisse() == false)
+    		if($this->get('security.authorization_checker')->isGranted('ROLE_EMPLOYER'))
     		{
     			$em = $this->getDoctrine()->getManager();
     			$session = $em->getrepository(Session::class)->findOneBy(array('agence' => $this->getUser()->getAgence()->getId(), 'current' => true));
     			if(!empty($session))
     			{
     				$versement = $em->getRepository(Versement::class)->find($request->get('vsm'));
+    				$pelerin = $em->getRepository(Pelerin::class)->find($versement->getPelerin()->getId());
     				$credit = $em->getRepository(Credit::class)->findOneBy(['versement' =>$versement->getId()]);
-    				if($this->getUser()->getId() == $versement->getFacturer()->getId() || $this->get('security.authorization_checker')->isGranted('ROLE_EMPLOYER'))
+    				if($this->get('security.authorization_checker')->isGranted('ROLE_CHEF'))
     				{
+    				    $pelerin->setCompte(-$versement->getMontant());
+    				    $em->persist($pelerin);
     				    $em->remove($credit);
     					$em->remove($versement);
     					$em->flush();

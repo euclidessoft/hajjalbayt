@@ -15,123 +15,123 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Pelerin
 {
-	/**
-	* @ORM\OneToMany(targetEntity="App\Entity\Pelerin", mappedBy="imam")
-	*/
-	private $pelerins;
-	/**
-	* @ORM\ManyToOne(targetEntity="App\Entity\Pelerin")
-	* @ORM\JoinColumn(nullable=true)
-	*/
-	private $imam;
-	/**
-	* @ORM\ManyToOne(targetEntity="App\Entity\SessionImam")
-	* @ORM\JoinColumn(nullable=true)
-	*/
-	private $residimam;
-	
-	/**
-	* @ORM\ManyToOne(targetEntity="App\Entity\SessionOrganisateur")
-	* @ORM\JoinColumn(nullable=true)
-	*/
-	private $residorgan;
-	
-	/**
-	* @ORM\ManyToOne(targetEntity="App\Entity\Agence")
-	* @ORM\JoinColumn(nullable=false)
-	*/
-	private $agence;
-	
-	/**
-	* @ORM\ManyToOne(targetEntity="App\Entity\Bus")
-	* @ORM\JoinColumn(nullable=true)
-	*/
-	private $bus;
-	
-	/**
-	* @ORM\ManyToOne(targetEntity="App\Entity\Vol")
-	* @ORM\JoinColumn(nullable=true)
-	*/
-	private $vol;
-	
-	/**
-	* @ORM\ManyToOne(targetEntity="App\Entity\Vol")
-	* @ORM\JoinColumn(nullable=true)
-	*/
-	private $retour;
-	
-	/**
-	* @ORM\ManyToOne(targetEntity="App\Entity\Chambre")
-	* @ORM\JoinColumn(nullable=true)
-	*/
-	private $chambre;
-	
-	/**
-	* @ORM\ManyToOne(targetEntity="App\Entity\ChambreMecque")
-	* @ORM\JoinColumn(nullable=true)
-	*/
-	private $chambremecque;
-	
-	/**
-	* @ORM\ManyToOne(targetEntity="App\Entity\VersementBanque")
-	* @ORM\JoinColumn(nullable=true)
-	*/
-	private $versementbanque;
-	
-	/**
-	* @ORM\ManyToOne(targetEntity="App\Entity\Visa")
-	* @ORM\JoinColumn(nullable=true)
-	*/
-	private $visa;
-	
-	/**
-	* @ORM\OneToOne(targetEntity="App\Entity\Image",cascade={"persist","refresh"})
-	* @ORM\JoinColumn(nullable=true)
-	*/
-	private $image;
-	
-	/**
-	* @ORM\OneToMany(targetEntity="App\Entity\PelerinCourtier", mappedBy="pelerin")
-	*/
-	private $courtiers;
-	/**
-	* @ORM\OneToMany(targetEntity="App\Entity\Versement", mappedBy="pelerin")
-	*/
-	private $versements;
-	
-	/**
-    * @ORM\OneToOne(targetEntity="App\Entity\Pelerin")
-    * @ORM\JoinColumn(nullable=true)
-    */
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Pelerin", mappedBy="imam")
+     */
+    private $pelerins;
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Pelerin")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $imam;
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\SessionImam")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $residimam;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\SessionOrganisateur")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $residorgan;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Agence")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $agence;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Bus")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $bus;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vol")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $vol;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vol")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $retour;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Chambre")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $chambre;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ChambreMecque")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $chambremecque;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\VersementBanque")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $versementbanque;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Visa")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $visa;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Image",cascade={"persist","refresh"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $image;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PelerinCourtier", mappedBy="pelerin")
+     */
+    private $courtiers;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Versement", mappedBy="pelerin")
+     */
+    private $versements;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Pelerin")
+     * @ORM\JoinColumn(nullable=true)
+     */
     private $parrain;
 
     /**
-	* @ORM\OneToOne(targetEntity="App\Entity\Medical")
-	* @ORM\JoinColumn(nullable=true)
-	*/
-	private $medical;
-	
-	/**
-	* @ORM\OneToOne(targetEntity="App\Entity\Reduction", cascade={"persist"})
-	* @ORM\JoinColumn(nullable=true)
-	* @Assert\Valid()
-	*/
-	private $reduction;
-	
-	/**
-	* @ORM\ManyToOne(targetEntity="App\Entity\Pack")
-	* @ORM\JoinColumn(nullable=false)
-	* @Assert\NotBlank(message = "Sélectionnez un package")
-	* @Assert\Valid()
-	*/
-	private $pack;
-	
-	/**
-	* @ORM\ManyToOne(targetEntity="App\Entity\Session")
-	* @ORM\JoinColumn(nullable=false)
-	*/
-	private $session;
-	
+     * @ORM\OneToOne(targetEntity="App\Entity\Medical")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $medical;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Reduction", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     * @Assert\Valid()
+     */
+    private $reduction;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Pack")
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message = "Sélectionnez un package")
+     * @Assert\Valid()
+     */
+    private $pack;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Session")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $session;
+
     /**
      * @var int
      *
@@ -145,12 +145,12 @@ class Pelerin
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=255)
-	 * @Assert\Length(min = 3, minMessage="3 caractères au minimum", max = 70, maxMessage="70 caractères au maximum")
-	 * @Assert\NotBlank(message = "Renseignez le prénom")
-	 * @Assert\Regex(
-	 * pattern= "/^[a-zA-Z éèêàâç]+$/",
-	 * match = true,
-	 * message = "Verifier les caractéres saisis")
+     * @Assert\Length(min = 3, minMessage="3 caractères au minimum", max = 70, maxMessage="70 caractères au maximum")
+     * @Assert\NotBlank(message = "Renseignez le prénom")
+     * @Assert\Regex(
+     * pattern= "/^[a-zA-Z éèêàâç]+$/",
+     * match = true,
+     * message = "Verifier les caractéres saisis")
      */
     private $prenom;
 
@@ -158,12 +158,12 @@ class Pelerin
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
-	 * @Assert\Length(min = 2, minMessage="2 caractères au minimum", max = 25, maxMessage="25 caractères au maximum")
-	 * @Assert\NotBlank(message = "Renseignez le nom")
-	 * @Assert\Regex(
-	 * pattern= "/^[a-zA-Z éèêàâç]+$/",
-	 * match = true,
-	 * message = "Vérifiez les caractères saisis")
+     * @Assert\Length(min = 2, minMessage="2 caractères au minimum", max = 25, maxMessage="25 caractères au maximum")
+     * @Assert\NotBlank(message = "Renseignez le nom")
+     * @Assert\Regex(
+     * pattern= "/^[a-zA-Z éèêàâç]+$/",
+     * match = true,
+     * message = "Vérifiez les caractères saisis")
      */
     private $nom;
 
@@ -171,7 +171,7 @@ class Pelerin
      * @var \DateTime
      *
      * @ORM\Column(name="datenaiss", type="date", nullable=true)
-	 * @Assert\Date(message = "Format invalide")
+     * @Assert\Date(message = "Format invalide")
      */
     private $datenaiss;
 
@@ -179,7 +179,7 @@ class Pelerin
      * @var string
      *
      * @ORM\Column(name="lieunaiss", type="string", length=255, nullable=true)
-	 * @Assert\Length(min = 3, minMessage="3 caractéres au minimum", max = 30, maxMessage="30 caractères au maximum")
+     * @Assert\Length(min = 3, minMessage="3 caractéres au minimum", max = 30, maxMessage="30 caractères au maximum")
      */
     private $lieunaiss;
 
@@ -187,7 +187,7 @@ class Pelerin
      * @var string
      *
      * @ORM\Column(name="adresse", type="string", length=255, nullable=true)
-	 * @Assert\Length(min = 5, minMessage="5 caractères au minimum", max = 120, maxMessage="120 caractères au maximum")
+     * @Assert\Length(min = 5, minMessage="5 caractères au minimum", max = 120, maxMessage="120 caractères au maximum")
      */
     private $adresse;
 
@@ -195,7 +195,7 @@ class Pelerin
      * @var string
      *
      * @ORM\Column(name="sexe", type="string", length=255)
-	 * @Assert\NotBlank(message = "Sélectionnez le genre")
+     * @Assert\NotBlank(message = "Sélectionnez le genre")
      */
     private $sexe;
 
@@ -203,10 +203,10 @@ class Pelerin
      * @var string
      *
      * @ORM\Column(name="numpassport", type="string", length=255, nullable=true)
-     *@Assert\Regex(
-	 * pattern= "/^([A]\d{8})+$/",
-	 * match = true,
-	 * message = "Numéro passeport incorrect")
+     * @Assert\Regex(
+     * pattern= "/^([A]\d{8})+$/",
+     * match = true,
+     * message = "Numéro passeport incorrect")
      */
     private $numpassport;
 
@@ -217,8 +217,8 @@ class Pelerin
      * @Assert\Date(message = "Format invalide")
      */
     private $expiredate;
-	
-	 /**
+
+    /**
      * @var string
      *
      * @ORM\Column(name="remark", type="text", nullable=true)
@@ -229,26 +229,26 @@ class Pelerin
      * @var string
      *
      * @ORM\Column(name="phone", type="string", length=255)
-	 * @Assert\NotBlank(message = "Renseignez le numéro de téléphone")
-	 * @Assert\Regex(
-	 * pattern= "/^((3[03]\s?[89]\d{2}(\s?\d{2}){2})|(7[0768]\s?\d{3}(\s?\d{2}){2}))$/",
-	 * match = true,
-	 * message = "Numéro de téléphone incorrect")
+     * @Assert\NotBlank(message = "Renseignez le numéro de téléphone")
+     * @Assert\Regex(
+     * pattern= "/^((3[03]\s?[89]\d{2}(\s?\d{2}){2})|(7[0768]\s?\d{3}(\s?\d{2}){2}))$/",
+     * match = true,
+     * message = "Numéro de téléphone incorrect")
      */
     private $phone;
-	
-	 /**
+
+    /**
      * @var string
      *
      * @ORM\Column(name="cin", type="string", length=255, nullable=true)
-     *@Assert\Regex(
-	 * pattern= "/^([12]\d{12})+$/",
-	 * match = true,
-	 * message = "Numéro carte d'identité incorrect")
+     * @Assert\Regex(
+     * pattern= "/^([12]\d{12})+$/",
+     * match = true,
+     * message = "Numéro carte d'identité incorrect")
      */
     private $cin;
 
-     /**
+    /**
      * @var string
      *
      * @ORM\Column(name="profession", type="string", length=255, nullable=true)
@@ -266,16 +266,16 @@ class Pelerin
      * @ORM\Column(name="famillyname", type="string", length=255, nullable=true)
      */
     private $famillyname;
-    
+
     /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
-	 * @Assert\Email()
+     * @Assert\Email()
      */
     private $email;
 
-     /**
+    /**
      * @var string
      *
      * @ORM\Column(name="famillylink", type="string", length=255, nullable=true)
@@ -286,10 +286,10 @@ class Pelerin
      * @var string
      *
      * @ORM\Column(name="famillyphone", type="string", length=255, nullable=true)
-	 * @Assert\Regex(
-	 * pattern= "/^((3[03]\s?[89]\d{2}(\s?\d{2}){2})|(7[0768]\s?\d{3}(\s?\d{2}){2}))$/",
-	 * match = true,
-	 * message = "Numéro de téléphone incorrect")
+     * @Assert\Regex(
+     * pattern= "/^((3[03]\s?[89]\d{2}(\s?\d{2}){2})|(7[0768]\s?\d{3}(\s?\d{2}){2}))$/",
+     * match = true,
+     * message = "Numéro de téléphone incorrect")
      */
     private $famillyphone;
 
@@ -320,85 +320,85 @@ class Pelerin
      * @ORM\Column(name="numsaoudiantax", type="string", length=255, nullable=true)
      */
     private $numsaoudiantax;
-	
-	/**
+
+    /**
      * @var int
      *
      * @ORM\Column(name="compte", type="integer")
      */
     private $compte;
-	
-	/**
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
-	
-	/**
-	 * @var bool
-	 *
-	 * @ORM\Column(name="diabete", type="boolean")
-	 */
-	private $diabete;
-	
-	/**
-	 * @var bool
-	 *
-	 * @ORM\Column(name="handicap", type="boolean")
-	 */
-	private $handicap;
-	
-	/**
-	 * @var bool
-	 *
-	 * @ORM\Column(name="nonvoyant", type="boolean")
-	 */
-	private $nonvoyant;
-	
-	/**
-	 * @var bool
-	 *
-	 * @ORM\Column(name="hypo", type="boolean")
-	 */
-	private $hypo;
-	
-	/**
-	 * @var bool
-	 *
-	 * @ORM\Column(name="hyper", type="boolean")
-	 */
-	private $hyper;
-	
-	/**
-	 * @var bool
-	 *
-	 * @ORM\Column(name="exonorer", type="boolean")
-	 */
-	private $exonorer;
-	
-	/**
-	 * @var bool
-	 *
-	 * @ORM\Column(name="visite", type="boolean")
-	 */
-	private $visite;
-	
-	/**
-	 * @var bool
-	 *
-	 * @ORM\Column(name="photo", type="boolean")
-	 */
-	private $photo;
-	
-	/**
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="diabete", type="boolean")
+     */
+    private $diabete;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="handicap", type="boolean")
+     */
+    private $handicap;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="nonvoyant", type="boolean")
+     */
+    private $nonvoyant;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="hypo", type="boolean")
+     */
+    private $hypo;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="hyper", type="boolean")
+     */
+    private $hyper;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="exonorer", type="boolean")
+     */
+    private $exonorer;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="visite", type="boolean")
+     */
+    private $visite;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="photo", type="boolean")
+     */
+    private $photo;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="numdossier", type="integer", nullable=true)
      */
     private $numdossier;
-	
-	 /**
+
+    /**
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255, nullable=true)
@@ -691,23 +691,24 @@ class Pelerin
     {
         return $this->numsaoudiantax;
     }
+
     /**
      * Constructor
      */
     public function __construct()
     {
-		$this->compte = 0;
-		$this->date = new \Datetime();
-		$this->courtiers = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->versements = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->diabete = false;
-		$this->handicap = false;
-		$this->nonvoyant = false;
-		$this->hypo = false;
-		$this->hyper = false;
+        $this->compte = 0;
+        $this->date = new \Datetime();
+        $this->courtiers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->versements = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->diabete = false;
+        $this->handicap = false;
+        $this->nonvoyant = false;
+        $this->hypo = false;
+        $this->hyper = false;
         $this->exonorer = false;
-		$this->surplus = false;
-  $this->pelerins = new ArrayCollection();
+        $this->surplus = false;
+        $this->pelerins = new ArrayCollection();
     }
 
     /**
@@ -747,6 +748,11 @@ class Pelerin
 
         return $this;
     }
+//
+//    public function SupprimerVersement($montant)
+//    {
+//        $this->compte = $this->compte - $montant;
+//    }
 
     /**
      * Get compte
@@ -921,53 +927,44 @@ class Pelerin
     {
         return $this->image;
     }
-	
-	public function Dossier()
-                        	{
-                        		if($this->datenaiss == null)
-                        		{
-                        				return false;
-                        		}
-                        		if($this->adresse == null)
-                        		{
-                        				return false;
-                        		}
-                        		if($this->numpassport == null)
-                        		{
-                        				return false;
-                        		}
-                        		if($this->famillyphone == null)
-                        		{
-                        				return false;
-                        		}
-                        		if($this->bloodgroup == null)
-                        		{
-                        				return false;
-                        		}
-                        		if($this->numsaoudiantax == null)
-                        		{
-                        				return false;
-                        		}
-                        		if($this->image == null)
-                        		{
-                        				return false;
-                        		}
-                        		if($this->visite == false)
-                        		{
-                        				return false;
-                        		}
-                        		return true;
-                        	}
+
+    public function Dossier()
+    {
+        if ($this->datenaiss == null) {
+            return false;
+        }
+        if ($this->adresse == null) {
+            return false;
+        }
+        if ($this->numpassport == null) {
+            return false;
+        }
+        if ($this->famillyphone == null) {
+            return false;
+        }
+        if ($this->bloodgroup == null) {
+            return false;
+        }
+        if ($this->numsaoudiantax == null) {
+            return false;
+        }
+        if ($this->image == null) {
+            return false;
+        }
+        if ($this->visite == false) {
+            return false;
+        }
+        return true;
+    }
+
     public function getAge()
     {
-        if( $this->datenaiss != null)
-        {
+        if ($this->datenaiss != null) {
             $today = new \Datetime();
             $diff = $today->diff($this->datenaiss);
             $age = $diff->format('%y');
             return $age;
-        }
-        else return null;
+        } else return null;
     }
 
     /**
@@ -1327,7 +1324,7 @@ class Pelerin
      */
     public function getNumdossier()
     {
-        return str_pad($this->numdossier,4,'0', STR_PAD_LEFT);
+        return str_pad($this->numdossier, 4, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -1703,17 +1700,16 @@ class Pelerin
 
     public function getSituation()
     {
-    	$montant = $this->getPack()->getMontant();
-		if(!empty($this->getReduction()))
-		{
-			$montant = $montant - $this->getReduction()->getMontant();// cas ou la reduction egale au monatnt du pack (exonorer)
-			
-		}
-		if($this->getSurplus())
-			$montant = $montant + (2000 * $this->getPack()->getTaux());
+        $montant = $this->getPack()->getMontant();
+        if (!empty($this->getReduction())) {
+            $montant = $montant - $this->getReduction()->getMontant();// cas ou la reduction egale au monatnt du pack (exonorer)
+
+        }
+        if ($this->getSurplus())
+            $montant = $montant + (2000 * $this->getPack()->getTaux());
 
 
-		return $montant;
+        return $montant;
 
     }
 
