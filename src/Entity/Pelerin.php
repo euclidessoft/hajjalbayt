@@ -242,7 +242,7 @@ class Pelerin
      *
      * @ORM\Column(name="cin", type="string", length=255, nullable=true)
      * @Assert\Regex(
-     * pattern= "/^([12]\d{12})+$/",
+     * pattern= "/^([12]\d{13})+$/",
      * match = true,
      * message = "Numéro carte d'identité incorrect")
      */

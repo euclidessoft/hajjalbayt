@@ -1040,10 +1040,7 @@ class DefaultController extends AbstractController
 			{
 				$pelerin = $em->getRepository(Pelerin::class)->Find($plr);
 				$versement = $em->getRepository(Versement::class)->findOneBy(array('id' => $vsm, 'pelerin' => $pelerin->getId(), 'session' => $session->getId()));
-				$response = $this->render('Default/confirm.html.twig', array(
-				    'pelerin' => $pelerin,
-                    'versement' => $versement,
-                    'session' => $session->getDesignation()));
+				$response = $this->render('Default/confirm.html.twig', array('pelerin' => $pelerin, 'versement' => $versement, 'session' => $session->getDesignation()));
 				$response->setSharedMaxAge(0);
 				$response->headers->addCacheControlDirective('no-cache', true);
 				$response->headers->addCacheControlDirective('no-store', true);
