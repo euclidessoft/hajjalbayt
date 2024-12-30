@@ -2,7 +2,7 @@ swiftmailer:
     transport: smtp
     auth_mode: login
     port: 25
-    host: hajjalbayt.com
+    host: box5661.bluehost.com
     username: support@hajjalbayt.com
-    password: Euclides_0915_Hajj
+    password: Passer_123
     spool: { type: 'memory' }
