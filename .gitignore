@@ -1,6 +1,6 @@
 .idea/
 .env
 .htaccess
-vendor/
+#vendor/
 var/
 public/images/Eaulala.jpg
