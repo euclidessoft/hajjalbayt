@@ -77,7 +77,7 @@ class Versement
      * @var int
      *
      * @ORM\Column(name="numero", type="integer", nullable = true)
-	  * @Assert\Length(min = 5, minMessage="5 chiffres au minimum",max = 9, maxMessage="9 chiffres au maximum")
+	  * @Assert\Length(min = 1, minMessage="1 chiffre au minimum",max = 9, maxMessage="9 chiffres au maximum")
 	 * @Assert\Regex(
 	 * pattern= "/^\d+$/",
 	 * match = true,

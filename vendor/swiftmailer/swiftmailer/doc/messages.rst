@@ -218,13 +218,13 @@ the same filename as the one you attached::
 
     // Create the attachment
     // * Note that you can technically leave the content-type parameter out
-    $attachment = Swift_Attachment::fromPath('/path/to/image.avif', 'image/jpeg');
+    $attachment = Swift_Attachment::fromPath('/path/to/image.jpg', 'image/jpeg');
 
     // Attach it to the message
     $message->attach($attachment);
 
     // The two statements above could be written in one line instead
-    $message->attach(Swift_Attachment::fromPath('/path/to/image.avif'));
+    $message->attach(Swift_Attachment::fromPath('/path/to/image.jpg'));
 
     // You can attach files from a URL if allow_url_fopen is on in php.ini
     $message->attach(Swift_Attachment::fromPath('http://site.tld/logo.png'));
@@ -240,12 +240,12 @@ The attachment will be attached in the normal way, but meta-data sent inside
 the email will rename the file to something else::
 
     // Create the attachment and call its setFilename() method
-    $attachment = Swift_Attachment::fromPath('/path/to/image.avif')
-      ->setFilename('cool.avif');
+    $attachment = Swift_Attachment::fromPath('/path/to/image.jpg')
+      ->setFilename('cool.jpg');
 
     // Because there's a fluid interface, you can do this in one statement
     $message->attach(
-      Swift_Attachment::fromPath('/path/to/image.avif')->setFilename('cool.avif')
+      Swift_Attachment::fromPath('/path/to/image.jpg')->setFilename('cool.jpg')
     );
 
 Attaching Dynamic Content
@@ -291,13 +291,13 @@ The attachment will be displayed within the email viewing window if the mail
 client knows how to display it::
 
     // Create the attachment and call its setDisposition() method
-    $attachment = Swift_Attachment::fromPath('/path/to/image.avif')
+    $attachment = Swift_Attachment::fromPath('/path/to/image.jpg')
       ->setDisposition('inline');
 
 
     // Because there's a fluid interface, you can do this in one statement
     $message->attach(
-      Swift_Attachment::fromPath('/path/to/image.avif')->setDisposition('inline')
+      Swift_Attachment::fromPath('/path/to/image.jpg')->setDisposition('inline')
     );
 
 .. note::
@@ -421,7 +421,7 @@ is used as a ``src`` attribute::
     '<html>' .
     ' <body>' .
     '  Here is an image <img src="' . // Embed the file
-         $message->embed(new Swift_Image($img_data, 'image.avif', 'image/jpeg')) .
+         $message->embed(new Swift_Image($img_data, 'image.jpg', 'image/jpeg')) .
        '" alt="Image" />' .
     '  Rest of message' .
     ' </body>' .
@@ -441,7 +441,7 @@ is used as a ``src`` attribute::
 
         // If placing the embed() code inline becomes cumbersome
         // it's easy to do this in two steps
-        $cid = $message->embed(new Swift_Image($img_data, 'image.avif', 'image/jpeg'));
+        $cid = $message->embed(new Swift_Image($img_data, 'image.jpg', 'image/jpeg'));
 
         $message->setBody(
         '<html>' .

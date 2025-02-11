@@ -228,10 +228,9 @@ class Pelerin
     /**
      * @var string
      *
-     * @ORM\Column(name="phone", type="string", length=255)
-     * @Assert\NotBlank(message = "Renseignez le numéro de téléphone")
+     * @ORM\Column(name="phone", type="string", length=255, nullable=true)
      * @Assert\Regex(
-     * pattern= "/^((3[03]\s?[89]\d{2}(\s?\d{2}){2})|(7[0768]\s?\d{3}(\s?\d{2}){2}))$/",
+     * pattern= "/^((3[034]\s?[89]\d{2}(\s?\d{2}){2})|(7[056789]\s?\d{3}(\s?\d{2}){2}))$/",
      * match = true,
      * message = "Numéro de téléphone incorrect")
      */
@@ -242,7 +241,7 @@ class Pelerin
      *
      * @ORM\Column(name="cin", type="string", length=255, nullable=true)
      * @Assert\Regex(
-     * pattern= "/^([12]\d{13})+$/",
+     * pattern= "/^[12]\d{12,13}$/",
      * match = true,
      * message = "Numéro carte d'identité incorrect")
      */
@@ -287,7 +286,7 @@ class Pelerin
      *
      * @ORM\Column(name="famillyphone", type="string", length=255, nullable=true)
      * @Assert\Regex(
-     * pattern= "/^((3[03]\s?[89]\d{2}(\s?\d{2}){2})|(7[0768]\s?\d{3}(\s?\d{2}){2}))$/",
+     * pattern= "/^((3[034]\s?[89]\d{2}(\s?\d{2}){2})|(7[056789]\s?\d{3}(\s?\d{2}){2}))$/",
      * match = true,
      * message = "Numéro de téléphone incorrect")
      */
